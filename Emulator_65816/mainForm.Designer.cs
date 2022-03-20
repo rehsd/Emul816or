@@ -1,4 +1,4 @@
-﻿namespace Emulator_65816
+﻿namespace Emul816or
 {
     partial class mainForm
     {
@@ -109,6 +109,7 @@
             this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.currentROMLabel = new System.Windows.Forms.Label();
+            this.memoryViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.via1_portB_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.via1_portB_1)).BeginInit();
@@ -758,25 +759,26 @@
             this.optionsToolStripMenuItem,
             this.breakToolStripMenuItem,
             this.stepToolStripMenuItem,
-            this.stopToolStripMenuItem});
+            this.stopToolStripMenuItem,
+            this.memoryViewerToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(3349, 49);
+            this.menuStrip1.Size = new System.Drawing.Size(3349, 52);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // openRomToolStripMenuItem
             // 
             this.openRomToolStripMenuItem.Name = "openRomToolStripMenuItem";
-            this.openRomToolStripMenuItem.Size = new System.Drawing.Size(192, 45);
+            this.openRomToolStripMenuItem.Size = new System.Drawing.Size(192, 48);
             this.openRomToolStripMenuItem.Text = "&Open ROM";
             this.openRomToolStripMenuItem.Click += new System.EventHandler(this.openRomToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(114, 45);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(114, 48);
             this.resetToolStripMenuItem.Text = "&Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
@@ -791,7 +793,7 @@
             this.loggingToolStripMenuItem1,
             this.pixelSizeToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(148, 45);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(148, 48);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // loggingToolStripMenuItem
@@ -913,7 +915,7 @@
             // breakToolStripMenuItem
             // 
             this.breakToolStripMenuItem.Name = "breakToolStripMenuItem";
-            this.breakToolStripMenuItem.Size = new System.Drawing.Size(115, 45);
+            this.breakToolStripMenuItem.Size = new System.Drawing.Size(115, 48);
             this.breakToolStripMenuItem.Text = "&Break";
             this.breakToolStripMenuItem.Click += new System.EventHandler(this.breakToolStripMenuItem_Click);
             // 
@@ -921,14 +923,14 @@
             // 
             this.stepToolStripMenuItem.Enabled = false;
             this.stepToolStripMenuItem.Name = "stepToolStripMenuItem";
-            this.stepToolStripMenuItem.Size = new System.Drawing.Size(101, 45);
+            this.stepToolStripMenuItem.Size = new System.Drawing.Size(101, 48);
             this.stepToolStripMenuItem.Text = "Step";
             this.stepToolStripMenuItem.Click += new System.EventHandler(this.stepToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(103, 45);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(103, 48);
             this.stopToolStripMenuItem.Text = "&Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
@@ -941,6 +943,13 @@
             this.currentROMLabel.Size = new System.Drawing.Size(30, 41);
             this.currentROMLabel.TabIndex = 16;
             this.currentROMLabel.Text = "-";
+            // 
+            // memoryViewerToolStripMenuItem
+            // 
+            this.memoryViewerToolStripMenuItem.Name = "memoryViewerToolStripMenuItem";
+            this.memoryViewerToolStripMenuItem.Size = new System.Drawing.Size(252, 48);
+            this.memoryViewerToolStripMenuItem.Text = "Memory Viewer";
+            this.memoryViewerToolStripMenuItem.Click += new System.EventHandler(this.memoryViewerToolStripMenuItem_Click);
             // 
             // mainForm
             // 
@@ -1068,6 +1077,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem breakToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stepToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem memoryViewerToolStripMenuItem;
     }
 }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Emulator_65816.Properties
+namespace Emul816or.Properties
 {
 
 

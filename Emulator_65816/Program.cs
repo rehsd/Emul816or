@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Emulator_65816
+namespace Emul816or
 {
     internal static class Program
     {

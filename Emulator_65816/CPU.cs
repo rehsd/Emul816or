@@ -20,12 +20,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using Emulator_65816;
 using System.Drawing;
 using Addr = System.UInt32;
 using Word = System.UInt16;
 
-namespace EightSixteen
+namespace Emul816or
 {
     public class StatusChangedEventArgs : EventArgs
     {

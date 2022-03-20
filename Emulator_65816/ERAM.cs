@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Emulator_65816
+namespace Emul816or
 {
     public class ERAM : IMemoryIO
     {

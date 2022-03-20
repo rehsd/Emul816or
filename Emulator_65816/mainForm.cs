@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using EightSixteen;
+using Emul816or;
 
-namespace Emulator_65816
+namespace Emul816or
 {
     public partial class mainForm : Form
     {
-        EightSixteen.CPU cpu;
+        CPU cpu;
         string ROMlocation;
         public bool SuspendLogging;
         public ushort speed;
@@ -84,7 +84,7 @@ namespace Emulator_65816
             WriteLog("VIDEO added:   0x200000.\n");
             nullDev = new NullDevice();
             WriteLog("NullDev added: 0x******.\n");
-            cpu = new EightSixteen.CPU(rom, ram, eram, via1, video, nullDev);
+            cpu = new CPU(rom, ram, eram, via1, video, nullDev);
             cpu.StatusChanged += cpu_StatusChanged;
             cpu.LogTextUpdate += cpu_LogTextUpdate;
         }
@@ -369,6 +369,12 @@ namespace Emulator_65816
         private void stepToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cpu.Step();
+        }
+
+        private void memoryViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryViewer mv = new MemoryViewer(rom, ram, eram, video);
+            mv.Show();
         }
     }
 }
