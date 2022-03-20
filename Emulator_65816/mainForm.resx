@@ -1,0 +1,329 @@
+﻿<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Supported OpCodes: 256 of 256
+
+	00 BRK INT
+	01 ORA DPIX
+	02 COP INT
+	03 ORA SR
+	04 TSB DP
+	05 ORA DP
+	06 ASL DP
+	07 ORA DPIL
+	08 PHP
+	09 ORA I
+	0A ASL ACCUM
+	0B PHD
+	0C TSB ABS
+	0D ORA ABS
+	0E ASL ABS
+	0F ORA ABSL
+	10 BPL
+	11 ORA DPIIY
+	12 ORA DPI
+	13 ORA SRIIY
+	14 TRB DP
+	15 ORA DPIX
+	16 ASL DPIX
+	17 ORA DPILIY
+	18 CLC
+	19 ORA ABSIY
+	1A INC ACCUM
+	1B TCS
+	1C TRB ABS
+	1D ORA ABSIX
+	1E ASL ABSIX
+	1F ORA AIY
+	20 JSR ABS
+	21 AND DPIX
+	22 JSLL ABSL
+	23 AND SR
+	24 BIT DP
+	25 AND DP
+	26 ROL DP
+	27 AND DPIL
+	28 PLP
+	29 AND I
+	2A ROL ACCUM
+	2B PLD
+	2C BIT ABS
+	2D AND ABS
+	2E ROL ABS
+	2F AND ABSL
+	30 BMI
+	31 AND DPIIY
+	32 AND DPI
+	33 AND SRIIY
+	34 BIT DPIX
+	35 AND DPIX
+	36 ROL DPIX
+	37 AND DPILIY
+	38 SEC
+	39 AND ABSIY
+	3A DEC ACCUM
+	3B TSC
+	3C BIT ABSIX
+	3D AND ABSIX
+	3E ROL ABSIX
+	3F AND ABSLIX
+	40 RTI
+	41 EOR DPIX
+	42 WDM
+	43 EOR SR
+	44 MVP BLKMV
+	45 EOR DP
+	46 LSR DP
+	47 EOR DPIL
+	48 PHA
+	49 EOR I
+	4A LSR ACCUM
+	4B PHK
+	4C JMP ABS
+	4D EOR ABS
+	4E LSR ABS
+	4F EOR ABSL
+	50 BVC
+	51 EOR DPIIY
+	52 EOR DPI
+	53 EOR SRIIY
+	54 MVN BLKMV
+	55 EOR DPIX
+	56 LSR DPIX
+	57 EOR DPILIY
+	58 CLI
+	59 EOR ABSIY
+	5A PHY
+	5B TCD
+	5C JMP ABSL
+	5D EOR ABSIX
+	5E LSR ABSIX
+	5F EOR ABSLIX
+	60 RTS SR
+	61 ADC DPIIX
+	62 PER SR
+	63 ADC SR
+	64 STZ DP
+	65 ADC DP
+	66 ROR DP
+	67 ADC DPIL
+	68 PLA SR
+	69 ADC I
+	6A ROR ACCUM
+	6B RTL SR
+	6C JMP ABSI
+	6D ADC ABS
+	6E ROR ABS
+	6F ADC ABSL
+	70 BVS PCR
+	71 ADC DPIIY
+	72 ADC DPI
+	73 ADC SRIIY
+	74 STZ DPIX
+	75 ADC DPIX
+	76 ADC DPIX
+	77 ADC DPILIY
+	78 SEI
+	79 ADC ABSIY
+	7A PLY
+	7B TDC
+	7C JMP AII
+	7D ADC AIX
+	7E ROR AIX
+	7F ADC ALIX
+	80 BRA
+	81 STA DPIIX
+	82 BRL PCRL
+	83 STA SR
+	84 STY DP
+	85 STA DP
+	86 STX DP
+	87 STA DPIL
+	88 DEY
+	89 BIT I
+	8A TXA
+	8B PHB
+	8C STY ABS
+	8D STA ABS
+	8E STX ABS
+	8F STA ABSL
+	90 BCC PCR
+	91 STA DPIIY
+	92 STA DPI
+	93 STA SRIIY
+	94 SY DPIX
+	95 STA DPIX
+	96 STX DPIY
+	97 STA DPILIY
+	98 TYA I
+	99 STA ABSIY
+	9A TXS
+	9B TXY
+	9C STZ ABS
+	9D STA ABSIX
+	9E STZ ABSIX
+	9F STA ABSLIX
+	A0 LDY I
+	A1 LDA DPIIX
+	A2 LDX I
+	A3 LDA SR
+	A4 LDY DP
+	A5 LDA DP
+	A6 LDX DP
+	A7 LDA DPIL
+	A8 TAY
+	A9 LDA I
+	AA TAX I
+	AB PLB
+	AC LDY ABS
+	AD LDA ABS
+	AE LDX ABS
+	AF LDA ABSL
+	B0 BCS PCR
+	B1 LDA DPIIY
+	B2 LDA DPI
+	B3 LDA SRIIY
+	B4 LDY DPIX
+	B5 LDA DPIX
+	B6 LDX DPIY
+	B7 LDA DPILIY
+	B8 CLV
+	B9 LDA ABSIY
+	BA TSX
+	BB TYX
+	BC LDY ABSIX
+	BD LDA ABSIX
+	BE LDX ABSIY
+	BF LDA ABSLIX
+	C0 CPY I
+	C1 CMP DPIIX
+	C2 REP I
+	C3 CMP SR
+	C4 CPY DP
+	C5 CMP DP
+	C6 DEC DP
+	C7 CMP DPIL
+	C8 INY
+	C9 CMP I
+	CA DEX
+	CB WAI
+	CC CPY ABS
+	CD CMP ABS
+	CE DEC ABS
+	CF CMP ABSL
+	D0 BNE PCR
+	D1 CMP DPIIY
+	D2 CMP DPI
+	D3 CMP SRIIY
+	D4 PEI DPI
+	D5 CMP DPIX
+	D6 DEC DPIX
+	D7 CMP DPILIY
+	D8 CLD
+	D9 CMP ABSIY
+	DA PHX
+	DB STP
+	DC JMP ABSIL
+	DD CMP ABSIX
+	DE DEC ABSIX
+	DF CMP ABSLIX
+	E0 CPX I
+	E1 SBC DPIIX
+	E2 SEP I
+	E3 SBC SR
+	E4 CPX DP
+	E5 SBC DP
+	E6 INC DP
+	E7 SBC DPIL
+	E8 INX
+	E9 SBC I
+	EA NOP
+	EB XBA
+	EC CPX ABS
+	ED SBC ABS
+	EE INC ABS
+	EF SBC ABSL
+	F0 BEQ PCR
+	F1 SBC DPIIY
+	F2 SBC DPI
+	F3 SBC SRIIY
+	F4 PEA
+	F5 SBC DPIX
+	F6 INC DPIX
+	F7 SBC DPILIY
+	F8 SED
+	F9 SBC ABSIY
+	FA PLX
+	FB XCE
+	FC JSR ABSII
+	FD SBC ABSIX
+	FE SBC ABSIX
+	FF SBC ABSLIX</value>
+  </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>211, 17</value>
+  </metadata>
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>405, 17</value>
+  </metadata>
+</root>
