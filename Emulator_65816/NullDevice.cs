@@ -31,6 +31,7 @@ namespace Emul816or
             }
         }
 
+        public byte[] MemoryBytes => throw new NotImplementedException();
 
         public byte this[uint index]
         {

@@ -10,7 +10,7 @@ namespace Emul816or
     public class ROM : IMemoryIO
     {
         private byte[] data;
-        const uint size = 491520;
+        const uint size = 524288;
         const uint baseAddress = 0x000000;  //Accessible ROM starts at 0x008000. The first 32k addresses, starting at 0x000000 are used by basic RAM. Handled by address decode logic.
         private bool supports16bit = true;
         public uint Size
@@ -25,6 +25,9 @@ namespace Emul816or
         {
             get => supports16bit;
         }
+
+        public byte[] MemoryBytes => data;
+
         public byte this[uint index]
         {
             get => data[index - baseAddress];

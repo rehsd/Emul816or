@@ -30,6 +30,9 @@ namespace Emul816or
         {
             get => supports16bit;
         }
+
+        public byte[] MemoryBytes => data;
+
         public ERAM()
         {
             data = new byte[size];

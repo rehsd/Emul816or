@@ -25,5 +25,9 @@ namespace Emul816or
             get;
             set;
         }
+        byte[] MemoryBytes
+        {
+            get;
+        }
     }
 }
