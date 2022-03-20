@@ -149,7 +149,7 @@
             this.logText.Font = new System.Drawing.Font("Courier New", 8.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.logText.ForeColor = System.Drawing.Color.White;
             this.logText.Location = new System.Drawing.Point(844, 68);
-            this.logText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.logText.Margin = new System.Windows.Forms.Padding(2);
             this.logText.Name = "logText";
             this.logText.ReadOnly = true;
             this.logText.Size = new System.Drawing.Size(785, 700);
@@ -186,7 +186,7 @@
             this.richTextBox2.Font = new System.Drawing.Font("Courier New", 8.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox2.ForeColor = System.Drawing.Color.White;
             this.richTextBox2.Location = new System.Drawing.Point(844, 799);
-            this.richTextBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox2.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(785, 173);
             this.richTextBox2.TabIndex = 0;
@@ -510,7 +510,7 @@
             // flagsE
             // 
             this.flagsE.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.flagsE.Location = new System.Drawing.Point(502, 41);
+            this.flagsE.Location = new System.Drawing.Point(508, 41);
             this.flagsE.Name = "flagsE";
             this.flagsE.Size = new System.Drawing.Size(24, 28);
             this.flagsE.TabIndex = 24;
@@ -945,7 +945,7 @@
             this.Controls.Add(this.videoOutLabel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "mainForm";
             this.Text = "Emul816or";
             this.Load += new System.EventHandler(this.mainForm_Load);
