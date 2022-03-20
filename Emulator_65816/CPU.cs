@@ -2,7 +2,9 @@
 // https://github.com/davepoo/6502Emulator
 // https://github.com/andrew-jacobs/emu816
 // https://github.com/visrealm/vrEmu6502
-
+//
+// Primarily adapted from https://github.com/andrew-jacobs/emu816
+//
 //------------------------------------------------------------------------------
 // This work is made available under the terms of the Creative Commons
 // Attribution-NonCommercial-ShareAlike 4.0 International license. Open the
