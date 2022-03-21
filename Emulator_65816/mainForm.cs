@@ -26,6 +26,8 @@ namespace Emul816or
         VIA via1;
         Video video;
         NullDevice nullDev;
+        public Bitmap[] frameBuffer;
+        public int ActiveFrame;
 
         public mainForm()
         {
@@ -36,6 +38,9 @@ namespace Emul816or
         {
             LoadObjects();
             speed = 800;
+            frameBuffer = new Bitmap[2];
+            frameBuffer[0] = new Bitmap(320, 240);
+            ActiveFrame = 0;
         }
 
         private void loggingToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -62,7 +67,7 @@ namespace Emul816or
             //logText.Clear();
             SuspendLogging = false;
             WriteLog("\n*************** RESET ****************\n");
-            video.Refresh();
+            video.Reset();
             cpu.Reset();
             Run();
         }
@@ -171,92 +176,32 @@ namespace Emul816or
             statusX.Text = e.X.ToString("X4");
             statusY.Text = e.Y.ToString("X4");
             statusS.Text = e.SP.ToString("X4");
-            if (e.FlagD)
-            {
-                statusD.Text = "1";
-            }
-            else
-            {
-                statusD.Text = "0";
-            }
-            if (e.FlagN)
-            {
-                flagsN.Text = "1";
-            }
-            else
-            {
-                flagsN.Text = "0";
-            }
-            if (e.FlagV)
-            {
-                flagsV.Text = "1";
-            }
-            else
-            {
-                flagsV.Text = "0";
-            }
-            if (e.FlagM)
-            {
-                flagsM.Text = "1";
-            }
-            else
-            {
-                flagsM.Text = "0";
-            }
-            if (e.FlagX)
-            {
-                flagsX.Text = "1";
-            }
-            else
-            {
-                flagsX.Text = "0";
-            }
-            if (e.FlagD)
-            {
-                flagsD.Text = "1";
-            }
-            else
-            {
-                flagsD.Text = "0";
-            }
-            if (e.FlagI)
-            {
-                flagsI.Text = "1";
-            }
-            else
-            {
-                flagsI.Text = "0";
-            }
-            if (e.FlagZ)
-            {
-                flagsZ.Text = "1";
-            }
-            else
-            {
-                flagsZ.Text = "0";
-            }
-            if (e.FlagC)
-            {
-                flagsC.Text = "1";
-            }
-            else
-            {
-                flagsC.Text = "0";
-            }
-            if (e.FlagE)
-            {
-                flagsE.Text = "1";
-            }
-            else
-            {
-                flagsE.Text = "0";
-            }
+            statusD.Text = BoolToString(e.FlagD);
+            flagsN.Text = BoolToString(e.FlagN);
+            flagsV.Text = BoolToString(e.FlagV);
+            flagsM.Text = BoolToString(e.FlagM);
+            flagsX.Text = BoolToString(e.FlagX);
+            flagsD.Text = BoolToString(e.FlagD);
+            flagsI.Text = BoolToString(e.FlagI);
+            flagsZ.Text = BoolToString(e.FlagZ);
+            flagsC.Text = BoolToString(e.FlagC);
+            flagsE.Text = BoolToString(e.FlagE);
             statusPC.Text = e.PC.ToString("X4");
             statusCycles.Text = e.Cycles.ToString("X8");
-
             statusGroup.Refresh();
         }
 
+        string BoolToString(bool boolVal)
+        {
+            if(boolVal)
+            {
+                return "1";
+            }
+            else
+            {
+                return "0";
+            }
+        }
         void ClearSpeedChecks()
         {
             slowestToolStripMenuItem1.Checked = false;
@@ -287,70 +232,7 @@ namespace Emul816or
             speed = 800;
         }
 
-        void ResetPixelSizes()
-        {
-            toolStripMenuItem3.Checked = false;
-            toolStripMenuItem4.Checked = false;
-            toolStripMenuItem5.Checked = false;
-            toolStripMenuItem6.Checked = false;
-            toolStripMenuItem7.Checked = false;
-            toolStripMenuItem8.Checked = false;
-            toolStripMenuItem9.Checked = false;
-        }
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            ResetPixelSizes();
-            pixelSize = 1;
-            toolStripMenuItem3.Checked = true;
-            video.PIXELSIZE = pixelSize;
-        }
-
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            ResetPixelSizes();
-            pixelSize = 2;
-            toolStripMenuItem4.Checked = true;
-            video.PIXELSIZE = pixelSize;
-        }
-
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            ResetPixelSizes();
-            pixelSize = 3;
-            toolStripMenuItem5.Checked = true;
-            video.PIXELSIZE = pixelSize;
-        }
-
-        private void toolStripMenuItem6_Click(object sender, EventArgs e)
-        {
-            ResetPixelSizes();
-            pixelSize = 4;
-            toolStripMenuItem6.Checked = true;
-            video.PIXELSIZE = pixelSize;
-        }
-
-        private void toolStripMenuItem7_Click(object sender, EventArgs e)
-        {
-            ResetPixelSizes();
-            pixelSize = 5;
-            toolStripMenuItem7.Checked = true;
-            video.PIXELSIZE = pixelSize;
-        }
-
-        private void toolStripMenuItem8_Click(object sender, EventArgs e)
-        {
-            ResetPixelSizes();
-            pixelSize = 6;
-            toolStripMenuItem8.Checked = true;
-            video.PIXELSIZE = pixelSize;
-        }
-        private void toolStripMenuItem9_Click(object sender, EventArgs e)
-        {
-            ResetPixelSizes();
-            pixelSize = 7;
-            toolStripMenuItem9.Checked = true;
-            video.PIXELSIZE = pixelSize;
-        }
+        
         private void openRomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)

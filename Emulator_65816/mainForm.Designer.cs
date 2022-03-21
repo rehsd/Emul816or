@@ -97,19 +97,12 @@
             this.fastestToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.manualSpeedToolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.loggingToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.pixelSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.breakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.currentROMLabel = new System.Windows.Forms.Label();
+            this.videoOutPictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.via1_portB_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.via1_portB_1)).BeginInit();
@@ -129,6 +122,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.via1_portA_7)).BeginInit();
             this.statusGroup.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.videoOutPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // videoOutLabel
@@ -767,8 +761,7 @@
             this.optionsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loggingToolStripMenuItem,
-            this.loggingToolStripMenuItem1,
-            this.pixelSizeToolStripMenuItem});
+            this.loggingToolStripMenuItem1});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(92, 29);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -781,7 +774,7 @@
             this.fastestToolStripMenuItem1,
             this.manualSpeedToolStripTextBox2});
             this.loggingToolStripMenuItem.Name = "loggingToolStripMenuItem";
-            this.loggingToolStripMenuItem.Size = new System.Drawing.Size(185, 34);
+            this.loggingToolStripMenuItem.Size = new System.Drawing.Size(180, 34);
             this.loggingToolStripMenuItem.Text = "Speed";
             // 
             // slowestToolStripMenuItem1
@@ -798,7 +791,7 @@
             this.eight00ToolStripMenuItem.CheckOnClick = true;
             this.eight00ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.eight00ToolStripMenuItem.Name = "eight00ToolStripMenuItem";
-            this.eight00ToolStripMenuItem.Size = new System.Drawing.Size(286, 54);
+            this.eight00ToolStripMenuItem.Size = new System.Drawing.Size(190, 34);
             this.eight00ToolStripMenuItem.Text = "800";
             this.eight00ToolStripMenuItem.Click += new System.EventHandler(this.eight00ToolStripMenuItem_Click);
             // 
@@ -823,76 +816,9 @@
             this.loggingToolStripMenuItem1.CheckOnClick = true;
             this.loggingToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.loggingToolStripMenuItem1.Name = "loggingToolStripMenuItem1";
-            this.loggingToolStripMenuItem1.Size = new System.Drawing.Size(185, 34);
+            this.loggingToolStripMenuItem1.Size = new System.Drawing.Size(180, 34);
             this.loggingToolStripMenuItem1.Text = "Logging";
             this.loggingToolStripMenuItem1.Click += new System.EventHandler(this.loggingToolStripMenuItem1_Click);
-            // 
-            // pixelSizeToolStripMenuItem
-            // 
-            this.pixelSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem6,
-            this.toolStripMenuItem7,
-            this.toolStripMenuItem8,
-            this.toolStripMenuItem9});
-            this.pixelSizeToolStripMenuItem.Name = "pixelSizeToolStripMenuItem";
-            this.pixelSizeToolStripMenuItem.Size = new System.Drawing.Size(185, 34);
-            this.pixelSizeToolStripMenuItem.Text = "Pixel Size";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.CheckOnClick = true;
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(124, 34);
-            this.toolStripMenuItem3.Text = "1";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Checked = true;
-            this.toolStripMenuItem4.CheckOnClick = true;
-            this.toolStripMenuItem4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(124, 34);
-            this.toolStripMenuItem4.Text = "2";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(124, 34);
-            this.toolStripMenuItem5.Text = "3";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(124, 34);
-            this.toolStripMenuItem6.Text = "4";
-            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(124, 34);
-            this.toolStripMenuItem7.Text = "5";
-            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
-            // 
-            // toolStripMenuItem8
-            // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(124, 34);
-            this.toolStripMenuItem8.Text = "6";
-            this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
-            // 
-            // toolStripMenuItem9
-            // 
-            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(124, 34);
-            this.toolStripMenuItem9.Text = "7";
-            this.toolStripMenuItem9.Click += new System.EventHandler(this.toolStripMenuItem9_Click);
             // 
             // breakToolStripMenuItem
             // 
@@ -935,11 +861,24 @@
             this.currentROMLabel.TabIndex = 16;
             this.currentROMLabel.Text = "-";
             // 
+            // videoOutPictureBox
+            // 
+            this.videoOutPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.videoOutPictureBox.Location = new System.Drawing.Point(12, 69);
+            this.videoOutPictureBox.Name = "videoOutPictureBox";
+            this.videoOutPictureBox.Size = new System.Drawing.Size(812, 660);
+            this.videoOutPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.videoOutPictureBox.TabIndex = 17;
+            this.videoOutPictureBox.TabStop = false;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1970, 994);
+            this.Controls.Add(this.videoOutPictureBox);
             this.Controls.Add(this.currentROMLabel);
             this.Controls.Add(this.statusGroup);
             this.Controls.Add(this.richTextBox1);
@@ -979,6 +918,7 @@
             this.statusGroup.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.videoOutPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1054,17 +994,10 @@
         private System.Windows.Forms.ToolStripMenuItem loggingToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem eight00ToolStripMenuItem;
         private System.Windows.Forms.Label currentROMLabel;
-        private System.Windows.Forms.ToolStripMenuItem pixelSizeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem breakToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stepToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryViewerToolStripMenuItem;
+        public System.Windows.Forms.PictureBox videoOutPictureBox;
     }
 }
 
