@@ -91,7 +91,7 @@ namespace Emul816or
                 SolidBrush sb = new SolidBrush(Color.FromArgb(red, green, blue));
                 Graphics g = hostForm.CreateGraphics();
                 g.FillRectangle(sb, PIXELSTART_X + x * PIXELSIZE, PIXELSTART_Y + y * PIXELSIZE, PIXELSIZE, PIXELSIZE);
-
+                System.Windows.Forms.Application.DoEvents();
                 if (hostForm.SuspendLogging) { return; }
                 hostForm.pixelColorLabel.Text = newColor.ToString("X2");
                 hostForm.pixelColorLabel.Refresh();

@@ -35,6 +35,7 @@ namespace Emul816or
         private void mainForm_Load(object sender, EventArgs e)
         {
             LoadObjects();
+            speed = 800;
         }
 
         private void loggingToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -256,23 +257,33 @@ namespace Emul816or
             statusGroup.Refresh();
         }
 
+        void ClearSpeedChecks()
+        {
+            slowestToolStripMenuItem1.Checked = false;
+            fastestToolStripMenuItem1.Checked = false;
+            eight00ToolStripMenuItem.Checked = false;
+        }
         private void slowestToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            ClearSpeedChecks();
             speed = 0;
         }
 
         private void fastestToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            ClearSpeedChecks();
             speed = 1000;
         }
 
         private void manualSpeedToolStripTextBox2_Click(object sender, EventArgs e)
         {
+            ClearSpeedChecks();
             speed = UInt16.Parse(manualSpeedToolStripTextBox2.Text);
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void eight00ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ClearSpeedChecks();
             speed = 800;
         }
 
@@ -375,6 +386,15 @@ namespace Emul816or
         {
             MemoryViewer mv = new MemoryViewer(rom, ram, eram, video);
             mv.Show();
+        }
+
+        private void mainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (stepToolStripMenuItem.Enabled && e.KeyCode == Keys.F10)
+            {
+                cpu.Step();
+            }
+            e.SuppressKeyPress = true;
         }
     }
 }

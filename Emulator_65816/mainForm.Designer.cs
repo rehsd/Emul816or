@@ -93,7 +93,7 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.slowestToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.eight00ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fastestToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.manualSpeedToolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.loggingToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,8 +108,8 @@
             this.breakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.currentROMLabel = new System.Windows.Forms.Label();
             this.memoryViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentROMLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.via1_portB_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.via1_portB_1)).BeginInit();
@@ -764,21 +764,21 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(3349, 52);
+            this.menuStrip1.Size = new System.Drawing.Size(3349, 49);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // openRomToolStripMenuItem
             // 
             this.openRomToolStripMenuItem.Name = "openRomToolStripMenuItem";
-            this.openRomToolStripMenuItem.Size = new System.Drawing.Size(192, 48);
+            this.openRomToolStripMenuItem.Size = new System.Drawing.Size(192, 45);
             this.openRomToolStripMenuItem.Text = "&Open ROM";
             this.openRomToolStripMenuItem.Click += new System.EventHandler(this.openRomToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(114, 48);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(114, 45);
             this.resetToolStripMenuItem.Text = "&Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
@@ -793,14 +793,14 @@
             this.loggingToolStripMenuItem1,
             this.pixelSizeToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(148, 48);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(148, 45);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // loggingToolStripMenuItem
             // 
             this.loggingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.slowestToolStripMenuItem1,
-            this.toolStripMenuItem1,
+            this.eight00ToolStripMenuItem,
             this.fastestToolStripMenuItem1,
             this.manualSpeedToolStripTextBox2});
             this.loggingToolStripMenuItem.Name = "loggingToolStripMenuItem";
@@ -809,17 +809,21 @@
             // 
             // slowestToolStripMenuItem1
             // 
+            this.slowestToolStripMenuItem1.CheckOnClick = true;
             this.slowestToolStripMenuItem1.Name = "slowestToolStripMenuItem1";
             this.slowestToolStripMenuItem1.Size = new System.Drawing.Size(286, 54);
             this.slowestToolStripMenuItem1.Text = "Slowest";
             this.slowestToolStripMenuItem1.Click += new System.EventHandler(this.slowestToolStripMenuItem1_Click);
             // 
-            // toolStripMenuItem1
+            // eight00ToolStripMenuItem
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(286, 54);
-            this.toolStripMenuItem1.Text = "800";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.eight00ToolStripMenuItem.Checked = true;
+            this.eight00ToolStripMenuItem.CheckOnClick = true;
+            this.eight00ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.eight00ToolStripMenuItem.Name = "eight00ToolStripMenuItem";
+            this.eight00ToolStripMenuItem.Size = new System.Drawing.Size(286, 54);
+            this.eight00ToolStripMenuItem.Text = "800";
+            this.eight00ToolStripMenuItem.Click += new System.EventHandler(this.eight00ToolStripMenuItem_Click);
             // 
             // fastestToolStripMenuItem1
             // 
@@ -830,6 +834,7 @@
             // 
             // manualSpeedToolStripTextBox2
             // 
+            this.manualSpeedToolStripTextBox2.BackColor = System.Drawing.Color.Silver;
             this.manualSpeedToolStripTextBox2.Name = "manualSpeedToolStripTextBox2";
             this.manualSpeedToolStripTextBox2.Size = new System.Drawing.Size(100, 47);
             this.manualSpeedToolStripTextBox2.Text = "500";
@@ -915,7 +920,7 @@
             // breakToolStripMenuItem
             // 
             this.breakToolStripMenuItem.Name = "breakToolStripMenuItem";
-            this.breakToolStripMenuItem.Size = new System.Drawing.Size(115, 48);
+            this.breakToolStripMenuItem.Size = new System.Drawing.Size(115, 45);
             this.breakToolStripMenuItem.Text = "&Break";
             this.breakToolStripMenuItem.Click += new System.EventHandler(this.breakToolStripMenuItem_Click);
             // 
@@ -923,16 +928,24 @@
             // 
             this.stepToolStripMenuItem.Enabled = false;
             this.stepToolStripMenuItem.Name = "stepToolStripMenuItem";
-            this.stepToolStripMenuItem.Size = new System.Drawing.Size(101, 48);
+            this.stepToolStripMenuItem.Size = new System.Drawing.Size(101, 45);
             this.stepToolStripMenuItem.Text = "Step";
+            this.stepToolStripMenuItem.ToolTipText = "F10";
             this.stepToolStripMenuItem.Click += new System.EventHandler(this.stepToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(103, 48);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(103, 45);
             this.stopToolStripMenuItem.Text = "&Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
+            // memoryViewerToolStripMenuItem
+            // 
+            this.memoryViewerToolStripMenuItem.Name = "memoryViewerToolStripMenuItem";
+            this.memoryViewerToolStripMenuItem.Size = new System.Drawing.Size(252, 45);
+            this.memoryViewerToolStripMenuItem.Text = "Memory Viewer";
+            this.memoryViewerToolStripMenuItem.Click += new System.EventHandler(this.memoryViewerToolStripMenuItem_Click);
             // 
             // currentROMLabel
             // 
@@ -943,13 +956,6 @@
             this.currentROMLabel.Size = new System.Drawing.Size(30, 41);
             this.currentROMLabel.TabIndex = 16;
             this.currentROMLabel.Text = "-";
-            // 
-            // memoryViewerToolStripMenuItem
-            // 
-            this.memoryViewerToolStripMenuItem.Name = "memoryViewerToolStripMenuItem";
-            this.memoryViewerToolStripMenuItem.Size = new System.Drawing.Size(252, 48);
-            this.memoryViewerToolStripMenuItem.Text = "Memory Viewer";
-            this.memoryViewerToolStripMenuItem.Click += new System.EventHandler(this.memoryViewerToolStripMenuItem_Click);
             // 
             // mainForm
             // 
@@ -966,10 +972,12 @@
             this.Controls.Add(this.logText);
             this.Controls.Add(this.videoOutLabel);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "mainForm";
             this.Text = "Emul816or";
             this.Load += new System.EventHandler(this.mainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.via1_portB_0)).EndInit();
@@ -1065,7 +1073,7 @@
         private System.Windows.Forms.ToolStripTextBox manualSpeedToolStripTextBox2;
         private System.Windows.Forms.ToolStripMenuItem fastestToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loggingToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem eight00ToolStripMenuItem;
         private System.Windows.Forms.Label currentROMLabel;
         private System.Windows.Forms.ToolStripMenuItem pixelSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
