@@ -14,7 +14,8 @@ namespace Emul816or
     public partial class mainForm : Form
     {
         CPU cpu;
-        string ROMlocation;
+        string ROMlocation = @"d:\65816\ROM\g5_ben_vga_test.bin";
+
         public bool SuspendLogging;
         public ushort speed;
         private UInt16 pixelSize =2;
@@ -74,7 +75,6 @@ namespace Emul816or
 
         void LoadObjects()
         {
-            ROMlocation = @"d:\65816\ROM\g4.bin";
             currentROMLabel.Text = ROMlocation;
 
             ram = new RAM();

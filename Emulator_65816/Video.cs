@@ -129,17 +129,18 @@ namespace Emul816or
                 {
                     //if logging, allow pixel by pixel refresh (slow)
                     hostForm.videoOutPictureBox.Image = hostForm.frameBuffer[0];
-                    hostForm.videoOutPictureBox.Refresh();
+                    //hostForm.videoOutPictureBox.Refresh();
                     //hostForm.ActiveFrame = newFrame;
+                    
                     hostForm.pixelColorLabel.Text = newColor.ToString("X2");
                     hostForm.pixelColorLabel.Refresh();
                 }
-                else if(x==319 && y==239)
+                else if(x==319 && y==239)       //temporary -- this will only work if drawing entire frame; still need to add support for partial frame updates.
                 {
                     //if not logging, want to run as fast as possible
                     //only update the output on the last pixel of the frame
                     hostForm.videoOutPictureBox.Image = hostForm.frameBuffer[0];
-                    hostForm.videoOutPictureBox.Refresh();
+                    //hostForm.videoOutPictureBox.Refresh();
                 }
 
 
