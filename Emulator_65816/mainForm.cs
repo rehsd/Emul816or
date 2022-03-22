@@ -20,6 +20,7 @@ namespace Emul816or
         public ushort speed;
         private UInt16 pixelSize =2;
         bool breakActive;
+        int cyclesPrev = 0;
 
         ROM rom;
         RAM ram;
@@ -57,6 +58,7 @@ namespace Emul816or
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            cyclesTimer.Enabled = false;
             cpu.Stop(false);
             SuspendLogging = true;
             WriteLog("\n*************** STOP *****************\n");
@@ -70,6 +72,7 @@ namespace Emul816or
             WriteLog("\n*************** RESET ****************\n");
             video.Reset();
             cpu.Reset();
+            cyclesTimer.Enabled = true;
             Run();
         }
 
@@ -277,6 +280,29 @@ namespace Emul816or
                 cpu.Step();
             }
             e.SuppressKeyPress = true;
+        }
+
+        private void cyclesTimer_Tick(object sender, EventArgs e)
+        {
+            if(!cpu.IsStopped())
+            {
+                int cyclesCurrent = cpu.Cycles;
+                int clockEquiv = cyclesCurrent - cyclesPrev;
+                if(clockEquiv < 1000)
+                {
+                    clockEquivLabel.Text = clockEquiv.ToString("D") + " Hz";
+                }
+                else if(clockEquiv < 1000000)
+                {
+                    clockEquivLabel.Text = (clockEquiv / (decimal)1000).ToString("F2") + " kHz";
+                }
+                else
+                {
+                    clockEquivLabel.Text = (clockEquiv / (decimal)1000000).ToString("F2") + " MHz";
+                }
+                cyclesPrev = cyclesCurrent;
+
+            }
         }
     }
 }

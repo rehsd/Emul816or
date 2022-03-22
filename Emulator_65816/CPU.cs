@@ -56,7 +56,7 @@ namespace Emul816or
         protected virtual void OnStatusChanged(StatusChangedEventArgs e)
         {
             EventHandler<StatusChangedEventArgs> handler = StatusChanged;
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -66,13 +66,13 @@ namespace Emul816or
         protected virtual void OnLogTextUpdate(LogTextUpdateEventArgs e)
         {
             EventHandler<LogTextUpdateEventArgs> handler = LogTextUpdate;
-            if(handler!=null)
+            if (handler != null)
             {
                 handler(this, e);
             }
         }
         public event EventHandler<LogTextUpdateEventArgs> LogTextUpdate;
-        
+
         RAM ramBasic;
         ROM rom;
         ERAM ramExtended;
@@ -84,6 +84,10 @@ namespace Emul816or
         bool interrupted;
         bool stopped;
 
+        public int Cycles
+        {
+            get => cycles;
+        }
         struct A
         {
             static public Byte b;
