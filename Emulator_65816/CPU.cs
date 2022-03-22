@@ -112,7 +112,7 @@ namespace Emul816or
         }
         struct DP
         {
-            static public Byte b;
+            //static public Byte b;
             static public Word w;
         }
         struct P

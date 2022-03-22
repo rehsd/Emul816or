@@ -18,7 +18,6 @@ namespace Emul816or
 
         public bool SuspendLogging;
         public ushort speed;
-        private UInt16 pixelSize =2;
         bool breakActive;
         int cyclesPrev = 0;
 
@@ -42,6 +41,7 @@ namespace Emul816or
             speed = 800;
             frameBuffer = new Bitmap[2];
             frameBuffer[0] = new Bitmap(320, 240);
+            frameBuffer[1] = new Bitmap(320, 240);
             ActiveFrame = 0;
         }
 
@@ -67,12 +67,13 @@ namespace Emul816or
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //logText.Clear();
             SuspendLogging = false;
+            loggingToolStripMenuItem1.Checked = true;
             WriteLog("\n*************** RESET ****************\n");
             video.Reset();
             cpu.Reset();
             cyclesTimer.Enabled = true;
+            videoOutRefreshTimer.Enabled = true;
             Run();
         }
 
@@ -89,8 +90,9 @@ namespace Emul816or
             via1 = new VIA(0x108000);
             via1.VIAOutChanged += Via1_VIAOutChanged;
             WriteLog("VIA added:     0x108000.\n");
-            video = new Video(this);
+            video = new Video();
             WriteLog("VIDEO added:   0x200000.\n");
+            videoOutRefreshTimer.Enabled = true;
             nullDev = new NullDevice();
             WriteLog("NullDev added: 0x******.\n");
             cpu = new CPU(rom, ram, eram, via1, video, nullDev);
@@ -147,7 +149,7 @@ namespace Emul816or
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1000 - speed);
             }
-            if(cpu.IsStopped())
+            if(cpu.IsStopped() && !this.IsDisposed)
             {
                 WriteLog("\n*************** STP ******************\n");
             }
@@ -302,6 +304,48 @@ namespace Emul816or
                 }
                 cyclesPrev = cyclesCurrent;
 
+            }
+        }
+
+        private void videoOutRefreshTimer_Tick(object sender, EventArgs e)
+        {
+            //Grabs whatever is currently in video memory. Not sync'd the vram updates in any way. Tearing will be visible.
+            int newFrame;
+            if (ActiveFrame == 1)
+            {
+                newFrame = 0;
+            }
+            else
+            {
+                newFrame = 1;
+            }
+
+            byte pixelColor;
+            int red, blue, green;
+
+            for (Int16 y = 0; y < 240; y++)
+            {
+                for (Int16 x = 0; x < 320; x++)
+                {
+                    pixelColor = video.MemoryBytes[512 * y + x];
+
+                    red = (pixelColor & 224);
+                    green = (pixelColor & 28) << 3;
+                    blue = (pixelColor & 3) << 6;
+
+                    frameBuffer[newFrame].SetPixel(x, y, Color.FromArgb(red, green, blue));
+                }
+            }
+            videoOutPictureBox.Image = frameBuffer[newFrame];
+            ActiveFrame = newFrame;
+            videoFPSLabel.Text = (1000 / videoOutRefreshTimer.Interval).ToString();
+        }
+
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!cpu.IsStopped())
+            {
+                cpu.Stop();
             }
         }
     }
