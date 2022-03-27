@@ -51,9 +51,9 @@ namespace Emul816or
         {
             HostingGroupBox = hostingGroupBox;
             rtbOut = new RichTextBox();
-            rtbOut.Width = 400;
-            rtbOut.Height = 100;
             rtbOut.Font = new Font("Courier New", 12);
+            rtbOut.Width = (int)(rtbOut.Font.Size * 1.2 * 16);  //Attempting to deal with different screen resolutions and scaling
+            rtbOut.Height = 100;
             rtbOut.BackColor = Color.Blue;
             rtbOut.ForeColor = Color.White;
             HostingGroupBox.Controls.Add(rtbOut);
