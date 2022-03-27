@@ -131,6 +131,7 @@ namespace Emul816or
         {
             //00=B
             //01=A
+            groupBox1.SuspendLayout();
             setPortBitDisplay(via1_portB_7, (portB & 0b10000000) > 0);
             setPortBitDisplay(via1_portB_6, (portB & 0b01000000) > 0);
             setPortBitDisplay(via1_portB_5, (portB & 0b00100000) > 0);
@@ -149,7 +150,8 @@ namespace Emul816or
             setPortBitDisplay(via1_portA_1, (portA & 0b00000010) > 0);
             setPortBitDisplay(via1_portA_0, (portA & 0b00000001) > 0);
 
-            groupBox1.Refresh();
+            //groupBox1.Refresh();
+            groupBox1.ResumeLayout();
         }
         private void setPortBitDisplay(PictureBox pb, bool value)
         {
@@ -177,6 +179,7 @@ namespace Emul816or
         }
         void WriteLog(string newText)
         {
+            logText.SuspendLayout();
             if (logText.Lines.Length > 200)
             {
                 List<string> lines = logText.Lines.ToList();
@@ -184,9 +187,9 @@ namespace Emul816or
                 logText.Lines = lines.ToArray();
             }
             logText.AppendText(newText);
-            logText.Refresh();
             logText.SelectionStart = logText.Text.Length;
             logText.ScrollToCaret();
+            logText.ResumeLayout();
         }
 
         private void cpu_LogTextUpdate(object sender, LogTextUpdateEventArgs e)
@@ -198,6 +201,7 @@ namespace Emul816or
         {
             if (SuspendLogging) { return; }
 
+            statusGroup.SuspendLayout();
             statusA.Text = e.A.ToString("X4");
             statusX.Text = e.X.ToString("X4");
             statusY.Text = e.Y.ToString("X4");
@@ -214,7 +218,8 @@ namespace Emul816or
             flagsE.Text = BoolToString(e.FlagE);
             statusPC.Text = e.PC.ToString("X4");
             statusCycles.Text = e.Cycles.ToString("X8");
-            statusGroup.Refresh();
+            //statusGroup.Refresh();
+            statusGroup.ResumeLayout();
         }
 
         string BoolToString(bool boolVal)
@@ -301,8 +306,24 @@ namespace Emul816or
             if (stepToolStripMenuItem.Enabled && e.KeyCode == Keys.F10)
             {
                 cpu.Step();
+                e.SuppressKeyPress = true;
             }
-            e.SuppressKeyPress = true;
+            else if(e.KeyCode == Keys.F5)
+            {
+                resetToolStripMenuItem_Click(null,null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.F6)
+            {
+                fastestToolStripMenuItem1_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.F7)
+            {
+                breakToolStripMenuItem_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+
         }
 
         private void cyclesTimer_Tick(object sender, EventArgs e)
@@ -369,6 +390,7 @@ namespace Emul816or
                 cpu.Stop();
             }
         }
+
     }
 }
 
