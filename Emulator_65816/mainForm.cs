@@ -14,7 +14,7 @@ namespace Emul816or
     public partial class mainForm : Form
     {
         CPU cpu;
-        string ROMlocation = @"d:\65816\ROM\g5_ben_vga_test.bin";
+        string ROMlocation = @"d:\65816\ROM\LCD_test.bin";
 
         public bool SuspendLogging;
         public ushort speed;
@@ -29,6 +29,8 @@ namespace Emul816or
         NullDevice nullDev;
         public Bitmap[] frameBuffer;
         public int ActiveFrame;
+
+        LCD1602 lcd;
 
         public mainForm()
         {
@@ -98,12 +100,31 @@ namespace Emul816or
             cpu = new CPU(rom, ram, eram, via1, video, nullDev);
             cpu.StatusChanged += cpu_StatusChanged;
             cpu.LogTextUpdate += cpu_LogTextUpdate;
+
+            lcd = new LCD1602(LCDgroupBox);
         }
 
         private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
             if (SuspendLogging) { return; }
-            UpdateVIABarGraphs(e.PortA, e.PortB);
+            //Check which "devices" is connected to the VIA
+            //UpdateVIABarGraphs(e.PortA, e.PortB);
+            
+            VIA v = (VIA)sender;
+
+            if (v[v.BaseAddress + 0x02] > 0)        
+            {
+                //some bits are set to output (out from VIA)
+                byte val = (byte)((byte)(v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)~v[v.BaseAddress + 0x02] & lcd.GetValue()));
+                lcd.SetValue(val);  //need to look at individual bits
+            }
+            //if (v[v.BaseAddress + 0x02] < 255)        //if any of the direction bits are 0, the VIA needs to read back the value from the LCD (e.g., wait)
+            //{
+            //    //some bits are set as input (into VIA)
+            //    byte val = (byte)((byte)(~v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)v[v.BaseAddress + 0x02] & lcd.GetValue()));
+            //    v[v.BaseAddress + 0x00] = val;
+            //}
+
         }
 
         void UpdateVIABarGraphs(byte portA, byte portB)

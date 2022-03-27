@@ -8,8 +8,8 @@ namespace Emul816or
 {
     public class VIAOutChangedEventArgs : EventArgs
     {
-        public byte PortA;
-        public byte PortB;
+        //public byte PortA;
+        //public byte PortB;
     }
 
     public class VIA : IMemoryIO
@@ -47,13 +47,16 @@ namespace Emul816or
 
         public byte this[uint index]
         {
-            get => data[index - baseAddress];
-            //set => data[index-baseAddress] = value;
+            get
+            {
+                return data[index - baseAddress];
+            }
             set
             {
-                data[index - baseAddress] = value;
-                if (index - baseAddress == 0x00 || index - baseAddress == 0x01)
+                if(data[index - baseAddress] != value)
                 {
+                    //only update if the value has changed
+                    data[index - baseAddress] = value;
                     Update();
                 }
             }
@@ -63,21 +66,10 @@ namespace Emul816or
         {
             if (SuspendLogging) { return; }
             VIAOutChangedEventArgs eventArgs = new();
-            eventArgs.PortB = data[0x00];
-            eventArgs.PortA = data[0x01];
+            //eventArgs.PortB = data[0x00];
+            //eventArgs.PortA = data[0x01];
             OnVIAOutChanged(eventArgs);
         }
-        //private void setPortBitDisplay(PictureBox pb, bool value)
-        //{
-        //    if (value)
-        //    {
-        //        pb.BackColor = Color.Red;
-        //    }
-        //    else
-        //    {
-        //        pb.BackColor = Color.Black;
-        //    }
-        //}
 
         public VIA(uint address)
         {
@@ -87,6 +79,8 @@ namespace Emul816or
             {
                 data[i] = 0;
             }
+            data[0x02] = 0xFF;  //Set PortB as Output by default 
+            data[0x03] = 0xFF;  //Set PortA as Output by default 
         }
     }
 }
