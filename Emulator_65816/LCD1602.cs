@@ -47,6 +47,18 @@ namespace Emul816or
         RichTextBox rtbOut;
         GroupBox HostingGroupBox;
 
+        public void Reset(bool clear = false)
+        {
+            if(clear)
+            {
+                rtbOut.Clear();
+            }
+            modeSetStep = 1;
+            highNibble = 0;
+            lowNibble = 0;
+            highNibbleCount = 0;
+            lowNibbleCount = 0;
+        }
         public LCD1602(GroupBox hostingGroupBox)
         {
             HostingGroupBox = hostingGroupBox;
@@ -167,11 +179,13 @@ namespace Emul816or
             {
                 if(rtbOut.TextLength == 32)
                 {
-                    rtbOut.Clear();
+                    rtbOut.Clear();     //Actual LCD would just rollover
                 }
                 rtbOut.AppendText(((char)cmd).ToString());
             }
 
+            lowNibble = 0;
+            highNibble = 0;
             highNibbleCount = 0;
             lowNibbleCount = 0;
 

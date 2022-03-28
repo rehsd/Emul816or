@@ -146,9 +146,15 @@ namespace Emul816or
             stopped = true;
         }
 
+        bool ProcessingInterrupt = false;
         public void Step()
         {
             // Check for NMI/IRQ
+            if(P.I && !ProcessingInterrupt)
+            {
+                ProcessInterrupt();
+            }
+
             Byte cmd = GetByte(Join(pbr, pc++));
             WriteLog("\n" + (pc-1).ToString("X4") + " : " + OpCodeDescArray[cmd]);
             switch (cmd)
@@ -446,6 +452,50 @@ namespace Emul816or
             eventArgs.Cycles = cycles;
             OnStatusChanged(eventArgs);
         }
+
+        public enum PinState
+        {
+            High,
+            Low
+        }
+        public void SetIRQB(PinState newState)
+        {
+            if(newState == PinState.High)
+            {
+                P.I = false;
+            }
+            else
+            {
+
+                P.I = true;
+            }
+        }
+
+
+        void ProcessInterrupt()
+        {
+            //TO DO Update for emulation mode, value this section of code
+            ProcessingInterrupt = true;
+            PushByte(pbr);
+            PushWord(pc);
+            PushByte(P.b);
+
+            //P.I = true;   //already set
+            P.D = false;
+            pbr = 0;
+
+            pc = GetWord(0xFFEE);
+            cycles += 8;    //TO DO Is this right?
+
+
+            //PushWord(pc);
+            //Word interruptVector = GetWord(0xFFEE);
+            WriteLog("\nInterrupt vector to " + pc.ToString("X4"));
+            //UpdateProgramCounter(interruptVector);
+
+            //BTemporary - Need to determine how to best handle when an interrupt is being processed
+            //P.I = false;
+        }
         Byte GetByte(Addr ea, bool logIt = false)
         {
             IMemoryIO mem;
@@ -458,8 +508,16 @@ namespace Emul816or
         }
         Word GetWord(Addr ea, bool logIt = false)
         {
-            Word tmp = (ushort)Join(GetByte(ea + 0), GetByte(ea + 1));
-            if(logIt)
+            Word tmp;
+            if (GetDeviceByAddress(ea).Supports16Bit)
+            {
+                tmp = (ushort)Join(GetByte(ea + 0), GetByte(ea + 1));
+            }
+            else
+            {
+                tmp = (ushort)(Join(GetByte(ea + 0),0));
+            }
+            if (logIt)
             {
                 WriteLog("\t\t" + tmp.ToString("X4") + "\t from \t" + ea.ToString("x4"));
             }
@@ -1806,6 +1864,7 @@ namespace Emul816or
                 cycles += 7;
             }
             P.I = false;
+            ProcessingInterrupt = false;
         }
 
         void Op_rtl(Addr ea)
@@ -1965,7 +2024,10 @@ namespace Emul816or
             if (E || P.X)
                 SetNZ_B(Lo(X.w = A.b));
             else
+            {
                 SetNZ_W(X.w = A.w);
+                WriteLog(" :TAX of " + A.w.ToString("X4"));
+            }
 
             cycles += 2;
         }
@@ -2092,7 +2154,10 @@ namespace Emul816or
             if (E || P.M)
                 SetNZ_B(A.b = X.b);
             else
+            {
                 SetNZ_W(A.w = X.w);
+                WriteLog(" :TXA of " + A.w.ToString("X4"));                
+            }
 
             cycles += 2;
         }

@@ -30,6 +30,24 @@ namespace Emul816or
         private bool supports16bit = false;
         public bool SuspendLogging = false;
 
+        public enum REGISTERS : ushort
+        {
+            VIA_PORTB   = 0x00,
+            VIA_PORTA   = 0x01,
+            VIA_DDRB    = 0x02,
+            VIA_DDRA    = 0x03,
+            VIA_T1C_L   = 0x04,
+            VIA_T1C_H   = 0x05,
+            VIA_T1L_L   = 0x06,
+            VIA_T1L_H   = 0x07,
+            VIA_T2C_L   = 0x08,
+            VIA_T2C_H   = 0x09,
+            VIA_SR      = 0x0A,
+            VIA_ACR     = 0x0B,
+            VIA_PCR     = 0x0C,
+            VIA_IFR     = 0x0D,
+            VIA_IER     = 0x0E
+        }
         public uint Size
         {
             get => size;

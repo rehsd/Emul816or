@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,12 +15,13 @@ namespace Emul816or
     public partial class mainForm : Form
     {
         CPU cpu;
-        string ROMlocation = @"d:\65816\ROM\LCD_test.bin";
+        string ROMlocation = @"d:\65816\ROM\KBD_LCD_test.bin";
 
         public bool SuspendLogging;
         public ushort speed;
         bool breakActive;
         int cyclesPrev = 0;
+        const int MAXLENGTH = 500;
 
         ROM rom;
         RAM ram;
@@ -45,6 +47,7 @@ namespace Emul816or
             frameBuffer[0] = new Bitmap(320, 240);
             frameBuffer[1] = new Bitmap(320, 240);
             ActiveFrame = 0;
+            LoadScanCodes();
         }
 
         private void loggingToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -69,6 +72,7 @@ namespace Emul816or
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //TO DO Reset all state data from all objects of concern
             SuspendLogging = false;
             loggingToolStripMenuItem1.Checked = true;
             WriteLog("\n*************** RESET ****************\n");
@@ -76,6 +80,7 @@ namespace Emul816or
             cpu.Reset();
             cyclesTimer.Enabled = true;
             videoOutRefreshTimer.Enabled = true;
+            lcd.Reset();
             Run();
         }
 
@@ -180,10 +185,10 @@ namespace Emul816or
         void WriteLog(string newText)
         {
             logText.SuspendLayout();
-            if (logText.Lines.Length > 200)
+            if (logText.Lines.Length > MAXLENGTH)
             {
                 List<string> lines = logText.Lines.ToList();
-                lines.RemoveRange(0, lines.Count - 100);        //only keep 100 lines
+                lines.RemoveRange(0, lines.Count - MAXLENGTH);        //only keep 100 lines
                 logText.Lines = lines.ToArray();
             }
             logText.AppendText(newText);
@@ -391,6 +396,32 @@ namespace Emul816or
             }
         }
 
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyExW", ExactSpelling = true)]
+        internal static extern uint MapVirtualKeyEx(uint uCode, uint uMapType, IntPtr dwhkl);
+
+        byte[] virtualKeyScanCodes;
+        private void LoadScanCodes()
+        {
+            virtualKeyScanCodes = new byte[256];
+            for (uint scanCode = 0x00; scanCode <= 0xff; scanCode++)
+            {
+                uint virtualKeyCode = MapVirtualKeyEx(scanCode, 1, System.Windows.Forms.InputLanguage.CurrentInputLanguage.Handle);
+                if (virtualKeyCode != 0)
+                {
+                    virtualKeyScanCodes[virtualKeyCode] = (byte)scanCode;
+                }
+            }
+        }
+        private void keyboardInputRichTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            lcd.Reset(false);
+            //Put the key scancode value on the VIA port (to be read by interrupt handler)
+            via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = virtualKeyScanCodes[e.KeyValue];
+            via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+
+            //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
+            cpu.SetIRQB(CPU.PinState.Low);
+        }
     }
 }
 
