@@ -1,4 +1,5 @@
 ﻿
 
 To do:
+-only enable interrupts if IER flag is set appropriately
 -Exception handling
