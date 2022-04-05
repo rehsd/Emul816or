@@ -9,13 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Emul816or;
+using Microsoft.Win32;
 
 namespace Emul816or
 {
     public partial class mainForm : Form
     {
         CPU cpu;
-        string ROMlocation = @"d:\65816\ROM\KBD_LCD_test.bin";
+
+        string ROMlocation;
 
         public bool SuspendLogging;
         public ushort speed;
@@ -41,6 +43,22 @@ namespace Emul816or
 
         private void mainForm_Load(object sender, EventArgs e)
         {
+;           ReloadForm();
+        }
+
+        private void ReloadForm()
+        {
+            //read last ROM location
+            RegistryKey keyROM = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Emul816or");
+            if (keyROM != null)
+            {
+                ROMlocation = keyROM.GetValue("MRU_ROM").ToString();
+            }
+            else
+            {
+                MessageBox.Show("No ROM information. Please select ROM for initialization.", "ROM required");
+                GetROM();
+            }
             LoadObjects();
             speed = 800;
             frameBuffer = new Bitmap[2];
@@ -48,14 +66,42 @@ namespace Emul816or
             frameBuffer[1] = new Bitmap(320, 240);
             ActiveFrame = 0;
             LoadScanCodes();
+            loggingToolStripMenuItem1.Checked = true;
+
         }
 
+        private void GetROM()
+        {
+            {
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                { 
+                    ROMlocation = openFileDialog1.FileName;
+                    currentROMLabel.Text = ROMlocation;
+                    //store for next open
+                    RegistryKey keyROM = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Emul816or");
+                    keyROM.SetValue("MRU_ROM", openFileDialog1.FileName);
+                    keyROM.Close();
+                }
+                else
+                {
+                    //do something...
+                }
+            }
+        }
         private void loggingToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if(!loggingToolStripMenuItem1.Checked)
+            loggingToolStripMenuItem1.Checked = !loggingToolStripMenuItem1.Checked;
+
+            ClearSpeedChecks();
+            if (!loggingToolStripMenuItem1.Checked)
             {
                 fastestToolStripMenuItem1.Checked = true;
                 speed = 1000;
+            }
+            else
+            {
+                eight00ToolStripMenuItem.Checked = true;
+                speed = 800;
             }
             cpu.SuspendLogging = !loggingToolStripMenuItem1.Checked;
             this.SuspendLogging = cpu.SuspendLogging;
@@ -271,11 +317,7 @@ namespace Emul816or
         
         private void openRomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                ROMlocation = openFileDialog1.FileName;
-                currentROMLabel.Text = ROMlocation;
-            }
+            GetROM();
         }
 
         private void breakToolStripMenuItem_Click(object sender, EventArgs e)
@@ -326,6 +368,11 @@ namespace Emul816or
             else if (e.KeyCode == Keys.F7)
             {
                 breakToolStripMenuItem_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.F8)
+            {
+                loggingToolStripMenuItem1_Click(null, null);
                 e.SuppressKeyPress = true;
             }
 
@@ -421,6 +468,11 @@ namespace Emul816or
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
             cpu.SetIRQB(CPU.PinState.Low);
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReloadForm();
         }
     }
 }

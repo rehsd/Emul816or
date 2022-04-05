@@ -65,6 +65,7 @@
      F5     Reset (Run)
      F6     Speed Fastest
      F7     Break / Resume
+     F8     Toggle Logging
      F10   Step
 
 Supported OpCodes: 256 of 256

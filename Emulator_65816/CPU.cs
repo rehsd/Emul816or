@@ -1932,7 +1932,7 @@ namespace Emul816or
 
         void Op_sei(Addr ea)
         {
-            SetI(1);
+            //SetI(1);      //To do... implement SEI
             cycles += 2;
         }
 
