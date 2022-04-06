@@ -73,6 +73,8 @@ namespace Emul816or
         private void GetROM()
         {
             {
+                openFileDialog1.Filter = "bin files (*.bin)|*.bin";
+                openFileDialog1.FileName = "";
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 { 
                     ROMlocation = openFileDialog1.FileName;
