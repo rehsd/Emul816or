@@ -170,6 +170,7 @@ namespace Emul816or
                     case 0b00000110:        //Increment and shift cursor; don't shift display
                         break;
                     case 0b00000001:        //Clear display
+                        rtbOut.Clear();
                         break;
                     default:
                         break;
@@ -182,6 +183,7 @@ namespace Emul816or
                     rtbOut.Clear();     //Actual LCD would just rollover
                 }
                 rtbOut.AppendText(((char)cmd).ToString());
+                //rtbOut.Refresh();
             }
 
             lowNibble = 0;

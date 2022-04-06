@@ -159,7 +159,8 @@ namespace Emul816or
 
         private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
-            if (SuspendLogging) { return; }
+            //if (SuspendLogging) { return; }
+
             //Check which "devices" is connected to the VIA
             //UpdateVIABarGraphs(e.PortA, e.PortB);
             
