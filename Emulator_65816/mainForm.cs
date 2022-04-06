@@ -92,7 +92,11 @@ namespace Emul816or
         }
         private void loggingToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            loggingToolStripMenuItem1.Checked = !loggingToolStripMenuItem1.Checked;
+            if (sender == null)
+            {
+                //only do this if manually calling this event (not from actual click)
+                loggingToolStripMenuItem1.Checked = !loggingToolStripMenuItem1.Checked;
+            }
 
             ClearSpeedChecks();
             if (!loggingToolStripMenuItem1.Checked)
