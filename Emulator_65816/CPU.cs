@@ -494,7 +494,7 @@ namespace Emul816or
             mem = GetDeviceByAddress(ea);
             if(logIt)
             {
-                WriteLog("\t\t" + mem[ea].ToString("X2") + "\t from \t" + ea.ToString("X4"));
+                WriteLog("\t" + mem[ea].ToString("X2") + "\t from \t" + ea.ToString("X4"));
             }
             return mem[ea];
         }
@@ -511,7 +511,7 @@ namespace Emul816or
             }
             if (logIt)
             {
-                WriteLog("\t\t" + tmp.ToString("X4") + "\t from \t" + ea.ToString("x4"));
+                WriteLog("\t" + tmp.ToString("X4") + "\t from \t" + ea.ToString("x4"));
             }
             return tmp;
         }
@@ -525,7 +525,7 @@ namespace Emul816or
             mem = GetDeviceByAddress(ea);
             if(logIt)
             {
-                WriteLog("\t\t" + mem[ea].ToString("X2") + "\t to \t\t\t" + ea.ToString("X4"));
+                WriteLog("\t" + mem[ea].ToString("X2") + "\t to \t" + ea.ToString("X4"));
             }
             mem[ea] = data;
         }
@@ -533,7 +533,7 @@ namespace Emul816or
         {
             if (logIt)
             {
-                WriteLog("\t\t" + data.ToString("X4") + "\t to \t\t\t" + ea.ToString("X4"));
+                WriteLog("\t" + data.ToString("X4") + "\t to \t" + ea.ToString("X4"));
             }
             SetByte(ea + 0, Lo(data));
             if (GetDeviceByAddress(ea).Supports16Bit)

@@ -188,6 +188,10 @@ namespace Emul816or
                     rtbOut.Clear();     //Actual LCD would just rollover
                 }
                 rtbOut.AppendText(((char)cmd).ToString());
+                if (rtbOut.TextLength == 16)
+                {
+                    rtbOut.AppendText("\n");
+                }
                 //rtbOut.Refresh();
             }
 
