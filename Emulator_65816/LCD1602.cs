@@ -44,8 +44,8 @@ namespace Emul816or
         const byte E = 0b01000000;
         const byte RW = 0b00100000;
         const byte RS = 0b00010000;
-        RichTextBox rtbOut;
-        GroupBox HostingGroupBox;
+        readonly RichTextBox rtbOut;
+        readonly GroupBox HostingGroupBox;
 
         public void Reset(bool clear = false)
         {
@@ -62,12 +62,15 @@ namespace Emul816or
         public LCD1602(GroupBox hostingGroupBox)
         {
             HostingGroupBox = hostingGroupBox;
-            rtbOut = new RichTextBox();
-            rtbOut.Font = new Font("Courier New", 12);
-            rtbOut.Width = (int)(rtbOut.Font.Size * 1.2 * 16);  //Attempting to deal with different screen resolutions and scaling
-            rtbOut.Height = 100;
-            rtbOut.BackColor = Color.Blue;
-            rtbOut.ForeColor = Color.White;
+            rtbOut = new RichTextBox
+            {
+                MaxLength = 32,
+                Font = new Font("Courier New", 12),
+                Width = hostingGroupBox.Width,     // (int)(rtbOut.Font.Size * 1.2 * 16);  //Attempting to deal with different screen resolutions and scaling
+                Height = 100,
+                BackColor = Color.Blue,
+                ForeColor = Color.White
+            };
             HostingGroupBox.Controls.Add(rtbOut);
         }
         public byte GetValue()

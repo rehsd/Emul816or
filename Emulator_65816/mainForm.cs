@@ -211,7 +211,7 @@ namespace Emul816or
             //groupBox1.Refresh();
             groupBox1.ResumeLayout();
         }
-        private void setPortBitDisplay(PictureBox pb, bool value)
+        private static void setPortBitDisplay(PictureBox pb, bool value)
         {
             if (value)
             {
@@ -280,7 +280,7 @@ namespace Emul816or
             statusGroup.ResumeLayout();
         }
 
-        string BoolToString(bool boolVal)
+        static string BoolToString(bool boolVal)
         {
             if(boolVal)
             {
@@ -351,7 +351,7 @@ namespace Emul816or
 
         private void memoryViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MemoryViewer mv = new MemoryViewer(rom, ram, eram, video);
+            MemoryViewer mv = new(rom, ram, eram, video);
             mv.Show();
         }
 

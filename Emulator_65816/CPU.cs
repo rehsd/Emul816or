@@ -55,30 +55,22 @@ namespace Emul816or
     {
         protected virtual void OnStatusChanged(StatusChangedEventArgs e)
         {
-            EventHandler<StatusChangedEventArgs> handler = StatusChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            StatusChanged?.Invoke(this, e);
         }
         public event EventHandler<StatusChangedEventArgs> StatusChanged;
 
         protected virtual void OnLogTextUpdate(LogTextUpdateEventArgs e)
         {
-            EventHandler<LogTextUpdateEventArgs> handler = LogTextUpdate;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            LogTextUpdate?.Invoke(this, e);
         }
         public event EventHandler<LogTextUpdateEventArgs> LogTextUpdate;
 
-        RAM ramBasic;
-        ROM rom;
-        ERAM ramExtended;
-        VIA via1;
-        NullDevice nullDev;
-        Video video;
+        readonly RAM ramBasic;
+        readonly ROM rom;
+        readonly ERAM ramExtended;
+        readonly VIA via1;
+        readonly NullDevice nullDev;
+        readonly Video video;
         public bool SuspendLogging;
         int cycles;
         bool interrupted;
@@ -584,27 +576,32 @@ namespace Emul816or
             return ((ushort)Join(l, h));
         }
 
-        Byte Lo(Word value)
+        static Byte Lo(Word value)
         {
             return (Byte)value;
         }
-        Byte Hi(Word value)
+
+        static Byte Hi(Word value)
         {
             return Lo((Byte)(value >> 8));
         }
-        Addr Bank(Byte b)
+
+        static Addr Bank(Byte b)
         {
             return (uint)(b << 16);
         }
-        Addr Join(Byte l, Byte h)
+
+        static Addr Join(Byte l, Byte h)
         {
             return (Addr)(l | (h << 8));
         }
-        Addr Join(Byte b, Word a)
+
+        static Addr Join(Byte b, Word a)
         {
             return (Bank(b) | a);
         }
-        Word Swap(Word value)
+
+        static Word Swap(Word value)
         {
             return (Word)((value >> 8) | (value << 8));
         }
@@ -865,43 +862,43 @@ namespace Emul816or
         }
 
         // Set the Negative flag
-        void SetN(uint flag)
+        static void SetN(uint flag)
         {
             P.N = Convert.ToBoolean(flag);
         }
 
         // Set the Overflow flag
-        void SetV(uint flag)
+        static void SetV(uint flag)
         {
             P.V = Convert.ToBoolean(flag);
         }
 
         // Set the decimal flag
-        void SetD(uint flag)
+        static void SetD(uint flag)
         {
             P.D = Convert.ToBoolean(flag);
         }
 
         // Set the Interrupt Disable flag
-        void SetI(uint flag)
+        static void SetI(uint flag)
         {
             P.I = Convert.ToBoolean(flag);
         }
 
         // Set the Zero flag
-        void SetZ(uint flag)
+        static void SetZ(uint flag)
         {
             P.Z = Convert.ToBoolean(flag);
         }
 
         // Set the Carry flag
-        void SetC(uint flag)
+        static void SetC(uint flag)
         {
             P.C = Convert.ToBoolean(flag);
         }
 
         // Set the Negative and Zero flags from a byte value
-        void SetNZ_B(Byte value)
+        static void SetNZ_B(Byte value)
         {
             SetN((uint)(value & 0x80));
             if (value == 0)
@@ -915,7 +912,7 @@ namespace Emul816or
         }
 
         // Set the Negative and Zero flags from a word value
-        void SetNZ_W(Word value)
+        static void SetNZ_W(Word value)
         {
             SetN((uint)(value & 0x8000));
             if (value == 0)
@@ -2215,7 +2212,7 @@ namespace Emul816or
             cycles += 3;
         }
 
-        void Op_wdm(Addr ea)
+        static void Op_wdm(Addr ea)
         {
             throw new Exception("Op_wdm not implemented!");
         }
@@ -2229,11 +2226,7 @@ namespace Emul816or
 
         void Op_xce(Addr ea)
         {
-            bool oe = E;
-
-            E = P.C;
-            P.C = oe;
-
+            (P.C, E) = (E, P.C);        //tuple
             if (E)
             {
                 P.b |= 0x30;
@@ -2320,7 +2313,7 @@ namespace Emul816or
             if (SuspendLogging) { return; }
         }
 
-        string[] OpCodeDescArray = new string[256]
+        readonly string[] OpCodeDescArray = new string[256]
         {
             "00 BRK INT",
             "01 ORA DPIX",
