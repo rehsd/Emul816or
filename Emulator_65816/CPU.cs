@@ -150,7 +150,7 @@ namespace Emul816or
         public void Step()
         {
             // Check for NMI/IRQ
-            if(P.I && !ProcessingInterrupt)
+            if(interrupted && !P.I && !ProcessingInterrupt)
             {
                 ProcessInterrupt();
             }
@@ -462,12 +462,12 @@ namespace Emul816or
         {
             if(newState == PinState.High)
             {
-                P.I = false;
+                //P.I = false;
             }
             else
             {
-
-                P.I = true;
+                //P.I = true;
+                interrupted = true;
             }
         }
 
@@ -1864,6 +1864,7 @@ namespace Emul816or
                 cycles += 7;
             }
             P.I = false;
+            interrupted = false;
             ProcessingInterrupt = false;
         }
 

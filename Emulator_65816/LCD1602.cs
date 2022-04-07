@@ -119,6 +119,8 @@ namespace Emul816or
 
             //Expect three high nibbles, followed by three low nibbles
 
+            //this code is fragile and requires work
+
             byte cmdWithoutFlagsLow = (byte)(cmd & 0b00001111);
             byte cmdWithoutFlagsHigh = cmdWithoutFlagsLow;
 
