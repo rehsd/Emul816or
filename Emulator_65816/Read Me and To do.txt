@@ -3,3 +3,4 @@
 To do:
 -only enable interrupts if IER flag is set appropriately
 -Exception handling
+-Issue: CPX doesn't appear to be setting Carry flag properly. Need to link into this.
