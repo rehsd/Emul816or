@@ -1,6 +1,9 @@
 ﻿
 
 To do:
--only enable interrupts if IER flag is set appropriately
+-Only enable interrupts if IER flag is set appropriately. Need general improvements to interrupt support.
 -Exception handling
--Issue: CPX doesn't appear to be setting Carry flag properly. Need to link into this.
+
+
+Issues:
+(tentatively RESOLVED): CPX doesn't appear to be setting Carry flag properly. Likely same with CMP and CPX.

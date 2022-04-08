@@ -1264,7 +1264,15 @@ namespace Emul816or
                 Word data = GetWord(ea, true);
                 Addr temp = (uint)(A.w - data);
 
-                SetC((uint)(temp & 0x10000L));
+                if (A.w >= data)
+                {
+                    SetC(1);
+                }
+                else
+                {
+                    SetC(0);
+                }
+                //SetC((uint)(temp & 0x10000L));
                 SetNZ_W((Word)temp);
                 cycles += 3;
             }
@@ -1315,7 +1323,15 @@ namespace Emul816or
                 Word data = GetWord(ea);
                 Addr temp = (uint)(X.w - data);
 
-                SetC(temp & 0x10000);
+                if(X.w >= data)
+                {
+                    SetC(1);
+                }
+                else
+                {
+                    SetC(0);
+                }
+                //SetC((uint)temp & 0x10000);
                 SetNZ_W((Word)temp);
                 cycles += 3;
             }
@@ -1337,7 +1353,15 @@ namespace Emul816or
                 Word data = GetWord(ea);
                 Addr temp = (uint)(Y.w - data);
 
-                SetC(temp & 0x10000);
+                if (Y.w >= data)
+                {
+                    SetC(1);
+                }
+                else
+                {
+                    SetC(0);
+                }
+                //SetC(temp & 0x10000);
                 SetNZ_W((Word)temp);
                 cycles += 3;
             }
