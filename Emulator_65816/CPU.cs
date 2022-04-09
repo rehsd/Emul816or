@@ -109,14 +109,14 @@ namespace Emul816or
         }
         struct P
         {
-            static public bool C;
-            static public bool Z;
-            static public bool I;
-            static public bool D;
-            static public bool X;
-            static public bool M;
-            static public bool V;
-            static public bool N;
+            static public bool C;   //carry
+            static public bool Z;   //zero
+            static public bool I;   //IRQ disable
+            static public bool D;   //decimal
+            static public bool X;   //index register size 0=16, 1=8
+            static public bool M;   //accumulator register size (native mode only) 0=16, 1=8
+            static public bool V;   //overflow
+            static public bool N;   //negative
             static public Byte b;
         }
 
@@ -1583,7 +1583,7 @@ namespace Emul816or
         {
             Byte src = GetByte(ea + 1);
             Byte dst = GetByte(ea + 0);
-            SetByte(Join(dbr = dst, Y.w++), GetByte(Join(src, Y.w++)));
+            SetByte(Join(dbr = dst, Y.w++), GetByte(Join(src, X.w++)));
             if (--A.w != 0xffff) pc -= 3;
             cycles += 7;
         }
