@@ -39,22 +39,22 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.via1_portB_0 = new System.Windows.Forms.PictureBox();
-            this.via1_portB_1 = new System.Windows.Forms.PictureBox();
-            this.via1_portB_2 = new System.Windows.Forms.PictureBox();
-            this.via1_portB_3 = new System.Windows.Forms.PictureBox();
-            this.via1_portB_4 = new System.Windows.Forms.PictureBox();
-            this.via1_portB_5 = new System.Windows.Forms.PictureBox();
-            this.via1_portB_6 = new System.Windows.Forms.PictureBox();
-            this.via1_portB_7 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_0 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_1 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_2 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_3 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_4 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_5 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_6 = new System.Windows.Forms.PictureBox();
-            this.via1_portA_7 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_0 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_1 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_2 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_3 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_4 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_5 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_6 = new System.Windows.Forms.PictureBox();
+            this.via2_portB_7 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_0 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_1 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_2 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_3 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_4 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_5 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_6 = new System.Windows.Forms.PictureBox();
+            this.via2_portA_7 = new System.Windows.Forms.PictureBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.statusGroup = new System.Windows.Forms.GroupBox();
             this.videoFPSLabel = new System.Windows.Forms.Label();
@@ -113,22 +113,22 @@
             this.LCDgroupBox = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_7)).BeginInit();
             this.statusGroup.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoOutPictureBox)).BeginInit();
@@ -205,22 +205,22 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.via1_portB_0);
-            this.groupBox1.Controls.Add(this.via1_portB_1);
-            this.groupBox1.Controls.Add(this.via1_portB_2);
-            this.groupBox1.Controls.Add(this.via1_portB_3);
-            this.groupBox1.Controls.Add(this.via1_portB_4);
-            this.groupBox1.Controls.Add(this.via1_portB_5);
-            this.groupBox1.Controls.Add(this.via1_portB_6);
-            this.groupBox1.Controls.Add(this.via1_portB_7);
-            this.groupBox1.Controls.Add(this.via1_portA_0);
-            this.groupBox1.Controls.Add(this.via1_portA_1);
-            this.groupBox1.Controls.Add(this.via1_portA_2);
-            this.groupBox1.Controls.Add(this.via1_portA_3);
-            this.groupBox1.Controls.Add(this.via1_portA_4);
-            this.groupBox1.Controls.Add(this.via1_portA_5);
-            this.groupBox1.Controls.Add(this.via1_portA_6);
-            this.groupBox1.Controls.Add(this.via1_portA_7);
+            this.groupBox1.Controls.Add(this.via2_portB_0);
+            this.groupBox1.Controls.Add(this.via2_portB_1);
+            this.groupBox1.Controls.Add(this.via2_portB_2);
+            this.groupBox1.Controls.Add(this.via2_portB_3);
+            this.groupBox1.Controls.Add(this.via2_portB_4);
+            this.groupBox1.Controls.Add(this.via2_portB_5);
+            this.groupBox1.Controls.Add(this.via2_portB_6);
+            this.groupBox1.Controls.Add(this.via2_portB_7);
+            this.groupBox1.Controls.Add(this.via2_portA_0);
+            this.groupBox1.Controls.Add(this.via2_portA_1);
+            this.groupBox1.Controls.Add(this.via2_portA_2);
+            this.groupBox1.Controls.Add(this.via2_portA_3);
+            this.groupBox1.Controls.Add(this.via2_portA_4);
+            this.groupBox1.Controls.Add(this.via2_portA_5);
+            this.groupBox1.Controls.Add(this.via2_portA_6);
+            this.groupBox1.Controls.Add(this.via2_portA_7);
             this.groupBox1.Location = new System.Drawing.Point(774, 51);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
@@ -252,163 +252,163 @@
             // 
             // via1_portB_0
             // 
-            this.via1_portB_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_0.Location = new System.Drawing.Point(132, 31);
-            this.via1_portB_0.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_0.Name = "via1_portB_0";
-            this.via1_portB_0.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_0.TabIndex = 34;
-            this.via1_portB_0.TabStop = false;
+            this.via2_portB_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_0.Location = new System.Drawing.Point(132, 31);
+            this.via2_portB_0.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_0.Name = "via1_portB_0";
+            this.via2_portB_0.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_0.TabIndex = 34;
+            this.via2_portB_0.TabStop = false;
             // 
             // via1_portB_1
             // 
-            this.via1_portB_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_1.Location = new System.Drawing.Point(127, 31);
-            this.via1_portB_1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_1.Name = "via1_portB_1";
-            this.via1_portB_1.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_1.TabIndex = 33;
-            this.via1_portB_1.TabStop = false;
+            this.via2_portB_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_1.Location = new System.Drawing.Point(127, 31);
+            this.via2_portB_1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_1.Name = "via1_portB_1";
+            this.via2_portB_1.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_1.TabIndex = 33;
+            this.via2_portB_1.TabStop = false;
             // 
             // via1_portB_2
             // 
-            this.via1_portB_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_2.Location = new System.Drawing.Point(122, 31);
-            this.via1_portB_2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_2.Name = "via1_portB_2";
-            this.via1_portB_2.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_2.TabIndex = 32;
-            this.via1_portB_2.TabStop = false;
+            this.via2_portB_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_2.Location = new System.Drawing.Point(122, 31);
+            this.via2_portB_2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_2.Name = "via1_portB_2";
+            this.via2_portB_2.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_2.TabIndex = 32;
+            this.via2_portB_2.TabStop = false;
             // 
             // via1_portB_3
             // 
-            this.via1_portB_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_3.Location = new System.Drawing.Point(118, 31);
-            this.via1_portB_3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_3.Name = "via1_portB_3";
-            this.via1_portB_3.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_3.TabIndex = 31;
-            this.via1_portB_3.TabStop = false;
+            this.via2_portB_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_3.Location = new System.Drawing.Point(118, 31);
+            this.via2_portB_3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_3.Name = "via1_portB_3";
+            this.via2_portB_3.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_3.TabIndex = 31;
+            this.via2_portB_3.TabStop = false;
             // 
             // via1_portB_4
             // 
-            this.via1_portB_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_4.Location = new System.Drawing.Point(113, 31);
-            this.via1_portB_4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_4.Name = "via1_portB_4";
-            this.via1_portB_4.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_4.TabIndex = 30;
-            this.via1_portB_4.TabStop = false;
+            this.via2_portB_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_4.Location = new System.Drawing.Point(113, 31);
+            this.via2_portB_4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_4.Name = "via1_portB_4";
+            this.via2_portB_4.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_4.TabIndex = 30;
+            this.via2_portB_4.TabStop = false;
             // 
             // via1_portB_5
             // 
-            this.via1_portB_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_5.Location = new System.Drawing.Point(108, 31);
-            this.via1_portB_5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_5.Name = "via1_portB_5";
-            this.via1_portB_5.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_5.TabIndex = 29;
-            this.via1_portB_5.TabStop = false;
+            this.via2_portB_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_5.Location = new System.Drawing.Point(108, 31);
+            this.via2_portB_5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_5.Name = "via1_portB_5";
+            this.via2_portB_5.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_5.TabIndex = 29;
+            this.via2_portB_5.TabStop = false;
             // 
             // via1_portB_6
             // 
-            this.via1_portB_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_6.Location = new System.Drawing.Point(103, 31);
-            this.via1_portB_6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_6.Name = "via1_portB_6";
-            this.via1_portB_6.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_6.TabIndex = 28;
-            this.via1_portB_6.TabStop = false;
+            this.via2_portB_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_6.Location = new System.Drawing.Point(103, 31);
+            this.via2_portB_6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_6.Name = "via1_portB_6";
+            this.via2_portB_6.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_6.TabIndex = 28;
+            this.via2_portB_6.TabStop = false;
             // 
             // via1_portB_7
             // 
-            this.via1_portB_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portB_7.Location = new System.Drawing.Point(99, 31);
-            this.via1_portB_7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portB_7.Name = "via1_portB_7";
-            this.via1_portB_7.Size = new System.Drawing.Size(6, 15);
-            this.via1_portB_7.TabIndex = 27;
-            this.via1_portB_7.TabStop = false;
+            this.via2_portB_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portB_7.Location = new System.Drawing.Point(99, 31);
+            this.via2_portB_7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portB_7.Name = "via1_portB_7";
+            this.via2_portB_7.Size = new System.Drawing.Size(6, 15);
+            this.via2_portB_7.TabIndex = 27;
+            this.via2_portB_7.TabStop = false;
             // 
             // via1_portA_0
             // 
-            this.via1_portA_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_0.Location = new System.Drawing.Point(66, 31);
-            this.via1_portA_0.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_0.Name = "via1_portA_0";
-            this.via1_portA_0.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_0.TabIndex = 26;
-            this.via1_portA_0.TabStop = false;
+            this.via2_portA_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_0.Location = new System.Drawing.Point(66, 31);
+            this.via2_portA_0.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_0.Name = "via1_portA_0";
+            this.via2_portA_0.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_0.TabIndex = 26;
+            this.via2_portA_0.TabStop = false;
             // 
             // via1_portA_1
             // 
-            this.via1_portA_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_1.Location = new System.Drawing.Point(61, 31);
-            this.via1_portA_1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_1.Name = "via1_portA_1";
-            this.via1_portA_1.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_1.TabIndex = 25;
-            this.via1_portA_1.TabStop = false;
+            this.via2_portA_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_1.Location = new System.Drawing.Point(61, 31);
+            this.via2_portA_1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_1.Name = "via1_portA_1";
+            this.via2_portA_1.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_1.TabIndex = 25;
+            this.via2_portA_1.TabStop = false;
             // 
             // via1_portA_2
             // 
-            this.via1_portA_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_2.Location = new System.Drawing.Point(56, 31);
-            this.via1_portA_2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_2.Name = "via1_portA_2";
-            this.via1_portA_2.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_2.TabIndex = 24;
-            this.via1_portA_2.TabStop = false;
+            this.via2_portA_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_2.Location = new System.Drawing.Point(56, 31);
+            this.via2_portA_2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_2.Name = "via1_portA_2";
+            this.via2_portA_2.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_2.TabIndex = 24;
+            this.via2_portA_2.TabStop = false;
             // 
             // via1_portA_3
             // 
-            this.via1_portA_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_3.Location = new System.Drawing.Point(52, 31);
-            this.via1_portA_3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_3.Name = "via1_portA_3";
-            this.via1_portA_3.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_3.TabIndex = 23;
-            this.via1_portA_3.TabStop = false;
+            this.via2_portA_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_3.Location = new System.Drawing.Point(52, 31);
+            this.via2_portA_3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_3.Name = "via1_portA_3";
+            this.via2_portA_3.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_3.TabIndex = 23;
+            this.via2_portA_3.TabStop = false;
             // 
             // via1_portA_4
             // 
-            this.via1_portA_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_4.Location = new System.Drawing.Point(47, 31);
-            this.via1_portA_4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_4.Name = "via1_portA_4";
-            this.via1_portA_4.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_4.TabIndex = 22;
-            this.via1_portA_4.TabStop = false;
+            this.via2_portA_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_4.Location = new System.Drawing.Point(47, 31);
+            this.via2_portA_4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_4.Name = "via1_portA_4";
+            this.via2_portA_4.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_4.TabIndex = 22;
+            this.via2_portA_4.TabStop = false;
             // 
             // via1_portA_5
             // 
-            this.via1_portA_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_5.Location = new System.Drawing.Point(42, 31);
-            this.via1_portA_5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_5.Name = "via1_portA_5";
-            this.via1_portA_5.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_5.TabIndex = 21;
-            this.via1_portA_5.TabStop = false;
+            this.via2_portA_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_5.Location = new System.Drawing.Point(42, 31);
+            this.via2_portA_5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_5.Name = "via1_portA_5";
+            this.via2_portA_5.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_5.TabIndex = 21;
+            this.via2_portA_5.TabStop = false;
             // 
             // via1_portA_6
             // 
-            this.via1_portA_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_6.Location = new System.Drawing.Point(37, 31);
-            this.via1_portA_6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_6.Name = "via1_portA_6";
-            this.via1_portA_6.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_6.TabIndex = 20;
-            this.via1_portA_6.TabStop = false;
+            this.via2_portA_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_6.Location = new System.Drawing.Point(37, 31);
+            this.via2_portA_6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_6.Name = "via1_portA_6";
+            this.via2_portA_6.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_6.TabIndex = 20;
+            this.via2_portA_6.TabStop = false;
             // 
             // via1_portA_7
             // 
-            this.via1_portA_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via1_portA_7.Location = new System.Drawing.Point(33, 31);
-            this.via1_portA_7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.via1_portA_7.Name = "via1_portA_7";
-            this.via1_portA_7.Size = new System.Drawing.Size(6, 15);
-            this.via1_portA_7.TabIndex = 19;
-            this.via1_portA_7.TabStop = false;
+            this.via2_portA_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.via2_portA_7.Location = new System.Drawing.Point(33, 31);
+            this.via2_portA_7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.via2_portA_7.Name = "via1_portA_7";
+            this.via2_portA_7.Size = new System.Drawing.Size(6, 15);
+            this.via2_portA_7.TabIndex = 19;
+            this.via2_portA_7.TabStop = false;
             // 
             // richTextBox1
             // 
@@ -1029,22 +1029,22 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portB_7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.via1_portA_7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portB_7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.via2_portA_7)).EndInit();
             this.statusGroup.ResumeLayout(false);
             this.statusGroup.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -1064,22 +1064,22 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        public System.Windows.Forms.PictureBox via1_portA_7;
-        public System.Windows.Forms.PictureBox via1_portB_0;
-        public System.Windows.Forms.PictureBox via1_portB_1;
-        public System.Windows.Forms.PictureBox via1_portB_2;
-        public System.Windows.Forms.PictureBox via1_portB_3;
-        public System.Windows.Forms.PictureBox via1_portB_4;
-        public System.Windows.Forms.PictureBox via1_portB_5;
-        public System.Windows.Forms.PictureBox via1_portB_6;
-        public System.Windows.Forms.PictureBox via1_portB_7;
-        public System.Windows.Forms.PictureBox via1_portA_0;
-        public System.Windows.Forms.PictureBox via1_portA_1;
-        public System.Windows.Forms.PictureBox via1_portA_2;
-        public System.Windows.Forms.PictureBox via1_portA_3;
-        public System.Windows.Forms.PictureBox via1_portA_4;
-        public System.Windows.Forms.PictureBox via1_portA_5;
-        public System.Windows.Forms.PictureBox via1_portA_6;
+        public System.Windows.Forms.PictureBox via2_portA_7;
+        public System.Windows.Forms.PictureBox via2_portB_0;
+        public System.Windows.Forms.PictureBox via2_portB_1;
+        public System.Windows.Forms.PictureBox via2_portB_2;
+        public System.Windows.Forms.PictureBox via2_portB_3;
+        public System.Windows.Forms.PictureBox via2_portB_4;
+        public System.Windows.Forms.PictureBox via2_portB_5;
+        public System.Windows.Forms.PictureBox via2_portB_6;
+        public System.Windows.Forms.PictureBox via2_portB_7;
+        public System.Windows.Forms.PictureBox via2_portA_0;
+        public System.Windows.Forms.PictureBox via2_portA_1;
+        public System.Windows.Forms.PictureBox via2_portA_2;
+        public System.Windows.Forms.PictureBox via2_portA_3;
+        public System.Windows.Forms.PictureBox via2_portA_4;
+        public System.Windows.Forms.PictureBox via2_portA_5;
+        public System.Windows.Forms.PictureBox via2_portA_6;
         public System.Windows.Forms.RichTextBox logText;
         public System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;

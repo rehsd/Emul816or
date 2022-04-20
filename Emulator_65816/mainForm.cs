@@ -29,7 +29,9 @@ namespace Emul816or
         RAM ram;
         ERAM eram;
         VIA via1;
+        VIA via2;
         Video video;
+        Sound sound;
         NullDevice nullDev;
         public Bitmap[] frameBuffer;
         public int ActiveFrame;
@@ -146,42 +148,59 @@ namespace Emul816or
             WriteLog("ROM added:     0x008000-0x07FFFF.\n");
             eram = new ERAM();
             WriteLog("ERAM added:    0x080000-0x0FFFFF.\n");
-            via1 = new VIA(0x108000);
+            via1 = new VIA(0x108000);   //keyboard on Port A, bus signals EXT on Port B
             via1.VIAOutChanged += Via1_VIAOutChanged;
             WriteLog("VIA added:     0x108000.\n");
+            via2 = new VIA(0x104000);  //LCD add-in card
+            via2.VIAOutChanged += Via2_VIAOutChanged;
+            WriteLog("VIA added:     0x104000.\n");
             video = new Video();
             WriteLog("VIDEO added:   0x200000.\n");
             videoOutRefreshTimer.Enabled = true;
+            sound = new Sound();
+            WriteLog("SOUND added:   0x100000.\n");
             nullDev = new NullDevice();
             WriteLog("NullDev added: 0x******.\n");
-            cpu = new CPU(rom, ram, eram, via1, video, nullDev);
+            cpu = new CPU(rom, ram, eram, via1, via2, video, sound, nullDev);
             cpu.StatusChanged += cpu_StatusChanged;
             cpu.LogTextUpdate += cpu_LogTextUpdate;
 
             lcd = new LCD1602(LCDgroupBox);
         }
 
-        private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
+        private void Via2_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
-            //if (SuspendLogging) { return; }
-
-            //Check which "devices" is connected to the VIA
-            //UpdateVIABarGraphs(e.PortA, e.PortB);
-            
             VIA v = (VIA)sender;
 
-            if (v[v.BaseAddress + 0x02] > 0)        
+            if (v[v.BaseAddress + 0x02] > 0)
             {
                 //some bits are set to output (out from VIA)
                 byte val = (byte)((byte)(v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)~v[v.BaseAddress + 0x02] & lcd.GetValue()));
                 lcd.SetValue(val);  //need to look at individual bits
             }
-            //if (v[v.BaseAddress + 0x02] < 255)        //if any of the direction bits are 0, the VIA needs to read back the value from the LCD (e.g., wait)
+        }
+
+        private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
+        {
+            ////if (SuspendLogging) { return; }
+
+            ////Check which "devices" is connected to the VIA
+            ////UpdateVIABarGraphs(e.PortA, e.PortB);
+            
+            //VIA v = (VIA)sender;
+
+            //if (v[v.BaseAddress + 0x02] > 0)        
             //{
-            //    //some bits are set as input (into VIA)
-            //    byte val = (byte)((byte)(~v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)v[v.BaseAddress + 0x02] & lcd.GetValue()));
-            //    v[v.BaseAddress + 0x00] = val;
+            //    //some bits are set to output (out from VIA)
+            //    byte val = (byte)((byte)(v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)~v[v.BaseAddress + 0x02] & lcd.GetValue()));
+            //    lcd.SetValue(val);  //need to look at individual bits
             //}
+            ////if (v[v.BaseAddress + 0x02] < 255)        //if any of the direction bits are 0, the VIA needs to read back the value from the LCD (e.g., wait)
+            ////{
+            ////    //some bits are set as input (into VIA)
+            ////    byte val = (byte)((byte)(~v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)v[v.BaseAddress + 0x02] & lcd.GetValue()));
+            ////    v[v.BaseAddress + 0x00] = val;
+            ////}
 
         }
 
@@ -190,23 +209,23 @@ namespace Emul816or
             //00=B
             //01=A
             groupBox1.SuspendLayout();
-            setPortBitDisplay(via1_portB_7, (portB & 0b10000000) > 0);
-            setPortBitDisplay(via1_portB_6, (portB & 0b01000000) > 0);
-            setPortBitDisplay(via1_portB_5, (portB & 0b00100000) > 0);
-            setPortBitDisplay(via1_portB_4, (portB & 0b00010000) > 0);
-            setPortBitDisplay(via1_portB_3, (portB & 0b00001000) > 0);
-            setPortBitDisplay(via1_portB_2, (portB & 0b00000100) > 0);
-            setPortBitDisplay(via1_portB_1, (portB & 0b00000010) > 0);
-            setPortBitDisplay(via1_portB_0, (portB & 0b00000001) > 0);
+            setPortBitDisplay(via2_portB_7, (portB & 0b10000000) > 0);
+            setPortBitDisplay(via2_portB_6, (portB & 0b01000000) > 0);
+            setPortBitDisplay(via2_portB_5, (portB & 0b00100000) > 0);
+            setPortBitDisplay(via2_portB_4, (portB & 0b00010000) > 0);
+            setPortBitDisplay(via2_portB_3, (portB & 0b00001000) > 0);
+            setPortBitDisplay(via2_portB_2, (portB & 0b00000100) > 0);
+            setPortBitDisplay(via2_portB_1, (portB & 0b00000010) > 0);
+            setPortBitDisplay(via2_portB_0, (portB & 0b00000001) > 0);
 
-            setPortBitDisplay(via1_portA_7, (portA & 0b10000000) > 0);
-            setPortBitDisplay(via1_portA_6, (portA & 0b01000000) > 0);
-            setPortBitDisplay(via1_portA_5, (portA & 0b00100000) > 0);
-            setPortBitDisplay(via1_portA_4, (portA & 0b00010000) > 0);
-            setPortBitDisplay(via1_portA_3, (portA & 0b00001000) > 0);
-            setPortBitDisplay(via1_portA_2, (portA & 0b00000100) > 0);
-            setPortBitDisplay(via1_portA_1, (portA & 0b00000010) > 0);
-            setPortBitDisplay(via1_portA_0, (portA & 0b00000001) > 0);
+            setPortBitDisplay(via2_portA_7, (portA & 0b10000000) > 0);
+            setPortBitDisplay(via2_portA_6, (portA & 0b01000000) > 0);
+            setPortBitDisplay(via2_portA_5, (portA & 0b00100000) > 0);
+            setPortBitDisplay(via2_portA_4, (portA & 0b00010000) > 0);
+            setPortBitDisplay(via2_portA_3, (portA & 0b00001000) > 0);
+            setPortBitDisplay(via2_portA_2, (portA & 0b00000100) > 0);
+            setPortBitDisplay(via2_portA_1, (portA & 0b00000010) > 0);
+            setPortBitDisplay(via2_portA_0, (portA & 0b00000001) > 0);
 
             //groupBox1.Refresh();
             groupBox1.ResumeLayout();

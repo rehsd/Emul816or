@@ -69,8 +69,10 @@ namespace Emul816or
         readonly ROM rom;
         readonly ERAM ramExtended;
         readonly VIA via1;
+        readonly VIA via2;
         readonly NullDevice nullDev;
         readonly Video video;
+        readonly Sound sound;
         public bool SuspendLogging;
         int cycles;
         bool interrupted;
@@ -1779,8 +1781,26 @@ namespace Emul816or
 
         void Op_rep(Addr ea)
         {
-            P.b = (byte)(P.b & ~GetByte(ea));
-            if (E) P.M = P.X = true;
+            byte val = GetByte(ea);
+
+            P.b = (byte)(P.b & ~val);
+            if (E)
+            {
+                P.M = P.X = true;
+            }
+            else
+            {
+                //*** added ***
+                if (Convert.ToBoolean(val & 0x20))
+                {
+                    P.M = false;    //reset to 16-bit A (native mode)
+                }
+                if (Convert.ToBoolean(val & 0x10))
+                {
+                    P.X = false;    //reset to 16-bit X,Y (native mode)
+                }
+                //*** /added ***
+            }
             cycles += 3;
         }
 
@@ -1960,8 +1980,25 @@ namespace Emul816or
 
         void Op_sep(Addr ea)
         {
-            P.b |= GetByte(ea);
-            if (E) P.M = P.X = true;
+            byte val = GetByte(ea);
+            P.b |= val;
+            if (E)
+            {
+                P.M = P.X = true;
+            }
+            else
+            {
+                //*** added ***
+                if (Convert.ToBoolean(val & 0x20))
+                {
+                    P.M = true;    //8-bit A (native mode)
+                }
+                if (Convert.ToBoolean(val & 0x10))
+                {
+                    P.X = true;    //8-bit X,Y (native mode)
+                }
+                //*** /added ***
+            }
 
             if (P.X)
             {
@@ -2259,13 +2296,15 @@ namespace Emul816or
             cycles += 2;
         }
 
-        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, Video _video, NullDevice _nulldev)
+        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2, Video _video, Sound _sound, NullDevice _nulldev)
         {
             rom = _rom;
             ramBasic = _ram;
             ramExtended = _eram;
             via1 = _via1;
+            via2 = _via2;
             video = _video;
+            sound = _sound;
             nullDev = _nulldev;
         }
      
@@ -2316,6 +2355,14 @@ namespace Emul816or
             else if (address >= 0x108000 && address <= 0x10800F) //VIA1
             {
                 return via1;
+            }
+            else if (address >= 0x104000 && address <= 0x10400F) //VIA2
+            {
+                return via2;
+            }
+            else if (address >= 0x100000 && address <= 0x1007FF) //SOUND
+            {
+                return sound;
             }
             else if (address >= 0x200000 && address <= 0x21FFFF) //Video
             {
