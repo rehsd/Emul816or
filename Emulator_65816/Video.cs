@@ -12,7 +12,7 @@ namespace Emul816or
         private byte[] data;
         const uint baseAddress = 0x200000;
         const uint size = 131072;  //resolution in memory: 512x256, output resolution: 320x240
-        private readonly bool supports16bit = false;
+        private readonly bool supports16bit = true;
 
         public uint Size
         {
