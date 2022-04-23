@@ -1992,6 +1992,7 @@ namespace Emul816or
                 if (Convert.ToBoolean(val & 0x20))
                 {
                     P.M = true;    //8-bit A (native mode)
+                    A.b = (byte)(0xFF & A.w);       //*** added ***
                 }
                 if (Convert.ToBoolean(val & 0x10))
                 {
