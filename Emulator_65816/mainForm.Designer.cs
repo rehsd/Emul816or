@@ -57,6 +57,7 @@
             this.via2_portA_7 = new System.Windows.Forms.PictureBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.statusGroup = new System.Windows.Forms.GroupBox();
+            this.mousePosLabel = new System.Windows.Forms.Label();
             this.videoFPSLabel = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.clockEquivLabel = new System.Windows.Forms.Label();
@@ -254,7 +255,7 @@
             // via2_portB_0
             // 
             this.via2_portB_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portB_0.Location = new System.Drawing.Point(321, 85);
+            this.via2_portB_0.Location = new System.Drawing.Point(323, 85);
             this.via2_portB_0.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portB_0.Name = "via2_portB_0";
             this.via2_portB_0.Size = new System.Drawing.Size(12, 38);
@@ -264,7 +265,7 @@
             // via2_portB_1
             // 
             this.via2_portB_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portB_1.Location = new System.Drawing.Point(308, 85);
+            this.via2_portB_1.Location = new System.Drawing.Point(311, 85);
             this.via2_portB_1.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portB_1.Name = "via2_portB_1";
             this.via2_portB_1.Size = new System.Drawing.Size(12, 38);
@@ -274,7 +275,7 @@
             // via2_portB_2
             // 
             this.via2_portB_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portB_2.Location = new System.Drawing.Point(296, 85);
+            this.via2_portB_2.Location = new System.Drawing.Point(299, 85);
             this.via2_portB_2.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portB_2.Name = "via2_portB_2";
             this.via2_portB_2.Size = new System.Drawing.Size(12, 38);
@@ -294,7 +295,7 @@
             // via2_portB_4
             // 
             this.via2_portB_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portB_4.Location = new System.Drawing.Point(274, 85);
+            this.via2_portB_4.Location = new System.Drawing.Point(275, 85);
             this.via2_portB_4.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portB_4.Name = "via2_portB_4";
             this.via2_portB_4.Size = new System.Drawing.Size(12, 38);
@@ -304,7 +305,7 @@
             // via2_portB_5
             // 
             this.via2_portB_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portB_5.Location = new System.Drawing.Point(262, 85);
+            this.via2_portB_5.Location = new System.Drawing.Point(263, 85);
             this.via2_portB_5.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portB_5.Name = "via2_portB_5";
             this.via2_portB_5.Size = new System.Drawing.Size(12, 38);
@@ -314,7 +315,7 @@
             // via2_portB_6
             // 
             this.via2_portB_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portB_6.Location = new System.Drawing.Point(250, 85);
+            this.via2_portB_6.Location = new System.Drawing.Point(251, 85);
             this.via2_portB_6.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portB_6.Name = "via2_portB_6";
             this.via2_portB_6.Size = new System.Drawing.Size(12, 38);
@@ -324,7 +325,7 @@
             // via2_portB_7
             // 
             this.via2_portB_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portB_7.Location = new System.Drawing.Point(240, 85);
+            this.via2_portB_7.Location = new System.Drawing.Point(239, 85);
             this.via2_portB_7.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portB_7.Name = "via2_portB_7";
             this.via2_portB_7.Size = new System.Drawing.Size(12, 38);
@@ -334,7 +335,7 @@
             // via2_portA_0
             // 
             this.via2_portA_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portA_0.Location = new System.Drawing.Point(160, 85);
+            this.via2_portA_0.Location = new System.Drawing.Point(164, 85);
             this.via2_portA_0.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portA_0.Name = "via2_portA_0";
             this.via2_portA_0.Size = new System.Drawing.Size(12, 38);
@@ -344,7 +345,7 @@
             // via2_portA_1
             // 
             this.via2_portA_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portA_1.Location = new System.Drawing.Point(148, 85);
+            this.via2_portA_1.Location = new System.Drawing.Point(152, 85);
             this.via2_portA_1.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portA_1.Name = "via2_portA_1";
             this.via2_portA_1.Size = new System.Drawing.Size(12, 38);
@@ -354,7 +355,7 @@
             // via2_portA_2
             // 
             this.via2_portA_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portA_2.Location = new System.Drawing.Point(136, 85);
+            this.via2_portA_2.Location = new System.Drawing.Point(140, 85);
             this.via2_portA_2.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portA_2.Name = "via2_portA_2";
             this.via2_portA_2.Size = new System.Drawing.Size(12, 38);
@@ -364,7 +365,7 @@
             // via2_portA_3
             // 
             this.via2_portA_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portA_3.Location = new System.Drawing.Point(126, 85);
+            this.via2_portA_3.Location = new System.Drawing.Point(128, 85);
             this.via2_portA_3.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portA_3.Name = "via2_portA_3";
             this.via2_portA_3.Size = new System.Drawing.Size(12, 38);
@@ -374,7 +375,7 @@
             // via2_portA_4
             // 
             this.via2_portA_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portA_4.Location = new System.Drawing.Point(114, 85);
+            this.via2_portA_4.Location = new System.Drawing.Point(116, 85);
             this.via2_portA_4.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portA_4.Name = "via2_portA_4";
             this.via2_portA_4.Size = new System.Drawing.Size(12, 38);
@@ -384,7 +385,7 @@
             // via2_portA_5
             // 
             this.via2_portA_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portA_5.Location = new System.Drawing.Point(102, 85);
+            this.via2_portA_5.Location = new System.Drawing.Point(104, 85);
             this.via2_portA_5.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portA_5.Name = "via2_portA_5";
             this.via2_portA_5.Size = new System.Drawing.Size(12, 38);
@@ -394,7 +395,7 @@
             // via2_portA_6
             // 
             this.via2_portA_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.via2_portA_6.Location = new System.Drawing.Point(90, 85);
+            this.via2_portA_6.Location = new System.Drawing.Point(92, 85);
             this.via2_portA_6.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
             this.via2_portA_6.Name = "via2_portA_6";
             this.via2_portA_6.Size = new System.Drawing.Size(12, 38);
@@ -429,6 +430,7 @@
             // statusGroup
             // 
             this.statusGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.statusGroup.Controls.Add(this.mousePosLabel);
             this.statusGroup.Controls.Add(this.videoFPSLabel);
             this.statusGroup.Controls.Add(this.label16);
             this.statusGroup.Controls.Add(this.clockEquivLabel);
@@ -472,6 +474,16 @@
             this.statusGroup.TabStop = false;
             this.toolTip1.SetToolTip(this.statusGroup, "S: Stack Pointer\r\nD: Direct Register\r\nPC: Program Counter");
             // 
+            // mousePosLabel
+            // 
+            this.mousePosLabel.AutoSize = true;
+            this.mousePosLabel.Location = new System.Drawing.Point(740, 45);
+            this.mousePosLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.mousePosLabel.Name = "mousePosLabel";
+            this.mousePosLabel.Size = new System.Drawing.Size(54, 41);
+            this.mousePosLabel.TabIndex = 34;
+            this.mousePosLabel.Text = "x,y";
+            // 
             // videoFPSLabel
             // 
             this.videoFPSLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -495,17 +507,17 @@
             // clockEquivLabel
             // 
             this.clockEquivLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.clockEquivLabel.Location = new System.Drawing.Point(736, 137);
+            this.clockEquivLabel.Location = new System.Drawing.Point(733, 216);
             this.clockEquivLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.clockEquivLabel.Name = "clockEquivLabel";
-            this.clockEquivLabel.Size = new System.Drawing.Size(146, 49);
+            this.clockEquivLabel.Size = new System.Drawing.Size(186, 49);
             this.clockEquivLabel.TabIndex = 31;
             this.clockEquivLabel.Text = "-";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(724, 82);
+            this.label15.Location = new System.Drawing.Point(728, 166);
             this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(170, 41);
@@ -964,9 +976,11 @@
             this.videoOutPictureBox.Margin = new System.Windows.Forms.Padding(5);
             this.videoOutPictureBox.Name = "videoOutPictureBox";
             this.videoOutPictureBox.Size = new System.Drawing.Size(952, 749);
-            this.videoOutPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.videoOutPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.videoOutPictureBox.TabIndex = 17;
             this.videoOutPictureBox.TabStop = false;
+            this.videoOutPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.videoOutPictureBox_MouseDown);
+            this.videoOutPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.videoOutPictureBox_MouseMove);
             // 
             // cyclesTimer
             // 
@@ -1024,7 +1038,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "mainForm";
-            this.Text = "Emul816or    v0.11";
+            this.Text = "Emul816or    v0.12";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
@@ -1139,6 +1153,7 @@
         private System.Windows.Forms.GroupBox LCDgroupBox;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.Label mousePosLabel;
     }
 }
 

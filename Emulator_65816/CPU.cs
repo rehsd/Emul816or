@@ -70,6 +70,7 @@ namespace Emul816or
         readonly ERAM ramExtended;
         readonly VIA via1;
         readonly VIA via2;
+        readonly VIA via3;
         readonly NullDevice nullDev;
         readonly Video video;
         readonly Sound sound;
@@ -454,6 +455,10 @@ namespace Emul816or
         }
         public void SetIRQB(PinState newState, bool completeInterrupt = false)
         {
+            if(P.I)     //interrupts are disabled
+            {
+                return;
+            }
             if(newState == PinState.High)
             {
                 //P.I = false;
@@ -1979,7 +1984,7 @@ namespace Emul816or
 
         void Op_sei(Addr ea)
         {
-            //SetI(1);      //To do... implement SEI
+            SetI(1);
             cycles += 2;
         }
 
@@ -2302,13 +2307,14 @@ namespace Emul816or
             cycles += 2;
         }
 
-        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2, Video _video, Sound _sound, NullDevice _nulldev)
+        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2,VIA _via3, Video _video, Sound _sound, NullDevice _nulldev)
         {
             rom = _rom;
             ramBasic = _ram;
             ramExtended = _eram;
             via1 = _via1;
             via2 = _via2;
+            via3 = _via3;
             video = _video;
             sound = _sound;
             nullDev = _nulldev;
@@ -2346,7 +2352,7 @@ namespace Emul816or
         }
         IMemoryIO GetDeviceByAddress(uint address)
         {
-            if (address <= 0x007FFF)                              //Basic RAM
+            if (address <= 0x007FFF)                            //Basic RAM
             {
                 return ramBasic;
             }
@@ -2365,6 +2371,10 @@ namespace Emul816or
             else if (address >= 0x104000 && address <= 0x10400F) //VIA2
             {
                 return via2;
+            }
+            else if (address >= 0x102000 && address <= 0x10200F) //VIA2
+            {
+                return via3;
             }
             else if (address >= 0x100000 && address <= 0x1007FF) //SOUND
             {

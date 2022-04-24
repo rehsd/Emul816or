@@ -3,6 +3,9 @@
 To do:
 -Only enable interrupts if IER flag is set appropriately. Need general improvements to interrupt support.
 -Exception handling
+-Lots of safety code
+	-When moving mouse out of bounds
+	-When typing / printing chars out of bounds
 
 
 Issues:

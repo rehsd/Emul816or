@@ -28,8 +28,9 @@ namespace Emul816or
         ROM rom;
         RAM ram;
         ERAM eram;
-        VIA via1;
-        VIA via2;
+        VIA via1;   //PS2 keyboard, misc control signals (e.g., sound card)
+        VIA via2;   //LCD, bar graph
+        VIA via3;   //USB mouse
         Video video;
         Sound sound;
         NullDevice nullDev;
@@ -38,6 +39,9 @@ namespace Emul816or
 
         LCD1602 lcd;
 
+        private int mousePreviousX = 0;
+        private int mousePreviousY = 0;
+
         public mainForm()
         {
             InitializeComponent();
@@ -45,7 +49,7 @@ namespace Emul816or
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-;           ReloadForm();
+            ; ReloadForm();
         }
 
         private void ReloadForm()
@@ -78,7 +82,7 @@ namespace Emul816or
                 openFileDialog1.Filter = "bin files (*.bin)|*.bin";
                 openFileDialog1.FileName = "";
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                { 
+                {
                     ROMlocation = openFileDialog1.FileName;
                     currentROMLabel.Text = ROMlocation;
                     //store for next open
@@ -143,46 +147,72 @@ namespace Emul816or
             currentROMLabel.Text = ROMlocation;
 
             ram = new RAM();
-            WriteLog("RAM added:     0x000000-0x007FFF.\n");
+            WriteLog("RAM added\t\t\t0x000000-0x007FFF\n");
             rom = new ROM(ROMlocation);
-            WriteLog("ROM added:     0x008000-0x07FFFF.\n");
+            WriteLog("ROM added\t\t\t0x008000-0x07FFFF\n");
             eram = new ERAM();
-            WriteLog("ERAM added:    0x080000-0x0FFFFF.\n");
+            WriteLog("ERAM added\t\t\t0x080000-0x0FFFFF\n");
             via1 = new VIA(0x108000);   //keyboard on Port A, bus signals EXT on Port B
             via1.VIAOutChanged += Via1_VIAOutChanged;
-            WriteLog("VIA added:     0x108000.\n");
+            WriteLog("VIA1 (PS2 KBD) added\t\t0x108000-0x10800F\n");
             via2 = new VIA(0x104000);  //LCD add-in card
             via2.VIAOutChanged += Via2_VIAOutChanged;
-            WriteLog("VIA added:     0x104000.\n");
-            video = new Video();
-            WriteLog("VIDEO added:   0x200000.\n");
-            videoOutRefreshTimer.Enabled = true;
+            WriteLog("VIA2 (LCD, BARGRAPH) added\t0x104000-0x10400F\n");
+            via3 = new VIA(0x102000);  //USB mouse
+            via3.VIAOutChanged += Via3_VIAOutChanged;
+            WriteLog("VIA3 (USB MOUSE) added\t\t0x102000-0x10200F\n");
             sound = new Sound();
-            WriteLog("SOUND added:   0x100000.\n");
+            WriteLog("SOUND added\t\t\t0x100000-0x1007FF\n");
+            video = new Video();
+            WriteLog("VIDEO added\t\t\t0x200000-0x21FFFF\n");
+            videoOutRefreshTimer.Enabled = true;
             nullDev = new NullDevice();
-            WriteLog("NullDev added: 0x******.\n");
-            cpu = new CPU(rom, ram, eram, via1, via2, video, sound, nullDev);
+            WriteLog("NullDev (other ADDRs) added\t0x******\n");
+            cpu = new CPU(rom, ram, eram, via1, via2, via3, video, sound, nullDev);
             cpu.StatusChanged += cpu_StatusChanged;
             cpu.LogTextUpdate += cpu_LogTextUpdate;
 
             lcd = new LCD1602(LCDgroupBox);
         }
 
+        private void Via3_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
+        {
+            //USB mouse
+        }
+
         private void Via2_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
+            //output for LCD and bar graph
+
             VIA v = (VIA)sender;
-            //PortA and PortB are output only (LCD, bar graph)
+            //PortA and PortB are output only (PortA=LCD, PortB=bar graph)
             byte newVal = v[v.BaseAddress + 0x00];     //0x00 = PortB (adding purely as a reminder) - TO DO: setup constants for the registers
             UpdateVIA2BarGraph(newVal);
+
+
+            if (v[v.BaseAddress + 0x03] > 0)
+            {
+                //some bits are set to output (out from VIA)
+                byte val = (byte)((byte)(v[v.BaseAddress + 0x03] & v[v.BaseAddress + 0x01]) | (byte)((byte)~v[v.BaseAddress + 0x03] & lcd.GetValue()));
+                lcd.SetValue(val);  //need to look at individual bits
+            }
+            //if (v[v.BaseAddress + 0x03] < 255)        //if any of the direction bits are 0, the VIA needs to read back the value from the LCD (e.g., wait)
+            //{
+            //    //some bits are set as input (into VIA)
+            //    byte val = (byte)((byte)(~v[v.BaseAddress + 0x03] & v[v.BaseAddress + 0x01]) | (byte)((byte)v[v.BaseAddress + 0x32] & lcd.GetValue()));
+            //    v[v.BaseAddress + 0x01] = val;
+            //}
         }
 
         private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
+            //PS/2 keyboard input, Control signals output
+
             ////if (SuspendLogging) { return; }
 
             ////Check which "devices" is connected to the VIA
             ////UpdateVIABarGraphs(e.PortA, e.PortB);
-            
+
             //VIA v = (VIA)sender;
 
             //if (v[v.BaseAddress + 0x02] > 0)        
@@ -245,7 +275,7 @@ namespace Emul816or
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1000 - speed);
             }
-            if(cpu.IsStopped() && !this.IsDisposed)
+            if (cpu.IsStopped() && !this.IsDisposed)
             {
                 WriteLog("\n*************** STP ******************\n");
             }
@@ -297,7 +327,7 @@ namespace Emul816or
 
         static string BoolToString(bool boolVal)
         {
-            if(boolVal)
+            if (boolVal)
             {
                 return "1";
             }
@@ -336,7 +366,7 @@ namespace Emul816or
             speed = 800;
         }
 
-        
+
         private void openRomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetROM();
@@ -377,9 +407,9 @@ namespace Emul816or
                 cpu.Step();
                 e.SuppressKeyPress = true;
             }
-            else if(e.KeyCode == Keys.F5)
+            else if (e.KeyCode == Keys.F5)
             {
-                resetToolStripMenuItem_Click(null,null);
+                resetToolStripMenuItem_Click(null, null);
                 e.SuppressKeyPress = true;
             }
             else if (e.KeyCode == Keys.F6)
@@ -402,15 +432,15 @@ namespace Emul816or
 
         private void cyclesTimer_Tick(object sender, EventArgs e)
         {
-            if(!cpu.IsStopped())
+            if (!cpu.IsStopped())
             {
                 int cyclesCurrent = cpu.Cycles;
                 int clockEquiv = cyclesCurrent - cyclesPrev;
-                if(clockEquiv < 1000)
+                if (clockEquiv < 1000)
                 {
                     clockEquivLabel.Text = clockEquiv.ToString("D") + " Hz";
                 }
-                else if(clockEquiv < 1000000)
+                else if (clockEquiv < 1000000)
                 {
                     clockEquivLabel.Text = (clockEquiv / (decimal)1000).ToString("F2") + " kHz";
                 }
@@ -481,78 +511,6 @@ namespace Emul816or
                     virtualKeyScanCodes[virtualKeyCode] = (byte)scanCode;
                 }
             }
-
-
-            // ;PS/2 keyboard scan codes -- Set 2 or 3
-            // keymap:
-            //   .byte "????????????? `?"          ; 00-0F
-            //   .byte "?????q1???zsaw2?"          ; 10-1F
-            //   .byte "?cxde43?? vftr5?"          ; 20-2F
-            //   .byte "?nbhgy6???mju78?"          ; 30-3F
-            //   .byte "?,kio09??./l;p-?"          ; 40-4F
-            //   .byte "??'?[=????",$0a,"]?",$5c,"??"    ; 50-5F     orig:"??'?[=????",$0a,"]?\??"   '\' causes issue with retro assembler - swapped out with hex value 5c
-            //   .byte "?????????1?47???"          ; 60-6F0
-            //   .byte "0.2568",$1b,"??+3-*9??"    ; 70-7F
-            //   .byte "????????????????"          ; 80-8F
-            //   .byte "????????????????"          ; 90-9F
-            //   .byte "????????????????"          ; A0-AF
-            //   .byte "????????????????"          ; B0-BF
-            //   .byte "????????????????"          ; C0-CF
-            //   .byte "????????????????"          ; D0-DF
-            //   .byte "????????????????"          ; E0-EF
-            //   .byte "????????????????"          ; F0-FF
-            // keymap_shifted:
-            //   .byte "????????????? ~?"          ; 00-0F
-            //   .byte "?????Q!???ZSAW@?"          ; 10-1F
-            //   .byte "?CXDE#$?? VFTR%?"          ; 20-2F
-            //   .byte "?NBHGY^???MJU&*?"          ; 30-3F
-            //   .byte "?<KIO)(??>?L:P_?"          ; 40-4F
-            //   .byte "??",$22,"?{+?????}?|??"          ; 50-5F      orig:"??"?{+?????}?|??"  ;nested quote - compiler doesn't like - swapped out with hex value 22
-            //   .byte "?????????1?47???"          ; 60-6F
-            //   .byte "0.2568???+3-*9??"          ; 70-7F
-            //   .byte "????????????????"          ; 80-8F
-            //   .byte "????????????????"          ; 90-9F
-            //   .byte "????????????????"          ; A0-AF
-            //   .byte "????????????????"          ; B0-BF
-            //   .byte "????????????????"          ; C0-CF
-            //   .byte "????????????????"          ; D0-DF
-            //   .byte "????????????????"          ; E0-EF
-            //   .byte "????????????????"          ; F0-FF
-
-            //manual
-            //virtualKeyScanCodes[0] = (byte)'?';
-            //virtualKeyScanCodes[1] = (byte)'?';
-            //virtualKeyScanCodes[2] = (byte)'?';
-            //virtualKeyScanCodes[3] = (byte)'?';
-            //virtualKeyScanCodes[4] = (byte)'?';
-            //virtualKeyScanCodes[5] = (byte)'?';
-            //virtualKeyScanCodes[6] = (byte)'?';
-            //virtualKeyScanCodes[7] = (byte)'?';
-            //virtualKeyScanCodes[8] = (byte)'?';
-            //virtualKeyScanCodes[9] = (byte)'?';
-            //virtualKeyScanCodes[10] = (byte)'?';
-            //virtualKeyScanCodes[11] = (byte)'?';
-            //virtualKeyScanCodes[12] = (byte)'?';
-            //virtualKeyScanCodes[13] = (byte)' ';
-            //virtualKeyScanCodes[14] = (byte)'`';
-            //virtualKeyScanCodes[15] = (byte)'?';
-
-            //virtualKeyScanCodes[16] = (byte)'?';
-            //virtualKeyScanCodes[17] = (byte)'?';
-            //virtualKeyScanCodes[18] = (byte)'?';
-            //virtualKeyScanCodes[19] = (byte)'?';
-            //virtualKeyScanCodes[20] = (byte)'?';
-            //virtualKeyScanCodes[21] = (byte)'q';
-            //virtualKeyScanCodes[22] = (byte)'1';
-            //virtualKeyScanCodes[23] = (byte)'?';
-            //virtualKeyScanCodes[24] = (byte)'?';
-            //virtualKeyScanCodes[25] = (byte)'?';
-            //virtualKeyScanCodes[26] = (byte)'z';
-            //virtualKeyScanCodes[27] = (byte)'s';
-            //virtualKeyScanCodes[28] = (byte)'a';
-            //virtualKeyScanCodes[29] = (byte)'w';
-            //virtualKeyScanCodes[30] = (byte)'2';
-            //virtualKeyScanCodes[31] = (byte)'?';
         }
         private void keyboardInputRichTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -562,7 +520,7 @@ namespace Emul816or
             //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
 
             byte scanCode;
-            switch(e.KeyValue)
+            switch (e.KeyValue)
             {
                 case 0x0D:              //CR / ENTER / RETURN
                     scanCode = 0x5A;
@@ -673,7 +631,7 @@ namespace Emul816or
                     scanCode = 0x1E;
                     break;
                 case 0x41:              //A
-                    scanCode = 0x1C;        
+                    scanCode = 0x1C;
                     break;
                 case 0x42:              //B
                     scanCode = 0x32;
@@ -785,7 +743,8 @@ namespace Emul816or
                     break;
             }
             via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-            via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+            via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+            via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
             cpu.SetIRQB(CPU.PinState.Low);
@@ -821,20 +780,117 @@ namespace Emul816or
                 {
                     scanCode = 0xF0;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
                     cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
 
                     scanCode = 0x12;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
                     cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
                 }
+            }
+        }
 
+        private void videoOutPictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Six bits on VIA required
+            // Two MSB bits unused. Next four bits for mouse move direction. Two LSB bits for mouse buttons.
+            // xxMMMMBB
+            // 
+            // Mouse direction bits
+            //      0000    No mouse movement
+            //      0001    Up
+            //      0010    RightUp
+            //      0011    Right
+            //      0100    RightDown
+            //      0101    Down
+            //      0110    LeftDown
+            //      0111    Left
+            //      1000    LeftUp
+            //      1001 to 1111 are unused combinations
+            //  
+            // Mouse buttons bits
+            //      00      No mouse buttons pressed
+            //      01      Left button down
+            //      10      Middle button down
+            //      11      Right button down
 
+            int relativeX, relativeY;
+            relativeX = e.Location.X * 320 / videoOutPictureBox.Width;
+            relativeY = e.Location.Y * 240 / videoOutPictureBox.Height;
+
+            mousePosLabel.Text = relativeX.ToString() + "," + relativeY.ToString();
+
+            byte mouseData = 0;
+            if (relativeY < mousePreviousY && relativeX < mousePreviousX)        //leftup
+            {
+                mouseData = 0b00100000;
+            }
+            else if (relativeY < mousePreviousY && relativeX > mousePreviousX)   //rightup
+            {
+                mouseData = 0b00001000;
+            }
+            else if (relativeY > mousePreviousY && relativeX < mousePreviousX)   //leftdown
+            {
+                mouseData = 0b00011000;
+            }
+            else if (relativeY > mousePreviousY && relativeX > mousePreviousX)   //rightdown
+            {
+                mouseData = 0b00100000;
+            }
+            else if (relativeY > mousePreviousY)   //down
+            {
+                mouseData = 0b00010100;
+            }
+            else if (relativeY < mousePreviousY)   //up
+            {
+                mouseData = 0b00000100;
+            }
+            else if (relativeX > mousePreviousX)   //right
+            {
+                mouseData = 0b00001100;
+            }
+            else if (relativeX < mousePreviousX)   //left
+            {
+                mouseData = 0b00011100;
             }
 
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = (byte)(mouseData | (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] & (byte)0b11000011));
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);     //negative bit, 128 position
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00100000);     //set CB1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+
+
+            //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
+            cpu.SetIRQB(CPU.PinState.Low, true);
+            
+            mousePreviousX = relativeX;
+            mousePreviousY = relativeY;
+        }
+
+        private void videoOutPictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            byte mouseData = 0;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseData = 0b00000001;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                mouseData = 0b00000011;
+            }
+            else if (e.Button != MouseButtons.Middle)
+            {
+                mouseData = 0b00000010;
+            }
+
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = (byte)(mouseData | (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] & (byte)0b11111100));
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+
+            //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
+            cpu.SetIRQB(CPU.PinState.Low);
         }
     }
 }
-
-
