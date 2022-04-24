@@ -170,14 +170,10 @@ namespace Emul816or
 
         private void Via2_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
-            //VIA v = (VIA)sender;
-
-            //if (v[v.BaseAddress + 0x02] > 0)
-            //{
-            //    //some bits are set to output (out from VIA)
-            //    byte val = (byte)((byte)(v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)~v[v.BaseAddress + 0x02] & lcd.GetValue()));
-            //    lcd.SetValue(val);  //need to look at individual bits
-            //}
+            VIA v = (VIA)sender;
+            //PortA and PortB are output only (LCD, bar graph)
+            byte newVal = v[v.BaseAddress + 0x00];     //0x00 = PortB (adding purely as a reminder) - TO DO: setup constants for the registers
+            UpdateVIA2BarGraph(newVal);
         }
 
         private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
@@ -204,28 +200,28 @@ namespace Emul816or
 
         }
 
-        void UpdateVIABarGraphs(byte portA, byte portB)
+        void UpdateVIA2BarGraph(byte portB)
         {
             //00=B
             //01=A
             groupBox1.SuspendLayout();
-            setPortBitDisplay(via2_portB_7, (portB & 0b10000000) > 0);
-            setPortBitDisplay(via2_portB_6, (portB & 0b01000000) > 0);
-            setPortBitDisplay(via2_portB_5, (portB & 0b00100000) > 0);
-            setPortBitDisplay(via2_portB_4, (portB & 0b00010000) > 0);
-            setPortBitDisplay(via2_portB_3, (portB & 0b00001000) > 0);
-            setPortBitDisplay(via2_portB_2, (portB & 0b00000100) > 0);
-            setPortBitDisplay(via2_portB_1, (portB & 0b00000010) > 0);
-            setPortBitDisplay(via2_portB_0, (portB & 0b00000001) > 0);
+            setPortBitDisplay(via2_portB_0, (portB & 0b10000000) > 0);
+            setPortBitDisplay(via2_portB_1, (portB & 0b01000000) > 0);
+            setPortBitDisplay(via2_portB_2, (portB & 0b00100000) > 0);
+            setPortBitDisplay(via2_portB_3, (portB & 0b00010000) > 0);
+            setPortBitDisplay(via2_portB_4, (portB & 0b00001000) > 0);
+            setPortBitDisplay(via2_portB_5, (portB & 0b00000100) > 0);
+            setPortBitDisplay(via2_portB_6, (portB & 0b00000010) > 0);
+            setPortBitDisplay(via2_portB_7, (portB & 0b00000001) > 0);
 
-            setPortBitDisplay(via2_portA_7, (portA & 0b10000000) > 0);
-            setPortBitDisplay(via2_portA_6, (portA & 0b01000000) > 0);
-            setPortBitDisplay(via2_portA_5, (portA & 0b00100000) > 0);
-            setPortBitDisplay(via2_portA_4, (portA & 0b00010000) > 0);
-            setPortBitDisplay(via2_portA_3, (portA & 0b00001000) > 0);
-            setPortBitDisplay(via2_portA_2, (portA & 0b00000100) > 0);
-            setPortBitDisplay(via2_portA_1, (portA & 0b00000010) > 0);
-            setPortBitDisplay(via2_portA_0, (portA & 0b00000001) > 0);
+            //setPortBitDisplay(via2_portA_7, (portA & 0b10000000) > 0);
+            //setPortBitDisplay(via2_portA_6, (portA & 0b01000000) > 0);
+            //setPortBitDisplay(via2_portA_5, (portA & 0b00100000) > 0);
+            //setPortBitDisplay(via2_portA_4, (portA & 0b00010000) > 0);
+            //setPortBitDisplay(via2_portA_3, (portA & 0b00001000) > 0);
+            //setPortBitDisplay(via2_portA_2, (portA & 0b00000100) > 0);
+            //setPortBitDisplay(via2_portA_1, (portA & 0b00000010) > 0);
+            //setPortBitDisplay(via2_portA_0, (portA & 0b00000001) > 0);
 
             //groupBox1.Refresh();
             groupBox1.ResumeLayout();
@@ -826,14 +822,12 @@ namespace Emul816or
                     scanCode = 0xF0;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
-                    cpu.SetIRQB(CPU.PinState.Low, true);
-
-                    //let processor complete to RTI
+                    cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
 
                     scanCode = 0x12;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
-                    cpu.SetIRQB(CPU.PinState.Low, true);
+                    cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
                 }
 
 
