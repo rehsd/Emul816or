@@ -195,6 +195,7 @@
             this.keyboardInputRichTextBox.TabIndex = 0;
             this.keyboardInputRichTextBox.Text = "";
             this.keyboardInputRichTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyboardInputRichTextBox_KeyDown);
+            this.keyboardInputRichTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyboardInputRichTextBox_KeyUp);
             // 
             // openFileDialog1
             // 
@@ -418,7 +419,7 @@
             this.richTextBox1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox1.ForeColor = System.Drawing.Color.White;
             this.richTextBox1.Location = new System.Drawing.Point(1846, 541);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(5);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(436, 745);
@@ -463,9 +464,9 @@
             this.statusGroup.Controls.Add(this.label5);
             this.statusGroup.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.statusGroup.Location = new System.Drawing.Point(15, 899);
-            this.statusGroup.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.statusGroup.Margin = new System.Windows.Forms.Padding(5);
             this.statusGroup.Name = "statusGroup";
-            this.statusGroup.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.statusGroup.Padding = new System.Windows.Forms.Padding(5);
             this.statusGroup.Size = new System.Drawing.Size(957, 394);
             this.statusGroup.TabIndex = 13;
             this.statusGroup.TabStop = false;
@@ -960,7 +961,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.videoOutPictureBox.Location = new System.Drawing.Point(19, 123);
-            this.videoOutPictureBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.videoOutPictureBox.Margin = new System.Windows.Forms.Padding(5);
             this.videoOutPictureBox.Name = "videoOutPictureBox";
             this.videoOutPictureBox.Size = new System.Drawing.Size(952, 749);
             this.videoOutPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

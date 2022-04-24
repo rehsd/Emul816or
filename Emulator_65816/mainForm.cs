@@ -170,14 +170,14 @@ namespace Emul816or
 
         private void Via2_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
-            VIA v = (VIA)sender;
+            //VIA v = (VIA)sender;
 
-            if (v[v.BaseAddress + 0x02] > 0)
-            {
-                //some bits are set to output (out from VIA)
-                byte val = (byte)((byte)(v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)~v[v.BaseAddress + 0x02] & lcd.GetValue()));
-                lcd.SetValue(val);  //need to look at individual bits
-            }
+            //if (v[v.BaseAddress + 0x02] > 0)
+            //{
+            //    //some bits are set to output (out from VIA)
+            //    byte val = (byte)((byte)(v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)~v[v.BaseAddress + 0x02] & lcd.GetValue()));
+            //    lcd.SetValue(val);  //need to look at individual bits
+            //}
         }
 
         private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
@@ -475,6 +475,7 @@ namespace Emul816or
         byte[] virtualKeyScanCodes;
         private void LoadScanCodes()
         {
+            //from Windows API
             virtualKeyScanCodes = new byte[256];
             for (uint scanCode = 0x00; scanCode <= 0xff; scanCode++)
             {
@@ -484,12 +485,310 @@ namespace Emul816or
                     virtualKeyScanCodes[virtualKeyCode] = (byte)scanCode;
                 }
             }
+
+
+            // ;PS/2 keyboard scan codes -- Set 2 or 3
+            // keymap:
+            //   .byte "????????????? `?"          ; 00-0F
+            //   .byte "?????q1???zsaw2?"          ; 10-1F
+            //   .byte "?cxde43?? vftr5?"          ; 20-2F
+            //   .byte "?nbhgy6???mju78?"          ; 30-3F
+            //   .byte "?,kio09??./l;p-?"          ; 40-4F
+            //   .byte "??'?[=????",$0a,"]?",$5c,"??"    ; 50-5F     orig:"??'?[=????",$0a,"]?\??"   '\' causes issue with retro assembler - swapped out with hex value 5c
+            //   .byte "?????????1?47???"          ; 60-6F0
+            //   .byte "0.2568",$1b,"??+3-*9??"    ; 70-7F
+            //   .byte "????????????????"          ; 80-8F
+            //   .byte "????????????????"          ; 90-9F
+            //   .byte "????????????????"          ; A0-AF
+            //   .byte "????????????????"          ; B0-BF
+            //   .byte "????????????????"          ; C0-CF
+            //   .byte "????????????????"          ; D0-DF
+            //   .byte "????????????????"          ; E0-EF
+            //   .byte "????????????????"          ; F0-FF
+            // keymap_shifted:
+            //   .byte "????????????? ~?"          ; 00-0F
+            //   .byte "?????Q!???ZSAW@?"          ; 10-1F
+            //   .byte "?CXDE#$?? VFTR%?"          ; 20-2F
+            //   .byte "?NBHGY^???MJU&*?"          ; 30-3F
+            //   .byte "?<KIO)(??>?L:P_?"          ; 40-4F
+            //   .byte "??",$22,"?{+?????}?|??"          ; 50-5F      orig:"??"?{+?????}?|??"  ;nested quote - compiler doesn't like - swapped out with hex value 22
+            //   .byte "?????????1?47???"          ; 60-6F
+            //   .byte "0.2568???+3-*9??"          ; 70-7F
+            //   .byte "????????????????"          ; 80-8F
+            //   .byte "????????????????"          ; 90-9F
+            //   .byte "????????????????"          ; A0-AF
+            //   .byte "????????????????"          ; B0-BF
+            //   .byte "????????????????"          ; C0-CF
+            //   .byte "????????????????"          ; D0-DF
+            //   .byte "????????????????"          ; E0-EF
+            //   .byte "????????????????"          ; F0-FF
+
+            //manual
+            //virtualKeyScanCodes[0] = (byte)'?';
+            //virtualKeyScanCodes[1] = (byte)'?';
+            //virtualKeyScanCodes[2] = (byte)'?';
+            //virtualKeyScanCodes[3] = (byte)'?';
+            //virtualKeyScanCodes[4] = (byte)'?';
+            //virtualKeyScanCodes[5] = (byte)'?';
+            //virtualKeyScanCodes[6] = (byte)'?';
+            //virtualKeyScanCodes[7] = (byte)'?';
+            //virtualKeyScanCodes[8] = (byte)'?';
+            //virtualKeyScanCodes[9] = (byte)'?';
+            //virtualKeyScanCodes[10] = (byte)'?';
+            //virtualKeyScanCodes[11] = (byte)'?';
+            //virtualKeyScanCodes[12] = (byte)'?';
+            //virtualKeyScanCodes[13] = (byte)' ';
+            //virtualKeyScanCodes[14] = (byte)'`';
+            //virtualKeyScanCodes[15] = (byte)'?';
+
+            //virtualKeyScanCodes[16] = (byte)'?';
+            //virtualKeyScanCodes[17] = (byte)'?';
+            //virtualKeyScanCodes[18] = (byte)'?';
+            //virtualKeyScanCodes[19] = (byte)'?';
+            //virtualKeyScanCodes[20] = (byte)'?';
+            //virtualKeyScanCodes[21] = (byte)'q';
+            //virtualKeyScanCodes[22] = (byte)'1';
+            //virtualKeyScanCodes[23] = (byte)'?';
+            //virtualKeyScanCodes[24] = (byte)'?';
+            //virtualKeyScanCodes[25] = (byte)'?';
+            //virtualKeyScanCodes[26] = (byte)'z';
+            //virtualKeyScanCodes[27] = (byte)'s';
+            //virtualKeyScanCodes[28] = (byte)'a';
+            //virtualKeyScanCodes[29] = (byte)'w';
+            //virtualKeyScanCodes[30] = (byte)'2';
+            //virtualKeyScanCodes[31] = (byte)'?';
         }
         private void keyboardInputRichTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             lcd.Reset(false);
             //Put the key scancode value on the VIA port (to be read by interrupt handler)
-            via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = virtualKeyScanCodes[e.KeyValue];
+            //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = virtualKeyScanCodes[e.KeyValue];
+            //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+
+            byte scanCode;
+            switch(e.KeyValue)
+            {
+                case 0x0D:              //CR / ENTER / RETURN
+                    scanCode = 0x5A;
+                    break;
+                case 0x10:              //left, right shift
+                    scanCode = 0x12;
+                    break;
+                case 0x1B:              //ESC
+                    scanCode = 0x76;
+                    break;
+                case 0x20:              //SPACE
+                    scanCode = 0x29;
+                    break;
+                case 0x21:              //!
+                    scanCode = 0x16;
+                    break;
+                case 0x22:              //"
+                    scanCode = 0x52;
+                    break;
+                case 0x23:              //#
+                    scanCode = 0x26;
+                    break;
+                case 0x24:              //$
+                    scanCode = 0x25;
+                    break;
+                case 0x25:              //%
+                    scanCode = 0x2E;
+                    break;
+                case 0x26:              //&
+                    scanCode = 0x3D;
+                    break;
+                case 0x27:              //'
+                    scanCode = 0x52;
+                    break;
+                case 0x28:              //(
+                    scanCode = 0x46;
+                    break;
+                case 0x29:              //)
+                    scanCode = 0x45;
+                    break;
+                case 0x2A:              //*
+                    scanCode = 0x3E;
+                    break;
+                case 0x2B:              //+
+                    scanCode = 0x55;
+                    break;
+                case 0x2C:              //,
+                    scanCode = 0x41;
+                    break;
+                case 0x2D:              //-
+                    scanCode = 0x4E;
+                    break;
+                case 0x2E:              //.
+                    scanCode = 0x49;
+                    break;
+                case 0x2F:              ///
+                    scanCode = 0x4A;
+                    break;
+                case 0x30:              //0
+                    scanCode = 0x45;
+                    break;
+                case 0x31:              //1
+                    scanCode = 0x16;
+                    break;
+                case 0x32:              //2
+                    scanCode = 0x1E;
+                    break;
+                case 0x33:              //3
+                    scanCode = 0x26;
+                    break;
+                case 0x34:              //4
+                    scanCode = 0x25;
+                    break;
+                case 0x35:              //5
+                    scanCode = 0x2E;
+                    break;
+                case 0x36:              //6
+                    scanCode = 0x36;
+                    break;
+                case 0x37:              //7
+                    scanCode = 0x3D;
+                    break;
+                case 0x38:              //8
+                    scanCode = 0x3E;
+                    break;
+                case 0x39:              //9
+                    scanCode = 0x46;
+                    break;
+                case 0x3A:              //:
+                    scanCode = 0x4C;
+                    break;
+                case 0x3B:              //;
+                    scanCode = 0x4C;
+                    break;
+                case 0x3C:              //<
+                    scanCode = 0x41;
+                    break;
+                case 0x3D:              //=
+                    scanCode = 0x55;
+                    break;
+                case 0x3E:              //>
+                    scanCode = 0x49;
+                    break;
+                case 0x3F:              //?
+                    scanCode = 0x4A;
+                    break;
+                case 0x40:              //@
+                    scanCode = 0x1E;
+                    break;
+                case 0x41:              //A
+                    scanCode = 0x1C;        
+                    break;
+                case 0x42:              //B
+                    scanCode = 0x32;
+                    break;
+                case 0x43:              //C
+                    scanCode = 0x21;
+                    break;
+                case 0x44:              //D
+                    scanCode = 0x23;
+                    break;
+                case 0x45:              //E
+                    scanCode = 0x24;
+                    break;
+                case 0x46:              //F
+                    scanCode = 0x2B;
+                    break;
+                case 0x47:              //G
+                    scanCode = 0x34;
+                    break;
+                case 0x48:              //H
+                    scanCode = 0x33;
+                    break;
+                case 0x49:              //I
+                    scanCode = 0x43;
+                    break;
+                case 0x4A:              //J
+                    scanCode = 0x3B;
+                    break;
+                case 0x4B:              //K
+                    scanCode = 0x42;
+                    break;
+                case 0x4C:              //L
+                    scanCode = 0x4B;
+                    break;
+                case 0x4D:              //M
+                    scanCode = 0x3A;
+                    break;
+                case 0x4E:              //N
+                    scanCode = 0x31;
+                    break;
+                case 0x4F:              //O
+                    scanCode = 0x44;
+                    break;
+                case 0x50:              //P
+                    scanCode = 0x4D;
+                    break;
+                case 0x51:              //Q
+                    scanCode = 0x15;
+                    break;
+                case 0x52:              //R
+                    scanCode = 0x2D;
+                    break;
+                case 0x53:              //S
+                    scanCode = 0x1B;
+                    break;
+                case 0x54:              //T
+                    scanCode = 0x2C;
+                    break;
+                case 0x55:              //U
+                    scanCode = 0x3C;
+                    break;
+                case 0x56:              //V
+                    scanCode = 0x2A;
+                    break;
+                case 0x57:              //W
+                    scanCode = 0x1D;
+                    break;
+                case 0x58:              //X
+                    scanCode = 0x22;
+                    break;
+                case 0x59:              //Y
+                    scanCode = 0x35;
+                    break;
+                case 0x5A:              //Z
+                    scanCode = 0x1A;
+                    break;
+                case 0x5B:              //[
+                    scanCode = 0x54;
+                    break;
+                case 0xDC:              //\
+                    scanCode = 0x5D;
+                    break;
+                case 0x5D:              //]
+                    scanCode = 0x5B;
+                    break;
+                case 0x5E:              //^
+                    scanCode = 0x36;
+                    break;
+                case 0x5F:              //_
+                    scanCode = 0x4E;
+                    break;
+                case 0x60:              //`
+                    scanCode = 0x0E;
+                    break;
+                case 0x7B:              //{
+                    scanCode = 0x54;
+                    break;
+                case 0x7C:              //|
+                    scanCode = 0x5D;
+                    break;
+                case 0x7D:              //}
+                    scanCode = 0x5B;
+                    break;
+                case 0x7E:              //~
+                    scanCode = 0x0E;
+                    break;
+                default:
+                    scanCode = 0;
+                    break;
+            }
+            via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
             via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
@@ -499,6 +798,47 @@ namespace Emul816or
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReloadForm();
+        }
+
+        private void keyboardInputRichTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5 || e.KeyCode == Keys.F8)
+            {
+                return;
+            }
+            else
+            {
+                lcd.Reset(false);
+                byte scanCode;
+                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+
+                //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
+                //cpu.SetIRQB(CPU.PinState.Low);
+
+                //scanCode = 0xF0;
+                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+                //cpu.SetIRQB(CPU.PinState.Low);
+
+                if (e.Shift)
+                {
+                    scanCode = 0xF0;
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+                    cpu.SetIRQB(CPU.PinState.Low, true);
+
+                    //let processor complete to RTI
+
+                    scanCode = 0x12;
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+                    cpu.SetIRQB(CPU.PinState.Low, true);
+                }
+
+
+            }
+
         }
     }
 }

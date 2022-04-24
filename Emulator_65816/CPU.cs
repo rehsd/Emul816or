@@ -452,7 +452,7 @@ namespace Emul816or
             High,
             Low
         }
-        public void SetIRQB(PinState newState)
+        public void SetIRQB(PinState newState, bool completeInterrupt = false)
         {
             if(newState == PinState.High)
             {
@@ -462,6 +462,11 @@ namespace Emul816or
             {
                 //P.I = true;
                 interrupted = true;
+                while(interrupted && completeInterrupt)
+                {
+                    Step();
+                }
+
             }
         }
 
