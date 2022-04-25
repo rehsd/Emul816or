@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -43,6 +44,10 @@ namespace Emul816or
         private int mousePreviousY = 0;
 
         bool captureMouse = false;
+
+        Dictionary<string, string> debugLabels;
+        Dictionary<string, string> debugCode;
+        bool debugFilesLoaded = false;
 
         public mainForm()
         {
@@ -136,6 +141,9 @@ namespace Emul816or
             SuspendLogging = false;
             loggingToolStripMenuItem1.Checked = true;
             WriteLog("\n*************** RESET ****************\n");
+            WriteLog("*** Loading Debug Info... ");
+            WriteLog("Complete ***\n");
+            LoadDebugData();
             video.Reset();
             cpu.Reset();
             cyclesTimer.Enabled = true;
@@ -144,10 +152,50 @@ namespace Emul816or
             Run();
         }
 
+        void LoadDebugData()
+        {
+            try
+            {
+                debugLabels = new Dictionary<string, string>();
+                debugCode = new Dictionary<string, string>();
+                string dir = Path.GetDirectoryName(ROMlocation) + "\\";
+                string debugLabelsFile = dir + "debug.txt";
+                string debugCodeFile = dir + "debugcode.txt";
+                StreamReader labelsFile = File.OpenText(debugLabelsFile);
+                StreamReader codeFile = File.OpenText(debugCodeFile);
+
+                while (!labelsFile.EndOfStream)
+                {
+                    string[] s = labelsFile.ReadLine().Split(" ");
+                    debugLabels.Add(s[0], s[1]);
+                }
+
+                while (!codeFile.EndOfStream)
+                {
+                    string[] s = codeFile.ReadLine().Split(" ");
+                    if (s[0].Trim().Length > 0)
+                    {
+                        string theRest = "";
+                        for (int i = 1; i < s.Length; i++)
+                        {
+                            theRest += s[i] + " ";
+                        }
+                        debugCode.Add(s[0], theRest);
+                    }
+                }
+                cpu.debugLabels = this.debugLabels;
+                cpu.debugCode = this.debugCode;
+                debugFilesLoaded = true;
+            }
+            catch (Exception)
+            {
+                debugFilesLoaded = false;
+            }
+        }
         void LoadObjects()
         {
             currentROMLabel.Text = ROMlocation;
-
+            WriteLog("Initializing...\n");
             ram = new RAM();
             WriteLog("RAM added\t\t\t0x000000-0x007FFF\n");
             rom = new ROM(ROMlocation);
@@ -162,14 +210,14 @@ namespace Emul816or
             WriteLog("VIA2 (LCD, BARGRAPH) added\t0x104000-0x10400F\n");
             via3 = new VIA(0x102000);  //USB mouse
             via3.VIAOutChanged += Via3_VIAOutChanged;
-            WriteLog("VIA3 (USB MOUSE) added\t\t0x102000-0x10200F\n");
+            WriteLog("VIA3 (USB MOUSE) added\t0x102000-0x10200F\n");
             sound = new Sound();
             WriteLog("SOUND added\t\t\t0x100000-0x1007FF\n");
             video = new Video();
             WriteLog("VIDEO added\t\t\t0x200000-0x21FFFF\n");
             videoOutRefreshTimer.Enabled = true;
             nullDev = new NullDevice();
-            WriteLog("NullDev (other ADDRs) added\t0x******\n");
+            WriteLog("NullDev added\t\t\t0x******\n");
             cpu = new CPU(rom, ram, eram, via1, via2, via3, video, sound, nullDev);
             cpu.StatusChanged += cpu_StatusChanged;
             cpu.LogTextUpdate += cpu_LogTextUpdate;
@@ -521,6 +569,11 @@ namespace Emul816or
         }
         private void keyboardInputRichTextBox_KeyDown(object sender, KeyEventArgs e)
         {
+            if (IsFilteredKey(e.KeyCode))
+            {
+                return;
+            }
+
             lcd.Reset(false);
             //Put the key scancode value on the VIA port (to be read by interrupt handler)
             //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = virtualKeyScanCodes[e.KeyValue];
@@ -774,9 +827,22 @@ namespace Emul816or
             ReloadForm();
         }
 
+        bool IsFilteredKey(Keys k)
+        {
+            if (k == Keys.F2 || k == Keys.F5 || k == Keys.F6 || k == Keys.F7 || k == Keys.F8 || k == Keys.F9 || k == Keys.F10 || k == Keys.F11 || k == Keys.F12 || k == Keys.Alt || k == Keys.Tab || k == Keys.Menu || k == Keys.ControlKey)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
         private void keyboardInputRichTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F5 || e.KeyCode == Keys.F8)
+            if (IsFilteredKey(e.KeyCode))
             {
                 return;
             }

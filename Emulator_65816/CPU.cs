@@ -79,6 +79,9 @@ namespace Emul816or
         bool interrupted;
         bool stopped;
 
+        public Dictionary<string, string> debugLabels;
+        public Dictionary<string, string> debugCode;
+
         public int Cycles
         {
             get => cycles;
@@ -151,7 +154,10 @@ namespace Emul816or
             }
 
             Byte cmd = GetByte(Join(pbr, pc++));
-            WriteLog("\n" + (pc-1).ToString("X4") + " : " + OpCodeDescArray[cmd]);
+            if (!SuspendLogging)
+            {
+                WriteLog("\n" + (pc - 1).ToString("X4") + " : " + OpCodeDescArray[cmd]);
+            }
             switch (cmd)
             {
                 case 0x00: Op_brk(Am_immb()); break;
@@ -500,13 +506,37 @@ namespace Emul816or
             //BTemporary - Need to determine how to best handle when an interrupt is being processed
             //P.I = false;
         }
+
+        string GetLabel(uint ea)
+        {
+            foreach (KeyValuePair<string, string> kvp in debugLabels)
+            {
+                if (kvp.Value.ToUpper() == ("$" + ea.ToString("X4")).ToUpper() || kvp.Value == ("$" + ea.ToString("X6")).ToUpper())
+                {
+                    return kvp.Key.ToString();
+                }
+            }
+            return "";
+        }
+
+        string FormatLogString(uint ea)
+        {
+            return "\t\t\t" + ea.ToString("X6") + "\t : " + GetLabel(ea);
+        }
+
         Byte GetByte(Addr ea, bool logIt = false)
         {
             IMemoryIO mem;
             mem = GetDeviceByAddress(ea);
-            if(logIt)
+            if(logIt && !SuspendLogging)
             {
-                WriteLog("\t" + mem[ea].ToString("X2") + "\t from \t" + ea.ToString("X4"));
+                string sDebug = "";
+                string sLabel = GetLabel(ea);
+                if(sLabel.Length > 0)
+                {
+                    sDebug += "\t : " + sLabel;
+                }
+                WriteLog("\t" + mem[ea].ToString("X2") + "\t from \t" + ea.ToString("X4") + sDebug);
             }
             return mem[ea];
         }
@@ -521,9 +551,15 @@ namespace Emul816or
             {
                 tmp = (ushort)(Join(GetByte(ea + 0),0));
             }
-            if (logIt)
+            if (logIt && !SuspendLogging)
             {
-                WriteLog("\t" + tmp.ToString("X4") + "\t from \t" + ea.ToString("x4"));
+                string sDebug = "";
+                string sLabel = GetLabel(ea);
+                if (sLabel.Length > 0)
+                {
+                    sDebug += "\t : " + sLabel;
+                }
+                WriteLog("\t" + tmp.ToString("X4") + "\t from \t" + ea.ToString("x4") + sDebug);
             }
             return tmp;
         }
@@ -535,17 +571,29 @@ namespace Emul816or
         {
             IMemoryIO mem;
             mem = GetDeviceByAddress(ea);
-            if(logIt)
+            if(logIt && !SuspendLogging)
             {
-                WriteLog("\t" + mem[ea].ToString("X2") + "\t to \t" + ea.ToString("X4"));
+                string sDebug = "";
+                string sLabel = GetLabel(ea);
+                if (sLabel.Length > 0)
+                {
+                    sDebug += "\t : " + sLabel;
+                }
+                WriteLog("\t" + mem[ea].ToString("X2") + "\t to \t" + ea.ToString("X4") + sDebug);
             }
             mem[ea] = data;
         }
         void SetWord(Addr ea, Word data, bool logIt = false)
         {
-            if (logIt)
+            if (logIt && !SuspendLogging)
             {
-                WriteLog("\t" + data.ToString("X4") + "\t to \t" + ea.ToString("X4"));
+                string sDebug = "";
+                string sLabel = GetLabel(ea);
+                if (sLabel.Length > 0)
+                {
+                    sDebug += "\t : " + sLabel;
+                }
+                WriteLog("\t" + data.ToString("X4") + "\t to \t" + ea.ToString("X4") + sDebug);
             }
             SetByte(ea + 0, Lo(data));
             if (GetDeviceByAddress(ea).Supports16Bit)
@@ -1043,6 +1091,11 @@ namespace Emul816or
             {
                 cycles += 2;
             }
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
         }
 
         void Op_bcs(Addr ea)
@@ -1057,7 +1110,14 @@ namespace Emul816or
                 cycles += 3;
             }
             else
+            {
                 cycles += 2;
+            }
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
         }
 
         void Op_beq(Addr ea)
@@ -1069,7 +1129,14 @@ namespace Emul816or
                 cycles += 3;
             }
             else
+            {
                 cycles += 2;
+            }
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
         }
 
         void Op_bit(Addr ea)
@@ -1156,8 +1223,17 @@ namespace Emul816or
                 cycles += 3;
             }
             else
+            {
                 cycles += 2;
+            }
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
         }
+
+
 
         void Op_bpl(Addr ea)
         {
@@ -1176,6 +1252,11 @@ namespace Emul816or
             if (E && Convert.ToBoolean((pc ^ ea) & 0xff00)) ++cycles;
             pc = (Word)ea;
             cycles += 3;
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
         }
 
         void Op_brk(Addr ea)
@@ -1493,6 +1574,11 @@ namespace Emul816or
             pbr = Lo((ushort)(ea >> 16));
             pc = (Word)ea;
             cycles += 1;
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
         }
 
         void Op_jsl(Addr ea)
@@ -1503,6 +1589,12 @@ namespace Emul816or
             pbr = Lo((ushort)(ea >> 16));
             pc = (Word)ea;
             cycles += 5;
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
+
         }
 
         void Op_jsr(Addr ea)
@@ -1510,7 +1602,15 @@ namespace Emul816or
             PushWord((ushort)(pc - 1));
             pc = (Word)ea;
             cycles += 4;
+
+            //WriteLog("\t0x" + ea.ToString("X6") + "\t\t : " + GetLabel(ea));
+            if (!SuspendLogging)
+            {
+                WriteLog(FormatLogString(ea));
+            }
         }
+
+
 
         void Op_lda(Addr ea)
         {
@@ -2096,7 +2196,7 @@ namespace Emul816or
             else
             {
                 SetNZ_W(X.w = A.w);
-                WriteLog(" :TAX of " + A.w.ToString("X4"));
+                //WriteLog(" :TAX of " + A.w.ToString("X4"));
             }
 
             cycles += 2;
@@ -2226,7 +2326,7 @@ namespace Emul816or
             else
             {
                 SetNZ_W(A.w = X.w);
-                WriteLog(" :TXA of " + A.w.ToString("X4"));                
+                //WriteLog(" :TXA of " + A.w.ToString("X4"));                
             }
 
             cycles += 2;
