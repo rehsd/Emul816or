@@ -111,6 +111,9 @@
             this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewDebugCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewDebugLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.currentROMLabel = new System.Windows.Forms.Label();
             this.videoOutPictureBox = new System.Windows.Forms.PictureBox();
             this.cyclesTimer = new System.Windows.Forms.Timer(this.components);
@@ -868,7 +871,8 @@
             this.breakToolStripMenuItem,
             this.stepToolStripMenuItem,
             this.stopToolStripMenuItem,
-            this.memoryViewerToolStripMenuItem});
+            this.memoryViewerToolStripMenuItem,
+            this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
@@ -1001,6 +1005,30 @@
             this.memoryViewerToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.memoryViewerToolStripMenuItem.Text = "Memory Viewer";
             this.memoryViewerToolStripMenuItem.Click += new System.EventHandler(this.memoryViewerToolStripMenuItem_Click);
+            // 
+            // debugToolStripMenuItem
+            // 
+            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewDebugCodeToolStripMenuItem,
+            this.viewDebugLabelsToolStripMenuItem});
+            this.debugToolStripMenuItem.Enabled = false;
+            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 22);
+            this.debugToolStripMenuItem.Text = "Debug";
+            // 
+            // viewDebugCodeToolStripMenuItem
+            // 
+            this.viewDebugCodeToolStripMenuItem.Name = "viewDebugCodeToolStripMenuItem";
+            this.viewDebugCodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewDebugCodeToolStripMenuItem.Text = "View Debug Code";
+            this.viewDebugCodeToolStripMenuItem.Click += new System.EventHandler(this.viewDebugCodeToolStripMenuItem_Click);
+            // 
+            // viewDebugLabelsToolStripMenuItem
+            // 
+            this.viewDebugLabelsToolStripMenuItem.Name = "viewDebugLabelsToolStripMenuItem";
+            this.viewDebugLabelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewDebugLabelsToolStripMenuItem.Text = "View Debug Labels";
+            this.viewDebugLabelsToolStripMenuItem.Click += new System.EventHandler(this.viewDebugLabelsToolStripMenuItem_Click);
             // 
             // currentROMLabel
             // 
@@ -1206,6 +1234,9 @@
         private System.Windows.Forms.Label label18;
         public System.Windows.Forms.PictureBox processingPictureBox;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewDebugCodeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewDebugLabelsToolStripMenuItem;
     }
 }
 

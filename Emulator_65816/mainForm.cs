@@ -143,6 +143,7 @@ namespace Emul816or
             WriteLog("\n*************** RESET ****************\n");
             WriteLog("*** Loading Debug Info... ");
             WriteLog("Complete ***\n");
+            debugToolStripMenuItem.Enabled = true;
             LoadDebugData();
             video.Reset();
             cpu.Reset();
@@ -167,7 +168,12 @@ namespace Emul816or
                 while (!labelsFile.EndOfStream)
                 {
                     string[] s = labelsFile.ReadLine().Split(" ");
-                    debugLabels.Add(s[0], s[1]);
+                    string theAddr = s[1];
+                    if(theAddr.Length == 5)
+                    {
+                        theAddr = theAddr.Insert(1, "00");
+                    }
+                    debugLabels.Add(s[0], theAddr);
                 }
 
                 while (!codeFile.EndOfStream)
@@ -175,12 +181,17 @@ namespace Emul816or
                     string[] s = codeFile.ReadLine().Split(" ");
                     if (s[0].Trim().Length > 0)
                     {
+                        string theKey = s[0];
+                        if(theKey.Length==5)
+                        {
+                            theKey = theKey.Insert(1, "00");
+                        }
                         string theRest = "";
                         for (int i = 1; i < s.Length; i++)
                         {
                             theRest += s[i] + " ";
                         }
-                        debugCode.Add(s[0], theRest);
+                        debugCode.Add(theKey, theRest);
                     }
                 }
                 cpu.debugLabels = this.debugLabels;
@@ -1046,6 +1057,16 @@ namespace Emul816or
             via3.ResetInterrupt();
         }
 
+        private void viewDebugCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DebugCodeViewer frm = new DebugCodeViewer(debugCode);
+            frm.Show();
+        }
 
+        private void viewDebugLabelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DebugLabelViewer frm = new DebugLabelViewer(debugLabels);
+            frm.Show();
+        }
     }
 }
