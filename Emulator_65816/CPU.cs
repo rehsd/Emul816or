@@ -454,11 +454,11 @@ namespace Emul816or
             Low
         }
         public void SetIRQB(PinState newState, bool completeInterrupt = false)
-        {
-            if(P.I)     //interrupts are disabled
-            {
-                return;
-            }
+        {   
+            //if(P.I)     //interrupts are disabled
+            //{
+            //    return;
+            //}
             if(newState == PinState.High)
             {
                 //P.I = false;

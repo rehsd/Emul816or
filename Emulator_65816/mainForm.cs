@@ -42,6 +42,8 @@ namespace Emul816or
         private int mousePreviousX = 0;
         private int mousePreviousY = 0;
 
+        bool captureMouse = false;
+
         public mainForm()
         {
             InitializeComponent();
@@ -49,7 +51,7 @@ namespace Emul816or
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            ; ReloadForm();
+            ReloadForm();
         }
 
         private void ReloadForm()
@@ -407,6 +409,11 @@ namespace Emul816or
                 cpu.Step();
                 e.SuppressKeyPress = true;
             }
+            else if (e.KeyCode == Keys.F2)
+            {
+                centerMouseForCaptureToolStripMenuItem_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
             else if (e.KeyCode == Keys.F5)
             {
                 resetToolStripMenuItem_Click(null, null);
@@ -747,7 +754,19 @@ namespace Emul816or
             via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
-            cpu.SetIRQB(CPU.PinState.Low);
+            //cpu.SetIRQB(CPU.PinState.Low, true);
+            InterruptAndWait();
+            via1.ResetInterrupt();
+
+        }
+
+        void InterruptAndWait()
+        {
+            processingPictureBox.BackColor = Color.Red;
+            processingPictureBox.Refresh();
+            cpu.SetIRQB(CPU.PinState.Low, true);
+            processingPictureBox.BackColor = Color.LightGray;
+            processingPictureBox.Refresh();
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -782,19 +801,39 @@ namespace Emul816or
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                    cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                    InterruptAndWait();
+                    via1.ResetInterrupt();
 
                     scanCode = 0x12;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
                     via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                    cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                    InterruptAndWait();
+                    via1.ResetInterrupt();
+
+                }
+                else
+                {
+                    scanCode = 0xF0;
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+                    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                    InterruptAndWait();
+                    via1.ResetInterrupt();
+
                 }
             }
         }
 
         private void videoOutPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            if (!captureMouse)
+            {
+                return;
+            }
             // Six bits on VIA required
             // Two MSB bits unused. Next four bits for mouse move direction. Two LSB bits for mouse buttons.
             // xxMMMMBB
@@ -838,7 +877,7 @@ namespace Emul816or
             }
             else if (relativeY > mousePreviousY && relativeX > mousePreviousX)   //rightdown
             {
-                mouseData = 0b00100000;
+                mouseData = 0b00010000;
             }
             else if (relativeY > mousePreviousY)   //down
             {
@@ -863,14 +902,22 @@ namespace Emul816or
 
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
-            cpu.SetIRQB(CPU.PinState.Low, true);
-            
+            //cpu.SetIRQB(CPU.PinState.Low, true);
+            InterruptAndWait();
+            via3.ResetInterrupt();
+
             mousePreviousX = relativeX;
             mousePreviousY = relativeY;
+
+            //TO DO - Mouse clicking
         }
 
         private void videoOutPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+           if(!captureMouse)
+            {
+                return;
+            }
             byte mouseData = 0;
 
             if (e.Button == MouseButtons.Left)
@@ -881,16 +928,58 @@ namespace Emul816or
             {
                 mouseData = 0b00000011;
             }
-            else if (e.Button != MouseButtons.Middle)
+            else if (e.Button == MouseButtons.Middle)
             {
                 mouseData = 0b00000010;
             }
 
             via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = (byte)(mouseData | (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] & (byte)0b11111100));
-            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);     //negative bit, 128 position
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00100000);     //set CB1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
-            cpu.SetIRQB(CPU.PinState.Low);
+            //cpu.SetIRQB(CPU.PinState.Low, true);
+            InterruptAndWait();
+            via3.ResetInterrupt();
         }
+
+        private void centerMouseForCaptureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!captureMouse)
+            {
+                this.Cursor = new Cursor(Cursor.Current.Handle);
+                Cursor.Position = new Point(videoOutPictureBox.Left + (videoOutPictureBox.Width / 2),
+                    videoOutPictureBox.Top + (videoOutPictureBox.Height / 2));
+                keyboardInputRichTextBox.Focus();
+                //Cursor.Clip = new Rectangle(this.Location, this.Size);
+                captureMouse = true;
+                centerMouseForCaptureToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                centerMouseForCaptureToolStripMenuItem.Checked = false;
+                captureMouse = false;
+            }
+        }
+
+        private void videoOutPictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (!captureMouse)
+            {
+                return;
+            }
+            byte mouseData = 0;
+
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = (byte)(mouseData | (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] & (byte)0b11111100));
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);     //negative bit, 128 position
+            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00100000);     //set CB1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+
+            //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
+            //cpu.SetIRQB(CPU.PinState.Low, true);
+            InterruptAndWait();
+            via3.ResetInterrupt();
+        }
+
+
     }
 }

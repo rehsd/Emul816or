@@ -30,7 +30,7 @@ namespace Emul816or
         private bool supports16bit = false;
         public bool SuspendLogging = false;
 
-        public enum REGISTERS : ushort
+        public enum REGISTERS : byte
         {
             VIA_PORTB   = 0x00,
             VIA_PORTA   = 0x01,
@@ -99,6 +99,12 @@ namespace Emul816or
             }
             data[0x02] = 0xFF;  //Set PortB as Output by default 
             data[0x03] = 0xFF;  //Set PortA as Output by default 
+        }
+
+        public void ResetInterrupt()
+        {
+            data[(int)REGISTERS.VIA_IFR] = (byte)(data[(int)REGISTERS.VIA_IFR] & 0b01111111);
+            //data[(int)REGISTERS.VIA_IER] = (byte)(data[(int)REGISTERS.VIA_IER] & 0b11011111);
         }
     }
 }

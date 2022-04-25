@@ -9,4 +9,5 @@ To do:
 
 
 Issues:
-(tentatively RESOLVED): CPX doesn't appear to be setting Carry flag properly. Likely same with CMP and CPX.
+-(tentatively RESOLVED): CPX doesn't appear to be setting Carry flag properly. Likely same with CMP and CPX.
+-In the middle of raising interrupts. Currently, it's off a bit. I'm likely accidentally writing to unintended registers due to 16-bit.

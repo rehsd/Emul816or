@@ -62,6 +62,7 @@
   </metadata>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Shortcuts:
+     F2     Capture Mouse (center)
      F5     Reset (Run)
      F6     Speed Fastest
      F7     Break / Resume

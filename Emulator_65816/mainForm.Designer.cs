@@ -57,6 +57,9 @@
             this.via2_portA_7 = new System.Windows.Forms.PictureBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.statusGroup = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.processingPictureBox = new System.Windows.Forms.PictureBox();
             this.mousePosLabel = new System.Windows.Forms.Label();
             this.videoFPSLabel = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -103,6 +106,7 @@
             this.fastestToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.manualSpeedToolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.loggingToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.centerMouseForCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.breakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,6 +135,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.via2_portA_6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.via2_portA_7)).BeginInit();
             this.statusGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.processingPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoOutPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -430,6 +435,9 @@
             // statusGroup
             // 
             this.statusGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.statusGroup.Controls.Add(this.label19);
+            this.statusGroup.Controls.Add(this.label18);
+            this.statusGroup.Controls.Add(this.processingPictureBox);
             this.statusGroup.Controls.Add(this.mousePosLabel);
             this.statusGroup.Controls.Add(this.videoFPSLabel);
             this.statusGroup.Controls.Add(this.label16);
@@ -474,10 +482,40 @@
             this.statusGroup.TabStop = false;
             this.toolTip1.SetToolTip(this.statusGroup, "S: Stack Pointer\r\nD: Direct Register\r\nPC: Program Counter");
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(710, 33);
+            this.label19.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(218, 41);
+            this.label19.TabIndex = 37;
+            this.label19.Text = "Processing IRQ";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(737, 164);
+            this.label18.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(164, 41);
+            this.label18.TabIndex = 36;
+            this.label18.Text = "Mouse Pos";
+            // 
+            // processingPictureBox
+            // 
+            this.processingPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.processingPictureBox.Location = new System.Drawing.Point(933, 36);
+            this.processingPictureBox.Margin = new System.Windows.Forms.Padding(7, 11, 7, 11);
+            this.processingPictureBox.Name = "processingPictureBox";
+            this.processingPictureBox.Size = new System.Drawing.Size(12, 38);
+            this.processingPictureBox.TabIndex = 35;
+            this.processingPictureBox.TabStop = false;
+            // 
             // mousePosLabel
             // 
             this.mousePosLabel.AutoSize = true;
-            this.mousePosLabel.Location = new System.Drawing.Point(740, 45);
+            this.mousePosLabel.Location = new System.Drawing.Point(789, 205);
             this.mousePosLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.mousePosLabel.Name = "mousePosLabel";
             this.mousePosLabel.Size = new System.Drawing.Size(54, 41);
@@ -487,7 +525,7 @@
             // videoFPSLabel
             // 
             this.videoFPSLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.videoFPSLabel.Location = new System.Drawing.Point(801, 312);
+            this.videoFPSLabel.Location = new System.Drawing.Point(805, 331);
             this.videoFPSLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.videoFPSLabel.Name = "videoFPSLabel";
             this.videoFPSLabel.Size = new System.Drawing.Size(114, 49);
@@ -497,7 +535,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(634, 312);
+            this.label16.Location = new System.Drawing.Point(638, 331);
             this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(156, 41);
@@ -507,7 +545,7 @@
             // clockEquivLabel
             // 
             this.clockEquivLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.clockEquivLabel.Location = new System.Drawing.Point(733, 216);
+            this.clockEquivLabel.Location = new System.Drawing.Point(543, 272);
             this.clockEquivLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.clockEquivLabel.Name = "clockEquivLabel";
             this.clockEquivLabel.Size = new System.Drawing.Size(186, 49);
@@ -517,7 +555,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(728, 166);
+            this.label15.Location = new System.Drawing.Point(367, 272);
             this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(170, 41);
@@ -527,7 +565,7 @@
             // pixelColorLabel
             // 
             this.pixelColorLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.pixelColorLabel.Location = new System.Drawing.Point(539, 312);
+            this.pixelColorLabel.Location = new System.Drawing.Point(543, 331);
             this.pixelColorLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.pixelColorLabel.Name = "pixelColorLabel";
             this.pixelColorLabel.Size = new System.Drawing.Size(87, 44);
@@ -589,7 +627,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(374, 312);
+            this.label12.Location = new System.Drawing.Point(378, 331);
             this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(159, 41);
@@ -867,7 +905,8 @@
             this.optionsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loggingToolStripMenuItem,
-            this.loggingToolStripMenuItem1});
+            this.loggingToolStripMenuItem1,
+            this.centerMouseForCaptureToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(148, 45);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -880,7 +919,7 @@
             this.fastestToolStripMenuItem1,
             this.manualSpeedToolStripTextBox2});
             this.loggingToolStripMenuItem.Name = "loggingToolStripMenuItem";
-            this.loggingToolStripMenuItem.Size = new System.Drawing.Size(294, 54);
+            this.loggingToolStripMenuItem.Size = new System.Drawing.Size(529, 54);
             this.loggingToolStripMenuItem.Text = "Speed";
             // 
             // slowestToolStripMenuItem1
@@ -922,9 +961,16 @@
             this.loggingToolStripMenuItem1.CheckOnClick = true;
             this.loggingToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.loggingToolStripMenuItem1.Name = "loggingToolStripMenuItem1";
-            this.loggingToolStripMenuItem1.Size = new System.Drawing.Size(294, 54);
+            this.loggingToolStripMenuItem1.Size = new System.Drawing.Size(529, 54);
             this.loggingToolStripMenuItem1.Text = "Logging";
             this.loggingToolStripMenuItem1.Click += new System.EventHandler(this.loggingToolStripMenuItem1_Click);
+            // 
+            // centerMouseForCaptureToolStripMenuItem
+            // 
+            this.centerMouseForCaptureToolStripMenuItem.Name = "centerMouseForCaptureToolStripMenuItem";
+            this.centerMouseForCaptureToolStripMenuItem.Size = new System.Drawing.Size(529, 54);
+            this.centerMouseForCaptureToolStripMenuItem.Text = "Center Mouse for Capture";
+            this.centerMouseForCaptureToolStripMenuItem.Click += new System.EventHandler(this.centerMouseForCaptureToolStripMenuItem_Click);
             // 
             // breakToolStripMenuItem
             // 
@@ -981,6 +1027,7 @@
             this.videoOutPictureBox.TabStop = false;
             this.videoOutPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.videoOutPictureBox_MouseDown);
             this.videoOutPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.videoOutPictureBox_MouseMove);
+            this.videoOutPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.videoOutPictureBox_MouseUp);
             // 
             // cyclesTimer
             // 
@@ -1062,6 +1109,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.via2_portA_7)).EndInit();
             this.statusGroup.ResumeLayout(false);
             this.statusGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.processingPictureBox)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoOutPictureBox)).EndInit();
@@ -1154,6 +1202,10 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.Label mousePosLabel;
+        private System.Windows.Forms.ToolStripMenuItem centerMouseForCaptureToolStripMenuItem;
+        private System.Windows.Forms.Label label18;
+        public System.Windows.Forms.PictureBox processingPictureBox;
+        private System.Windows.Forms.Label label19;
     }
 }
 
