@@ -493,6 +493,11 @@ namespace Emul816or
                 loggingToolStripMenuItem1_Click(null, null);
                 e.SuppressKeyPress = true;
             }
+            else if (e.KeyCode == Keys.F9)
+            {
+                manualSpeedToolStripTextBox2_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
 
         }
 

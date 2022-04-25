@@ -1019,14 +1019,14 @@
             // viewDebugCodeToolStripMenuItem
             // 
             this.viewDebugCodeToolStripMenuItem.Name = "viewDebugCodeToolStripMenuItem";
-            this.viewDebugCodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewDebugCodeToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.viewDebugCodeToolStripMenuItem.Text = "View Debug Code";
             this.viewDebugCodeToolStripMenuItem.Click += new System.EventHandler(this.viewDebugCodeToolStripMenuItem_Click);
             // 
             // viewDebugLabelsToolStripMenuItem
             // 
             this.viewDebugLabelsToolStripMenuItem.Name = "viewDebugLabelsToolStripMenuItem";
-            this.viewDebugLabelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewDebugLabelsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.viewDebugLabelsToolStripMenuItem.Text = "View Debug Labels";
             this.viewDebugLabelsToolStripMenuItem.Click += new System.EventHandler(this.viewDebugLabelsToolStripMenuItem_Click);
             // 
@@ -1113,7 +1113,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "mainForm";
-            this.Text = "Emul816or    v0.12";
+            this.Text = "Emul816or    v0.13";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
