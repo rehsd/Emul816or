@@ -145,16 +145,19 @@ namespace Emul816or
         }
 
         bool ProcessingInterrupt = false;
-        public void Step(bool keyboardAsSource = false)
+        //public void Step(bool keyboardAsSource = false)
+        public void Step()
         {
             // Check for NMI/IRQ
             if(interrupted && !P.I && !ProcessingInterrupt)
             {
                 ProcessInterrupt();
-                if(keyboardAsSource)
-                {
-                    System.Threading.Thread.Sleep(150);     //Without this delay, keyboard input at full speed (no logging) fails after a character or two - kb_rptr ends up incrementing the high byte -- no clue why ???
-                }
+                //The following block was neeeded when proper interrupt entry / exit wasn't being done in assembly. See http://6502.org/tutorials/65c816interrupts.html.
+                //if(keyboardAsSource)
+                //{
+                //    //System.Threading.Thread.Sleep(50);     //Without this delay, keyboard input at full speed (no logging disabled) fails after a character or two - kb_rptr ends up incrementing the high byte -- no clue why ???
+                //                                            //Possibly, the issue is related to the not-so-great LCD code
+                //}
             }
 
             Byte cmd = GetByte(Join(pbr, pc++));
@@ -471,7 +474,8 @@ namespace Emul816or
             //}
             while(P.I)
             {
-                Step(keyboardAsSource);
+                //Step(keyboardAsSource);
+                Step();
             }
             if(newState == PinState.High)
             {
@@ -483,7 +487,8 @@ namespace Emul816or
                 interrupted = true;
                 while(interrupted && completeInterrupt)
                 {
-                    Step(keyboardAsSource);
+                    //Step(keyboardAsSource);
+                    Step();
                 }
 
             }
@@ -498,13 +503,12 @@ namespace Emul816or
             PushWord(pc);
             PushByte(P.b);
 
-            //P.I = true;   //already set
+            //P.I = true;
             P.D = false;
             pbr = 0;
 
             pc = GetWord(0xFFEE);
             cycles += 8;    //TO DO Is this right?
-
 
             //PushWord(pc);
             //Word interruptVector = GetWord(0xFFEE);
@@ -513,7 +517,6 @@ namespace Emul816or
                 WriteLog("\nInterrupt vector to " + pc.ToString("X4"));
             }
             //UpdateProgramCounter(interruptVector);
-
             //BTemporary - Need to determine how to best handle when an interrupt is being processed
             //P.I = false;
         }
@@ -2416,6 +2419,22 @@ namespace Emul816or
                 SP.w = (ushort)(0x0100 | SP.b);
             }
             cycles += 2;
+        }
+
+        public void SetDebugInfo(Dictionary<string, string> _debugLabels, Dictionary<string, string> _debugCode)
+        {
+            debugLabels = _debugLabels;
+            debugCode = _debugCode;
+            if (debugLabels == null)
+            {
+                debugLabels = new Dictionary<string, string>();
+                debugLabels.Add("", "");
+            }
+            if (debugCode == null)
+            {
+                debugCode = new Dictionary<string, string>();
+                debugCode.Add("", "");
+            }
         }
 
         public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2,VIA _via3, Video _video, Sound _sound, NullDevice _nulldev)

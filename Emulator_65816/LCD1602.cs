@@ -80,7 +80,7 @@ namespace Emul816or
         public void SetValue(byte newVal)
         {
             data = newVal;
-            if(Mode == ModeTypes.Mode8Bit)
+            if(Mode == ModeTypes.Mode8Bit)      //LCD mode
             {
                 switch (newVal)
                 {

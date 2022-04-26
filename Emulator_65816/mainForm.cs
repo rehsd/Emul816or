@@ -196,10 +196,12 @@ namespace Emul816or
                 }
                 cpu.debugLabels = this.debugLabels;
                 cpu.debugCode = this.debugCode;
+                cpu.SetDebugInfo(debugLabels, debugCode);
                 debugFilesLoaded = true;
             }
             catch (Exception)
             {
+                cpu.SetDebugInfo(null, null);
                 debugFilesLoaded = false;
             }
         }
