@@ -877,36 +877,277 @@ namespace Emul816or
                 //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
                 //cpu.SetIRQB(CPU.PinState.Low);
 
-                if (e.Shift)
+
+                scanCode = 0xF0;
+                via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+                                                                                                                                                      //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                InterruptAndWait();
+                via1.ResetInterrupt();
+
+                switch (e.KeyValue)
                 {
-                    scanCode = 0xF0;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                    InterruptAndWait();
-                    via1.ResetInterrupt();
-
-                    scanCode = 0x12;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                    InterruptAndWait();
-                    via1.ResetInterrupt();
-
+                    case 0x0D:              //CR / ENTER / RETURN
+                        scanCode = 0x5A;
+                        break;
+                    case 0x10:              //left, right shift
+                        scanCode = 0x12;
+                        break;
+                    case 0x1B:              //ESC
+                        scanCode = 0x76;
+                        break;
+                    case 0x20:              //SPACE
+                        scanCode = 0x29;
+                        break;
+                    case 0x21:              //!
+                        scanCode = 0x16;
+                        break;
+                    case 0x22:              //"
+                        scanCode = 0x52;
+                        break;
+                    case 0x23:              //#
+                        scanCode = 0x26;
+                        break;
+                    case 0x24:              //$
+                        scanCode = 0x25;
+                        break;
+                    case 0x25:              //%
+                        scanCode = 0x2E;
+                        break;
+                    case 0x26:              //&
+                        scanCode = 0x3D;
+                        break;
+                    case 0x27:              //'
+                        scanCode = 0x52;
+                        break;
+                    case 0x28:              //(
+                        scanCode = 0x46;
+                        break;
+                    case 0x29:              //)
+                        scanCode = 0x45;
+                        break;
+                    case 0x2A:              //*
+                        scanCode = 0x3E;
+                        break;
+                    case 0x2B:              //+
+                        scanCode = 0x55;
+                        break;
+                    case 0x2C:              //,
+                        scanCode = 0x41;
+                        break;
+                    case 0x2D:              //-
+                        scanCode = 0x4E;
+                        break;
+                    case 0x2E:              //.
+                        scanCode = 0x49;
+                        break;
+                    case 0x2F:              ///
+                        scanCode = 0x4A;
+                        break;
+                    case 0x30:              //0
+                        scanCode = 0x45;
+                        break;
+                    case 0x31:              //1
+                        scanCode = 0x16;
+                        break;
+                    case 0x32:              //2
+                        scanCode = 0x1E;
+                        break;
+                    case 0x33:              //3
+                        scanCode = 0x26;
+                        break;
+                    case 0x34:              //4
+                        scanCode = 0x25;
+                        break;
+                    case 0x35:              //5
+                        scanCode = 0x2E;
+                        break;
+                    case 0x36:              //6
+                        scanCode = 0x36;
+                        break;
+                    case 0x37:              //7
+                        scanCode = 0x3D;
+                        break;
+                    case 0x38:              //8
+                        scanCode = 0x3E;
+                        break;
+                    case 0x39:              //9
+                        scanCode = 0x46;
+                        break;
+                    case 0x3A:              //:
+                        scanCode = 0x4C;
+                        break;
+                    case 0x3B:              //;
+                        scanCode = 0x4C;
+                        break;
+                    case 0x3C:              //<
+                        scanCode = 0x41;
+                        break;
+                    case 0x3D:              //=
+                        scanCode = 0x55;
+                        break;
+                    case 0x3E:              //>
+                        scanCode = 0x49;
+                        break;
+                    case 0x3F:              //?
+                        scanCode = 0x4A;
+                        break;
+                    case 0x40:              //@
+                        scanCode = 0x1E;
+                        break;
+                    case 0x41:              //A
+                        scanCode = 0x1C;
+                        break;
+                    case 0x42:              //B
+                        scanCode = 0x32;
+                        break;
+                    case 0x43:              //C
+                        scanCode = 0x21;
+                        break;
+                    case 0x44:              //D
+                        scanCode = 0x23;
+                        break;
+                    case 0x45:              //E
+                        scanCode = 0x24;
+                        break;
+                    case 0x46:              //F
+                        scanCode = 0x2B;
+                        break;
+                    case 0x47:              //G
+                        scanCode = 0x34;
+                        break;
+                    case 0x48:              //H
+                        scanCode = 0x33;
+                        break;
+                    case 0x49:              //I
+                        scanCode = 0x43;
+                        break;
+                    case 0x4A:              //J
+                        scanCode = 0x3B;
+                        break;
+                    case 0x4B:              //K
+                        scanCode = 0x42;
+                        break;
+                    case 0x4C:              //L
+                        scanCode = 0x4B;
+                        break;
+                    case 0x4D:              //M
+                        scanCode = 0x3A;
+                        break;
+                    case 0x4E:              //N
+                        scanCode = 0x31;
+                        break;
+                    case 0x4F:              //O
+                        scanCode = 0x44;
+                        break;
+                    case 0x50:              //P
+                        scanCode = 0x4D;
+                        break;
+                    case 0x51:              //Q
+                        scanCode = 0x15;
+                        break;
+                    case 0x52:              //R
+                        scanCode = 0x2D;
+                        break;
+                    case 0x53:              //S
+                        scanCode = 0x1B;
+                        break;
+                    case 0x54:              //T
+                        scanCode = 0x2C;
+                        break;
+                    case 0x55:              //U
+                        scanCode = 0x3C;
+                        break;
+                    case 0x56:              //V
+                        scanCode = 0x2A;
+                        break;
+                    case 0x57:              //W
+                        scanCode = 0x1D;
+                        break;
+                    case 0x58:              //X
+                        scanCode = 0x22;
+                        break;
+                    case 0x59:              //Y
+                        scanCode = 0x35;
+                        break;
+                    case 0x5A:              //Z
+                        scanCode = 0x1A;
+                        break;
+                    case 0x5B:              //[
+                        scanCode = 0x54;
+                        break;
+                    case 0xDC:              //\
+                        scanCode = 0x5D;
+                        break;
+                    case 0x5D:              //]
+                        scanCode = 0x5B;
+                        break;
+                    case 0x5E:              //^
+                        scanCode = 0x36;
+                        break;
+                    case 0x5F:              //_
+                        scanCode = 0x4E;
+                        break;
+                    case 0x60:              //`
+                        scanCode = 0x0E;
+                        break;
+                    case 0x7B:              //{
+                        scanCode = 0x54;
+                        break;
+                    case 0x7C:              //|
+                        scanCode = 0x5D;
+                        break;
+                    case 0x7D:              //}
+                        scanCode = 0x5B;
+                        break;
+                    case 0x7E:              //~
+                        scanCode = 0x0E;
+                        break;
+                    default:
+                        scanCode = 0;
+                        break;
                 }
-                else
-                {
-                    scanCode = 0xF0;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
-                    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                    InterruptAndWait();
-                    via1.ResetInterrupt();
 
-                }
+                via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+                                                                                                                                                      //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                InterruptAndWait();
+                via1.ResetInterrupt();
+
+
+                //if (e.Shift)
+                //{
+                //    scanCode = 0xF0;
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+                //    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                //    InterruptAndWait();
+                //    via1.ResetInterrupt();
+
+                //    scanCode = 0x12;
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+                //    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                //    InterruptAndWait();
+                //    via1.ResetInterrupt();
+
+                //}
+                //else
+                //{
+
+                //    scanCode = 0xF0;
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
+                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+                //    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
+                //    InterruptAndWait();
+                //    via1.ResetInterrupt();
+
+                //}
             }
         }
 

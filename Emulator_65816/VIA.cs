@@ -82,7 +82,8 @@ namespace Emul816or
 
         public void Update()
         {
-            if (SuspendLogging) { return; }
+            //if (SuspendLogging) { return; }
+
             VIAOutChangedEventArgs eventArgs = new();
             //eventArgs.PortB = data[0x00];
             //eventArgs.PortA = data[0x01];

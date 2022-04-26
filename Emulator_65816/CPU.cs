@@ -465,6 +465,12 @@ namespace Emul816or
             //{
             //    return;
             //}
+            while(P.I)
+            {
+                Step();
+                //Application.DoEvents();
+                //System.Threading.Thread.Sleep(0);
+            }
             if(newState == PinState.High)
             {
                 //P.I = false;
@@ -476,6 +482,8 @@ namespace Emul816or
                 while(interrupted && completeInterrupt)
                 {
                     Step();
+                //Application.DoEvents();
+                //System.Threading.Thread.Sleep(0);
                 }
 
             }
@@ -500,7 +508,10 @@ namespace Emul816or
 
             //PushWord(pc);
             //Word interruptVector = GetWord(0xFFEE);
-            WriteLog("\nInterrupt vector to " + pc.ToString("X4"));
+            if (!SuspendLogging)
+            {
+                WriteLog("\nInterrupt vector to " + pc.ToString("X4"));
+            }
             //UpdateProgramCounter(interruptVector);
 
             //BTemporary - Need to determine how to best handle when an interrupt is being processed
@@ -511,7 +522,7 @@ namespace Emul816or
         {
             foreach (KeyValuePair<string, string> kvp in debugLabels)
             {
-                if (kvp.Value.ToUpper() == ("$" + ea.ToString("X4")).ToUpper() || kvp.Value == ("$" + ea.ToString("X6")).ToUpper())
+                if (kvp.Value.ToUpper() == ("$" + ea.ToString("X4")).ToUpper() || kvp.Value.ToUpper() == ("$" + ea.ToString("X6")).ToUpper())
                 {
                     return kvp.Key.ToString();
                 }
@@ -2423,7 +2434,7 @@ namespace Emul816or
         void WriteLog(string textToWrite)
         {
 
-            if(SuspendLogging) { return; }
+            //if(SuspendLogging) { return; }
             LogTextUpdateEventArgs eventArgs = new();
             eventArgs.NewText = textToWrite;
             OnLogTextUpdate(eventArgs);
@@ -2492,12 +2503,12 @@ namespace Emul816or
         void UpdateStackPointer(ushort newVal)
         {
             SP.w = newVal;
-            if (SuspendLogging) { return; }
+            //if (SuspendLogging) { return; }
         }
         void UpdateProgramCounter(Word newVal)
         {
             pc = newVal;
-            if (SuspendLogging) { return; }
+            //if (SuspendLogging) { return; }
         }
 
         readonly string[] OpCodeDescArray = new string[256]
