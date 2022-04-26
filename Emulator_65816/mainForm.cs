@@ -824,16 +824,16 @@ namespace Emul816or
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
             //cpu.SetIRQB(CPU.PinState.Low, true);
-            InterruptAndWait();
+            InterruptAndWait(true);
             via1.ResetInterrupt();
 
         }
 
-        void InterruptAndWait()
+        void InterruptAndWait(bool keyboardAsSource=false)
         {
             processingPictureBox.BackColor = Color.Red;
             processingPictureBox.Refresh();
-            cpu.SetIRQB(CPU.PinState.Low, true);
+            cpu.SetIRQB(CPU.PinState.Low, true, keyboardAsSource);
             processingPictureBox.BackColor = Color.LightGray;
             processingPictureBox.Refresh();
         }
@@ -883,7 +883,7 @@ namespace Emul816or
                 via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
                 via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
                                                                                                                                                       //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                InterruptAndWait();
+                InterruptAndWait(true);
                 via1.ResetInterrupt();
 
                 switch (e.KeyValue)
@@ -1113,7 +1113,7 @@ namespace Emul816or
                 via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
                 via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
                                                                                                                                                       //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                InterruptAndWait();
+                InterruptAndWait(true);
                 via1.ResetInterrupt();
 
 

@@ -145,12 +145,16 @@ namespace Emul816or
         }
 
         bool ProcessingInterrupt = false;
-        public void Step()
+        public void Step(bool keyboardAsSource = false)
         {
             // Check for NMI/IRQ
             if(interrupted && !P.I && !ProcessingInterrupt)
             {
                 ProcessInterrupt();
+                if(keyboardAsSource)
+                {
+                    System.Threading.Thread.Sleep(150);     //Without this delay, keyboard input at full speed (no logging) fails after a character or two - kb_rptr ends up incrementing the high byte -- no clue why ???
+                }
             }
 
             Byte cmd = GetByte(Join(pbr, pc++));
@@ -459,7 +463,7 @@ namespace Emul816or
             High,
             Low
         }
-        public void SetIRQB(PinState newState, bool completeInterrupt = false)
+        public void SetIRQB(PinState newState, bool completeInterrupt = false, bool keyboardAsSource = false)
         {   
             //if(P.I)     //interrupts are disabled
             //{
@@ -467,9 +471,7 @@ namespace Emul816or
             //}
             while(P.I)
             {
-                Step();
-                //Application.DoEvents();
-                //System.Threading.Thread.Sleep(0);
+                Step(keyboardAsSource);
             }
             if(newState == PinState.High)
             {
@@ -481,9 +483,7 @@ namespace Emul816or
                 interrupted = true;
                 while(interrupted && completeInterrupt)
                 {
-                    Step();
-                //Application.DoEvents();
-                //System.Threading.Thread.Sleep(0);
+                    Step(keyboardAsSource);
                 }
 
             }
@@ -492,7 +492,7 @@ namespace Emul816or
 
         void ProcessInterrupt()
         {
-            //TO DO Update for emulation mode, value this section of code
+            //TO DO Update for emulation mode, validate this section of code
             ProcessingInterrupt = true;
             PushByte(pbr);
             PushWord(pc);
@@ -562,11 +562,11 @@ namespace Emul816or
             {
                 tmp = (ushort)(Join(GetByte(ea + 0),0));
             }
-            if (logIt && !SuspendLogging)
+            if(logIt && !SuspendLogging)
             {
                 string sDebug = "";
                 string sLabel = GetLabel(ea);
-                if (sLabel.Length > 0)
+                if(sLabel.Length > 0)
                 {
                     sDebug += "\t : " + sLabel;
                 }
