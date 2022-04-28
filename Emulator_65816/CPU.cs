@@ -68,9 +68,11 @@ namespace Emul816or
         readonly RAM ramBasic;
         readonly ROM rom;
         readonly ERAM ramExtended;
-        readonly VIA via1;
-        readonly VIA via2;
-        readonly VIA via3;
+        readonly VIA via1;   //PS2 keyboard, misc control signals (e.g., sound card)
+        readonly VIA via2;   //LCD, bar graph
+        readonly VIA via3;   //USB mouse
+        readonly VIA via4;   //Joystick
+        readonly VIA via5;   //VIA test harness
         readonly NullDevice nullDev;
         readonly Video video;
         readonly Sound sound;
@@ -2502,9 +2504,17 @@ namespace Emul816or
             {
                 return via2;
             }
-            else if (address >= 0x102000 && address <= 0x10200F) //VIA2
+            else if (address >= 0x102000 && address <= 0x10200F) //VIA3
             {
                 return via3;
+            }
+            else if (address >= 0x101000 && address <= 0x10100F) //VIA4
+            {
+                return via4;
+            }
+            else if (address >= 0x100800 && address <= 0x10080F) //VIA5
+            {
+                return via5;
             }
             else if (address >= 0x100000 && address <= 0x1007FF) //SOUND
             {

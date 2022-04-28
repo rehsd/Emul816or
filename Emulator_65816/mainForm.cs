@@ -32,6 +32,8 @@ namespace Emul816or
         VIA via1;   //PS2 keyboard, misc control signals (e.g., sound card)
         VIA via2;   //LCD, bar graph
         VIA via3;   //USB mouse
+        VIA via4;   //Joystick
+        VIA via5;   //VIA test harness
         Video video;
         Sound sound;
         NullDevice nullDev;
@@ -224,6 +226,12 @@ namespace Emul816or
             via3 = new VIA(0x102000);  //USB mouse
             via3.VIAOutChanged += Via3_VIAOutChanged;
             WriteLog("VIA3 (USB MOUSE) added\t0x102000-0x10200F\n");
+            via4 = new VIA(0x101000);  //Joystick
+            via4.VIAOutChanged += Via4_VIAOutChanged;
+            WriteLog("VIA4 (JOYSTICK) added\t0x101000-0x10100F\n");
+            via5 = new VIA(0x100800);  //VIA test harness
+            via5.VIAOutChanged += Via5_VIAOutChanged;
+            WriteLog("VIA5 (VIA TEST) added\t0x100800-0x10080F\n");
             sound = new Sound();
             WriteLog("SOUND added\t\t\t0x100000-0x1007FF\n");
             video = new Video();
@@ -238,9 +246,39 @@ namespace Emul816or
             lcd = new LCD1602(LCDgroupBox);
         }
 
+        private void Via5_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
+        {
+            //VIA test harness
+            //PortA is connected to PortB. Direction of out/in changes in assembly code. Used to test VIA ICs.
+            //Check direction of ports, and read/write accordingly
+            //Assuming that all bits in a port are of the same direction -- not mixing input/output in the same port
+            VIA v = (VIA)sender;
+            if(v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 255 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 00)      //Port A is output
+            {
+                //copy output of port A to input of port B
+                v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA];
+            }
+            else if(v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 0 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 255)   //Port A is input
+            {
+                //copy output of port B to input of port A
+                v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB];
+            }
+            else
+            {
+                throw new Exception("Unexpected value for port direction on VIA5");
+            }
+        }
+
+        private void Via4_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
+        {
+            //Joystick
+            //Input only, so likely won't use this event
+        }
+
         private void Via3_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
             //USB mouse
+            //Input only, so likely won't use this event
         }
 
         private void Via2_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
@@ -249,14 +287,14 @@ namespace Emul816or
 
             VIA v = (VIA)sender;
             //PortA and PortB are output only (PortA=LCD, PortB=bar graph)
-            byte newVal = v[v.BaseAddress + 0x00];     //0x00 = PortB (adding purely as a reminder) - TO DO: setup constants for the registers
+            byte newVal = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB];     //0x00 = PortB (adding purely as a reminder) - TO DO: setup constants for the registers
             UpdateVIA2BarGraph(newVal);
 
 
             if (v[v.BaseAddress + 0x03] > 0)
             {
                 //some bits are set to output (out from VIA)
-                byte val = (byte)((byte)(v[v.BaseAddress + 0x03] & v[v.BaseAddress + 0x01]) | (byte)((byte)~v[v.BaseAddress + 0x03] & lcd.GetValue()));
+                byte val = (byte)((byte)(v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] & v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA]) | (byte)((byte)~v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] & lcd.GetValue()));
                 lcd.SetValue(val);  //need to look at individual bits
             }
             //if (v[v.BaseAddress + 0x03] < 255)        //if any of the direction bits are 0, the VIA needs to read back the value from the LCD (e.g., wait)
@@ -270,27 +308,6 @@ namespace Emul816or
         private void Via1_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
             //PS/2 keyboard input, Control signals output
-
-            ////if (SuspendLogging) { return; }
-
-            ////Check which "devices" is connected to the VIA
-            ////UpdateVIABarGraphs(e.PortA, e.PortB);
-
-            //VIA v = (VIA)sender;
-
-            //if (v[v.BaseAddress + 0x02] > 0)        
-            //{
-            //    //some bits are set to output (out from VIA)
-            //    byte val = (byte)((byte)(v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)~v[v.BaseAddress + 0x02] & lcd.GetValue()));
-            //    lcd.SetValue(val);  //need to look at individual bits
-            //}
-            ////if (v[v.BaseAddress + 0x02] < 255)        //if any of the direction bits are 0, the VIA needs to read back the value from the LCD (e.g., wait)
-            ////{
-            ////    //some bits are set as input (into VIA)
-            ////    byte val = (byte)((byte)(~v[v.BaseAddress + 0x02] & v[v.BaseAddress + 0x00]) | (byte)((byte)v[v.BaseAddress + 0x02] & lcd.GetValue()));
-            ////    v[v.BaseAddress + 0x00] = val;
-            ////}
-
         }
 
         void UpdateVIA2BarGraph(byte portB)
@@ -868,17 +885,6 @@ namespace Emul816or
             {
                 lcd.Reset(false);
                 byte scanCode;
-                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
-
-                //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
-                //cpu.SetIRQB(CPU.PinState.Low);
-
-                //scanCode = 0xF0;
-                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                //via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b00000010);     //set CA1 as the source of the interrupt
-                //cpu.SetIRQB(CPU.PinState.Low);
-
 
                 scanCode = 0xF0;
                 via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
@@ -1117,39 +1123,6 @@ namespace Emul816or
                                                                                                                                                       //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
                 InterruptAndWait(true);
                 via1.ResetInterrupt();
-
-
-                //if (e.Shift)
-                //{
-                //    scanCode = 0xF0;
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                //    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                //    InterruptAndWait();
-                //    via1.ResetInterrupt();
-
-                //    scanCode = 0x12;
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                //    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                //    InterruptAndWait();
-                //    via1.ResetInterrupt();
-
-                //}
-                //else
-                //{
-
-                //    scanCode = 0xF0;
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = scanCode;
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);
-                //    via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via1[via1.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00000010);     //set CA1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
-                //    //cpu.SetIRQB(CPU.PinState.Low, true);    //let processor complete to RTI
-                //    InterruptAndWait();
-                //    via1.ResetInterrupt();
-
-                //}
             }
         }
 
