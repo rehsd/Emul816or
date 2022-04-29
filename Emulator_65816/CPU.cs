@@ -2439,7 +2439,7 @@ namespace Emul816or
             }
         }
 
-        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2,VIA _via3, Video _video, Sound _sound, NullDevice _nulldev)
+        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2,VIA _via3, VIA _via4, VIA _via5, Video _video, Sound _sound, NullDevice _nulldev)
         {
             rom = _rom;
             ramBasic = _ram;
@@ -2447,6 +2447,8 @@ namespace Emul816or
             via1 = _via1;
             via2 = _via2;
             via3 = _via3;
+            via4 = _via4;
+            via5 = _via5;
             video = _video;
             sound = _sound;
             nullDev = _nulldev;

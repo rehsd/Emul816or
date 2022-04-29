@@ -239,7 +239,7 @@ namespace Emul816or
             videoOutRefreshTimer.Enabled = true;
             nullDev = new NullDevice();
             WriteLog("NullDev added\t\t\t0x******\n");
-            cpu = new CPU(rom, ram, eram, via1, via2, via3, video, sound, nullDev);
+            cpu = new CPU(rom, ram, eram, via1, via2, via3, via4, via5, video, sound, nullDev);
             cpu.StatusChanged += cpu_StatusChanged;
             cpu.LogTextUpdate += cpu_LogTextUpdate;
 
@@ -265,7 +265,7 @@ namespace Emul816or
             }
             else
             {
-                throw new Exception("Unexpected value for port direction on VIA5");
+                //throw new Exception("Unexpected value for port direction on VIA5");
             }
         }
 

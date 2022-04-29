@@ -65,6 +65,7 @@ namespace Emul816or
 
         public byte this[uint index]
         {
+            //TO DO Add validation to only allow output/input based on DDR register values
             get
             {
                 return data[index - baseAddress];
