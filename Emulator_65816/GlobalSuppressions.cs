@@ -12,6 +12,3 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:Emul816or.mainForm.GetROM")]
 [assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:Emul816or.mainForm.ReloadForm")]
 [assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:Emul816or.LCD1602.#ctor(System.Windows.Forms.GroupBox)")]
-[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:Emul816or.PSG.Play")]
-[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:Emul816or.PSG.PlayTone(System.Int32,System.Int32)")]
-[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:Emul816or.PSG.PlayTone(System.Object)")]

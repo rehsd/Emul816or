@@ -1,6 +1,4 @@
-﻿//represents dual-port SRAM used on my sound card
-//primary 65816 systems submits commands/data to the sound card through the dual-port SRAM
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
