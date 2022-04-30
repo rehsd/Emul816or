@@ -68,9 +68,11 @@ namespace Emul816or
         readonly RAM ramBasic;
         readonly ROM rom;
         readonly ERAM ramExtended;
-        readonly VIA via1;
-        readonly VIA via2;
-        readonly VIA via3;
+        readonly VIA via1;   //PS2 keyboard, misc control signals (e.g., sound card)
+        readonly VIA via2;   //LCD, bar graph
+        readonly VIA via3;   //USB mouse
+        readonly VIA via4;   //Joystick
+        readonly VIA via5;   //VIA test harness
         readonly NullDevice nullDev;
         readonly Video video;
         readonly Sound sound;
@@ -145,16 +147,19 @@ namespace Emul816or
         }
 
         bool ProcessingInterrupt = false;
-        public void Step(bool keyboardAsSource = false)
+        //public void Step(bool keyboardAsSource = false)
+        public void Step()
         {
             // Check for NMI/IRQ
             if(interrupted && !P.I && !ProcessingInterrupt)
             {
                 ProcessInterrupt();
-                if(keyboardAsSource)
-                {
-                    System.Threading.Thread.Sleep(150);     //Without this delay, keyboard input at full speed (no logging) fails after a character or two - kb_rptr ends up incrementing the high byte -- no clue why ???
-                }
+                //The following block was neeeded when proper interrupt entry / exit wasn't being done in assembly. See http://6502.org/tutorials/65c816interrupts.html.
+                //if(keyboardAsSource)
+                //{
+                //    //System.Threading.Thread.Sleep(50);     //Without this delay, keyboard input at full speed (no logging disabled) fails after a character or two - kb_rptr ends up incrementing the high byte -- no clue why ???
+                //                                            //Possibly, the issue is related to the not-so-great LCD code
+                //}
             }
 
             Byte cmd = GetByte(Join(pbr, pc++));
@@ -471,7 +476,8 @@ namespace Emul816or
             //}
             while(P.I)
             {
-                Step(keyboardAsSource);
+                //Step(keyboardAsSource);
+                Step();
             }
             if(newState == PinState.High)
             {
@@ -483,7 +489,8 @@ namespace Emul816or
                 interrupted = true;
                 while(interrupted && completeInterrupt)
                 {
-                    Step(keyboardAsSource);
+                    //Step(keyboardAsSource);
+                    Step();
                 }
 
             }
@@ -498,13 +505,12 @@ namespace Emul816or
             PushWord(pc);
             PushByte(P.b);
 
-            //P.I = true;   //already set
+            //P.I = true;
             P.D = false;
             pbr = 0;
 
             pc = GetWord(0xFFEE);
             cycles += 8;    //TO DO Is this right?
-
 
             //PushWord(pc);
             //Word interruptVector = GetWord(0xFFEE);
@@ -513,7 +519,6 @@ namespace Emul816or
                 WriteLog("\nInterrupt vector to " + pc.ToString("X4"));
             }
             //UpdateProgramCounter(interruptVector);
-
             //BTemporary - Need to determine how to best handle when an interrupt is being processed
             //P.I = false;
         }
@@ -2418,7 +2423,23 @@ namespace Emul816or
             cycles += 2;
         }
 
-        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2,VIA _via3, Video _video, Sound _sound, NullDevice _nulldev)
+        public void SetDebugInfo(Dictionary<string, string> _debugLabels, Dictionary<string, string> _debugCode)
+        {
+            debugLabels = _debugLabels;
+            debugCode = _debugCode;
+            if (debugLabels == null)
+            {
+                debugLabels = new Dictionary<string, string>();
+                debugLabels.Add("", "");
+            }
+            if (debugCode == null)
+            {
+                debugCode = new Dictionary<string, string>();
+                debugCode.Add("", "");
+            }
+        }
+
+        public CPU(ROM _rom, RAM _ram, ERAM _eram, VIA _via1, VIA _via2,VIA _via3, VIA _via4, VIA _via5, Video _video, Sound _sound, NullDevice _nulldev)
         {
             rom = _rom;
             ramBasic = _ram;
@@ -2426,6 +2447,8 @@ namespace Emul816or
             via1 = _via1;
             via2 = _via2;
             via3 = _via3;
+            via4 = _via4;
+            via5 = _via5;
             video = _video;
             sound = _sound;
             nullDev = _nulldev;
@@ -2483,9 +2506,17 @@ namespace Emul816or
             {
                 return via2;
             }
-            else if (address >= 0x102000 && address <= 0x10200F) //VIA2
+            else if (address >= 0x102000 && address <= 0x10200F) //VIA3
             {
                 return via3;
+            }
+            else if (address >= 0x101000 && address <= 0x10100F) //VIA4
+            {
+                return via4;
+            }
+            else if (address >= 0x100800 && address <= 0x10080F) //VIA5
+            {
+                return via5;
             }
             else if (address >= 0x100000 && address <= 0x1007FF) //SOUND
             {

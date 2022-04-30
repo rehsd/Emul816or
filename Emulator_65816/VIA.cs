@@ -65,6 +65,7 @@ namespace Emul816or
 
         public byte this[uint index]
         {
+            //TO DO Add validation to only allow output/input based on DDR register values
             get
             {
                 return data[index - baseAddress];
@@ -82,8 +83,6 @@ namespace Emul816or
 
         public void Update()
         {
-            //if (SuspendLogging) { return; }
-
             VIAOutChangedEventArgs eventArgs = new();
             //eventArgs.PortB = data[0x00];
             //eventArgs.PortA = data[0x01];
@@ -98,8 +97,8 @@ namespace Emul816or
             {
                 data[i] = 0;
             }
-            data[0x02] = 0xFF;  //Set PortB as Output by default 
-            data[0x03] = 0xFF;  //Set PortA as Output by default 
+            data[(int)REGISTERS.VIA_DDRB] = 0x00;  //Set PortB as Output by default 
+            data[(int)REGISTERS.VIA_DDRA] = 0x00;  //Set PortA as Output by default 
         }
 
         public void ResetInterrupt()
