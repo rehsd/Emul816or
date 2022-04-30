@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.VisualBasic.Devices;
 
 namespace Emul816or
 {
@@ -152,7 +153,11 @@ namespace Emul816or
             UInt16 i = (UInt16)((int)data & 0b0111111111111111);
             //testing with Beep for now
             //need to find a better way to play a tone, as multiple, simultaneous tones will be needed
-            Console.Beep(i,int.MaxValue-1);
+            //Console.Beep(i,int.MaxValue-1);
+            Console.Beep(i,1000);
+            
+            //Audio x = new Audio();
+            //x.Play()
         }
     }
 }
