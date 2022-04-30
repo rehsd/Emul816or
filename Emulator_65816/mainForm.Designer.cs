@@ -120,6 +120,8 @@
             this.videoOutRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.LCDgroupBox = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
+            this.pSGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testPSGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.via2_portB_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.via2_portB_1)).BeginInit();
@@ -833,7 +835,8 @@
             this.stepToolStripMenuItem,
             this.stopToolStripMenuItem,
             this.memoryViewerToolStripMenuItem,
-            this.debugToolStripMenuItem});
+            this.debugToolStripMenuItem,
+            this.pSGToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -980,14 +983,14 @@
             // viewDebugCodeToolStripMenuItem
             // 
             this.viewDebugCodeToolStripMenuItem.Name = "viewDebugCodeToolStripMenuItem";
-            this.viewDebugCodeToolStripMenuItem.Size = new System.Drawing.Size(264, 34);
+            this.viewDebugCodeToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.viewDebugCodeToolStripMenuItem.Text = "View Debug Code";
             this.viewDebugCodeToolStripMenuItem.Click += new System.EventHandler(this.viewDebugCodeToolStripMenuItem_Click);
             // 
             // viewDebugLabelsToolStripMenuItem
             // 
             this.viewDebugLabelsToolStripMenuItem.Name = "viewDebugLabelsToolStripMenuItem";
-            this.viewDebugLabelsToolStripMenuItem.Size = new System.Drawing.Size(264, 34);
+            this.viewDebugLabelsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.viewDebugLabelsToolStripMenuItem.Text = "View Debug Labels";
             this.viewDebugLabelsToolStripMenuItem.Click += new System.EventHandler(this.viewDebugLabelsToolStripMenuItem_Click);
             // 
@@ -1050,6 +1053,21 @@
             this.label17.Size = new System.Drawing.Size(88, 25);
             this.label17.TabIndex = 0;
             this.label17.Text = "1602 LCD";
+            // 
+            // pSGToolStripMenuItem
+            // 
+            this.pSGToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testPSGToolStripMenuItem});
+            this.pSGToolStripMenuItem.Name = "pSGToolStripMenuItem";
+            this.pSGToolStripMenuItem.Size = new System.Drawing.Size(60, 29);
+            this.pSGToolStripMenuItem.Text = "PSG";
+            // 
+            // testPSGToolStripMenuItem
+            // 
+            this.testPSGToolStripMenuItem.Name = "testPSGToolStripMenuItem";
+            this.testPSGToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.testPSGToolStripMenuItem.Text = "TestPSG";
+            this.testPSGToolStripMenuItem.Click += new System.EventHandler(this.testPSGToolStripMenuItem_Click);
             // 
             // mainForm
             // 
@@ -1197,6 +1215,8 @@
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewDebugCodeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewDebugLabelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pSGToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testPSGToolStripMenuItem;
     }
 }
 
