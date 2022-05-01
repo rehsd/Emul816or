@@ -595,7 +595,7 @@ namespace Emul816or
                 {
                     sDebug += "\t : " + sLabel;
                 }
-                WriteLog("\t" + mem[ea].ToString("X2") + "\t to \t" + ea.ToString("X4") + sDebug);
+                WriteLog("\t" + data.ToString("X2") + "\t to \t" + ea.ToString("X4") + sDebug);
             }
             mem[ea] = data;
         }
