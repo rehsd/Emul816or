@@ -10,6 +10,8 @@ namespace Emul816or
     {
         //public byte PortA;
         //public byte PortB;
+        public bool PortAChanged;
+        public bool PortBChanged;
     }
 
     public class VIA : IMemoryIO
@@ -76,16 +78,18 @@ namespace Emul816or
                 {
                     //only update if the value has changed
                     data[index - baseAddress] = value;
-                    Update();
+                    Update(index - BaseAddress == (uint)REGISTERS.VIA_PORTA, index - BaseAddress == (uint)REGISTERS.VIA_PORTB);
                 }
             }
         }
 
-        public void Update()
+        public void Update(bool portAchanged, bool portBchanged)
         {
             VIAOutChangedEventArgs eventArgs = new();
             //eventArgs.PortB = data[0x00];
             //eventArgs.PortA = data[0x01];
+            eventArgs.PortAChanged = portAchanged;
+            eventArgs.PortBChanged = portBchanged; 
             OnVIAOutChanged(eventArgs);
         }
 
