@@ -1412,5 +1412,11 @@ namespace Emul816or
             p.SetBusControl(false, false);  //NACT
 
         }
+
+        private void videoPageViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VideoDebug vdb = new VideoDebug(this.eram);
+            vdb.Show();
+        }
     }
 }
