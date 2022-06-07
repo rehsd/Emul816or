@@ -51,6 +51,11 @@ namespace Emul816or
         public string NewText;
     }
 
+    public class BreakEventArgs : EventArgs
+    {
+        public string Data;
+    }
+
     public class CPU
     {
         protected virtual void OnStatusChanged(StatusChangedEventArgs e)
@@ -64,6 +69,13 @@ namespace Emul816or
             LogTextUpdate?.Invoke(this, e);
         }
         public event EventHandler<LogTextUpdateEventArgs> LogTextUpdate;
+
+        protected virtual void OnBreak(BreakEventArgs e)
+        {
+            Break.Invoke(this, e);
+        }
+        public event EventHandler<BreakEventArgs> Break;
+
 
         readonly RAM ramBasic;
         readonly ROM rom;
@@ -80,6 +92,7 @@ namespace Emul816or
         int cycles;
         bool interrupted;
         bool stopped;
+        bool breakActive;
 
         public Dictionary<string, string> debugLabels;
         public Dictionary<string, string> debugCode;
@@ -487,10 +500,11 @@ namespace Emul816or
             {
                 //P.I = true;
                 interrupted = true;
-                while(interrupted && completeInterrupt)
+                while(interrupted && completeInterrupt & !breakActive)
                 {
                     //Step(keyboardAsSource);
                     Step();
+                    Application.DoEvents();
                 }
 
             }
@@ -2390,17 +2404,24 @@ namespace Emul816or
 
         void Op_wai(Addr ea)
         {
-            if (!interrupted)
-            {
-                pc -= 1;
-            }
-            else
-                interrupted = false;
+            //using this opcode to trigger break modein the debugger
+            //put the emulator into break mode, single step
+            this.breakActive = true;
+            BreakEventArgs bea = new BreakEventArgs();
+            bea.Data = "";
+            OnBreak(bea);
 
-            cycles += 3;
+            //if (!interrupted)
+            //{
+            //    pc -= 1;
+            //}
+            //else
+            //    interrupted = false;
+
+            //cycles += 3;
         }
 
-        static void Op_wdm(Addr ea)
+        void Op_wdm(Addr ea)
         {
             throw new Exception("Op_wdm not implemented!");
         }

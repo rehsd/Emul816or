@@ -242,8 +242,21 @@ namespace Emul816or
             cpu = new CPU(rom, ram, eram, via1, via2, via3, via4, via5, video, sound, nullDev);
             cpu.StatusChanged += cpu_StatusChanged;
             cpu.LogTextUpdate += cpu_LogTextUpdate;
+            cpu.Break += Cpu_Break;
 
             lcd = new LCD1602(LCDgroupBox);
+        }
+
+        private void Cpu_Break(object sender, BreakEventArgs e)
+        {
+            loggingToolStripMenuItem1.Checked = true;
+            eight00ToolStripMenuItem.Checked = true;
+            speed = 800;
+            cpu.SuspendLogging = false;
+            this.SuspendLogging = false;
+            breakActive = true;
+            breakToolStripMenuItem.Text = "Res&ume";
+            stepToolStripMenuItem.Enabled = true;
         }
 
         private void Via5_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
