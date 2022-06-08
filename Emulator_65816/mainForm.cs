@@ -1256,8 +1256,8 @@ namespace Emul816or
 
         private void centerMouseForCaptureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!captureMouse)
-            {
+            //if (!captureMouse)
+            //{
                 this.Cursor = new Cursor(Cursor.Current.Handle);
                 Cursor.Position = new Point(videoOutPictureBox.Left + (videoOutPictureBox.Width / 2),
                     videoOutPictureBox.Top + (videoOutPictureBox.Height / 2));
@@ -1265,12 +1265,14 @@ namespace Emul816or
                 //Cursor.Clip = new Rectangle(this.Location, this.Size);
                 captureMouse = true;
                 centerMouseForCaptureToolStripMenuItem.Checked = true;
-            }
-            else
-            {
-                centerMouseForCaptureToolStripMenuItem.Checked = false;
-                captureMouse = false;
-            }
+            //}
+            //else
+            //{
+            //    centerMouseForCaptureToolStripMenuItem.Checked = false;
+            //    captureMouse = false;
+            //}
+
+            //TO DO Add "un"capture
         }
 
         private void videoOutPictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -1282,13 +1284,14 @@ namespace Emul816or
             byte mouseData = 0;
 
             via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = (byte)(mouseData | (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] & (byte)0b11111100));
-            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);     //negative bit, 128 position
-            via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00100000);     //set CB1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
+            //via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IFR] | 0b10000000);     //negative bit, 128 position
+            //via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] = (byte)(via3[via3.BaseAddress + (uint)VIA.REGISTERS.VIA_IER] | 0b00100000);     //set CB1 as the source of the interrupt   (T1, T2, CB1, CB2, SR, CA1, CA2)
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
             //cpu.SetIRQB(CPU.PinState.Low, true);
-            InterruptAndWait();
-            via3.ResetInterrupt();
+            
+            //InterruptAndWait();
+            //via3.ResetInterrupt();
         }
 
         private void viewDebugCodeToolStripMenuItem_Click(object sender, EventArgs e)
