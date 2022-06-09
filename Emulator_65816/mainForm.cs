@@ -1253,7 +1253,7 @@ namespace Emul816or
             InterruptAndWait();
             via3.ResetInterrupt();
         }
-
+            
         private void centerMouseForCaptureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (!captureMouse)
