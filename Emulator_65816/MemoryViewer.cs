@@ -30,12 +30,12 @@ namespace Emul816or
 
         private void memoryDeviceCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch(memoryDeviceCombo.SelectedIndex)
+            switch (memoryDeviceCombo.SelectedIndex)
             {
                 case 1:             //ROM
                     noteLabel.Text = "*First 32K addresses used by RAM\n Start at 008000";
                     FillRTB(rom);
-                    JumpToAddress((rom.BaseAddress+0x8000).ToString("X6"));
+                    JumpToAddress((rom.BaseAddress + 0x8000).ToString("X6"));
                     break;
                 case 2:             //RAM
                     noteLabel.Text = "";
@@ -62,7 +62,7 @@ namespace Emul816or
             {
                 uint addr = device.BaseAddress;
                 StringBuilder sb = new StringBuilder();
-                string tmp = BitConverter.ToString(device.MemoryBytes).Replace('-',' ');
+                string tmp = BitConverter.ToString(device.MemoryBytes).Replace('-', ' ');
                 tmp = Regex.Replace(tmp, "(.{48})", "$1\n");
                 foreach (string s in tmp.Split("\n"))
                 {
@@ -76,7 +76,7 @@ namespace Emul816or
         void JumpToAddress(string addr)
         {
             int loc = rtb.Find(addr);
-            if(loc>-1)
+            if (loc > -1)
             {
                 rtb.SelectionStart = loc;
                 rtb.ScrollToCaret();

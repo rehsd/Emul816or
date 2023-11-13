@@ -63,30 +63,38 @@ namespace Emul816or
 
         private void ReloadForm()
         {
-            //read last ROM location
-            RegistryKey keyROM = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Emul816or");
-            if (keyROM != null)
+            try
             {
-                ROMlocation = keyROM.GetValue("MRU_ROM").ToString();
+                //read last ROM location
+                RegistryKey keyROM = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Emul816or");
+                if (keyROM != null)
+                {
+                    ROMlocation = keyROM.GetValue("MRU_ROM").ToString();
+                }
+                else
+                {
+                    MessageBox.Show("No ROM information. Please select ROM for initialization.", "ROM required");
+                    GetROM();
+                }
+                LoadObjects();
+                speed = 800;
+                frameBuffer = new Bitmap[2];
+                frameBuffer[0] = new Bitmap(320, 240);
+                frameBuffer[1] = new Bitmap(320, 240);
+                ActiveFrame = 0;
+                LoadScanCodes();
+                loggingToolStripMenuItem1.Checked = true;
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("No ROM information. Please select ROM for initialization.", "ROM required");
-                GetROM();
+                MessageBox.Show(ex.Message);
             }
-            LoadObjects();
-            speed = 800;
-            frameBuffer = new Bitmap[2];
-            frameBuffer[0] = new Bitmap(320, 240);
-            frameBuffer[1] = new Bitmap(320, 240);
-            ActiveFrame = 0;
-            LoadScanCodes();
-            loggingToolStripMenuItem1.Checked = true;
 
         }
 
         private void GetROM()
         {
+            try
             {
                 openFileDialog1.Filter = "bin files (*.bin)|*.bin";
                 openFileDialog1.FileName = "";
@@ -103,6 +111,10 @@ namespace Emul816or
                 {
                     //do something...
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         private void loggingToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -130,29 +142,43 @@ namespace Emul816or
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cyclesTimer.Enabled = false;
-            cpu.Stop(false);
-            SuspendLogging = true;
-            WriteLog("\n*************** STOP *****************\n");
+            try
+            {
+                cyclesTimer.Enabled = false;
+                cpu.Stop(false);
+                SuspendLogging = true;
+                WriteLog("\n*************** STOP *****************\n");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TO DO Reset all state data from all objects of concern
-            SuspendLogging = false;
-            loggingToolStripMenuItem1.Checked = true;
-            WriteLog("\n*************** RESET ****************\n");
-            WriteLog("*** Loading Debug Info... ");
-            WriteLog("Complete ***\n");
-            debugToolStripMenuItem.Enabled = true;
-            LoadDebugData();
-            video.Reset();
-            cpu.Reset();
-            cyclesTimer.Enabled = true;
-            videoOutRefreshTimer.Enabled = true;
-            lcd.Reset();
-            Run();
+            try
+            {
+                //TO DO Reset all state data from all objects of concern
+                SuspendLogging = false;
+                loggingToolStripMenuItem1.Checked = true;
+                WriteLog("\n*************** RESET ****************\n");
+                WriteLog("*** Loading Debug Info... ");
+                WriteLog("Complete ***\n");
+                debugToolStripMenuItem.Enabled = true;
+                LoadDebugData();
+                video.Reset();
+                cpu.Reset();
+                cyclesTimer.Enabled = true;
+                videoOutRefreshTimer.Enabled = true;
+                lcd.Reset();
+                Run();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         void LoadDebugData()
@@ -209,42 +235,49 @@ namespace Emul816or
         }
         void LoadObjects()
         {
-            currentROMLabel.Text = ROMlocation;
-            WriteLog("Initializing...\n");
-            ram = new RAM();
-            WriteLog("RAM added\t\t\t0x000000-0x007FFF\n");
-            rom = new ROM(ROMlocation);
-            WriteLog("ROM added\t\t\t0x008000-0x07FFFF\n");
-            eram = new ERAM();
-            WriteLog("ERAM added\t\t\t0x080000-0x0FFFFF\n");
-            via1 = new VIA(0x108000);   //keyboard on Port A, bus signals EXT on Port B
-            via1.VIAOutChanged += Via1_VIAOutChanged;
-            WriteLog("VIA1 (PS2 KBD) added\t\t0x108000-0x10800F\n");
-            via2 = new VIA(0x104000);  //LCD add-in card
-            via2.VIAOutChanged += Via2_VIAOutChanged;
-            WriteLog("VIA2 (LCD, BARGRAPH) added\t0x104000-0x10400F\n");
-            via3 = new VIA(0x102000);  //USB mouse
-            via3.VIAOutChanged += Via3_VIAOutChanged;
-            WriteLog("VIA3 (USB MOUSE) added\t0x102000-0x10200F\n");
-            via4 = new VIA(0x101000);  //Joystick
-            via4.VIAOutChanged += Via4_VIAOutChanged;
-            WriteLog("VIA4 (JOYSTICK) added\t0x101000-0x10100F\n");
-            via5 = new VIA(0x100800);  //VIA test harness
-            via5.VIAOutChanged += Via5_VIAOutChanged;
-            WriteLog("VIA5 (VIA TEST) added\t0x100800-0x10080F\n");
-            sound = new Sound();
-            WriteLog("SOUND added\t\t\t0x100000-0x1007FF\n");
-            video = new Video();
-            WriteLog("VIDEO added\t\t\t0x200000-0x21FFFF\n");
-            videoOutRefreshTimer.Enabled = true;
-            nullDev = new NullDevice();
-            WriteLog("NullDev added\t\t\t0x******\n");
-            cpu = new CPU(rom, ram, eram, via1, via2, via3, via4, via5, video, sound, nullDev);
-            cpu.StatusChanged += cpu_StatusChanged;
-            cpu.LogTextUpdate += cpu_LogTextUpdate;
-            cpu.Break += Cpu_Break;
+            try
+            {
+                currentROMLabel.Text = ROMlocation;
+                WriteLog("Initializing...\n");
+                ram = new RAM();
+                WriteLog("RAM added\t\t\t0x000000-0x007FFF\n");
+                rom = new ROM(ROMlocation);
+                WriteLog("ROM added\t\t\t0x008000-0x07FFFF\n");
+                eram = new ERAM();
+                WriteLog("ERAM added\t\t\t0x080000-0x0FFFFF\n");
+                via1 = new VIA(0x108000);   //keyboard on Port A, bus signals EXT on Port B
+                via1.VIAOutChanged += Via1_VIAOutChanged;
+                WriteLog("VIA1 (PS2 KBD) added\t\t0x108000-0x10800F\n");
+                via2 = new VIA(0x104000);  //LCD add-in card
+                via2.VIAOutChanged += Via2_VIAOutChanged;
+                WriteLog("VIA2 (LCD, BARGRAPH) added\t0x104000-0x10400F\n");
+                via3 = new VIA(0x102000);  //USB mouse
+                via3.VIAOutChanged += Via3_VIAOutChanged;
+                WriteLog("VIA3 (USB MOUSE) added\t0x102000-0x10200F\n");
+                via4 = new VIA(0x101000);  //Joystick
+                via4.VIAOutChanged += Via4_VIAOutChanged;
+                WriteLog("VIA4 (JOYSTICK) added\t0x101000-0x10100F\n");
+                via5 = new VIA(0x100800);  //VIA test harness
+                via5.VIAOutChanged += Via5_VIAOutChanged;
+                WriteLog("VIA5 (VIA TEST) added\t0x100800-0x10080F\n");
+                sound = new Sound();
+                WriteLog("SOUND added\t\t\t0x100000-0x1007FF\n");
+                video = new Video();
+                WriteLog("VIDEO added\t\t\t0x200000-0x21FFFF\n");
+                videoOutRefreshTimer.Enabled = true;
+                nullDev = new NullDevice();
+                WriteLog("NullDev added\t\t\t0x******\n");
+                cpu = new CPU(rom, ram, eram, via1, via2, via3, via4, via5, video, sound, nullDev);
+                cpu.StatusChanged += cpu_StatusChanged;
+                cpu.LogTextUpdate += cpu_LogTextUpdate;
+                cpu.Break += Cpu_Break;
 
-            lcd = new LCD1602(LCDgroupBox);
+                lcd = new LCD1602(LCDgroupBox);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Cpu_Break(object sender, BreakEventArgs e)
@@ -261,24 +294,31 @@ namespace Emul816or
 
         private void Via5_VIAOutChanged(object sender, VIAOutChangedEventArgs e)
         {
-            //VIA test harness
-            //PortA is connected to PortB. Direction of out/in changes in assembly code. Used to test VIA ICs.
-            //Check direction of ports, and read/write accordingly
-            //Assuming that all bits in a port are of the same direction -- not mixing input/output in the same port
-            VIA v = (VIA)sender;
-            if (v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 255 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 00)      //Port A is output
+            try
             {
-                //copy output of port A to input of port B
-                v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA];
+                //VIA test harness
+                //PortA is connected to PortB. Direction of out/in changes in assembly code. Used to test VIA ICs.
+                //Check direction of ports, and read/write accordingly
+                //Assuming that all bits in a port are of the same direction -- not mixing input/output in the same port
+                VIA v = (VIA)sender;
+                if (v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 255 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 00)      //Port A is output
+                {
+                    //copy output of port A to input of port B
+                    v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA];
+                }
+                else if (v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 0 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 255)   //Port A is input
+                {
+                    //copy output of port B to input of port A
+                    v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB];
+                }
+                else
+                {
+                    //throw new Exception("Unexpected value for port direction on VIA5");
+                }
             }
-            else if (v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 0 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 255)   //Port A is input
+            catch (Exception ex)
             {
-                //copy output of port B to input of port A
-                v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB];
-            }
-            else
-            {
-                //throw new Exception("Unexpected value for port direction on VIA5");
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -362,15 +402,22 @@ namespace Emul816or
         }
         void Run()
         {
-            while (!cpu.IsStopped() && !breakActive)
+            try
             {
-                cpu.Step();
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(1000 - speed);
+                while (!cpu.IsStopped() && !breakActive)
+                {
+                    cpu.Step();
+                    Application.DoEvents();
+                    System.Threading.Thread.Sleep(1000 - speed);
+                }
+                if (cpu.IsStopped() && !this.IsDisposed)
+                {
+                    WriteLog("\n*************** STP ******************\n");
+                }
             }
-            if (cpu.IsStopped() && !this.IsDisposed)
+            catch (Exception ex)
             {
-                WriteLog("\n*************** STP ******************\n");
+                MessageBox.Show(ex.Message);
             }
         }
         void WriteLog(string newText)
@@ -558,36 +605,43 @@ namespace Emul816or
 
         private void videoOutRefreshTimer_Tick(object sender, EventArgs e)
         {
-            //Grabs whatever is currently in video memory. Not sync'd the vram updates in any way. Tearing will be visible.
-            int newFrame;
-            if (ActiveFrame == 1)
+            try
             {
-                newFrame = 0;
-            }
-            else
-            {
-                newFrame = 1;
-            }
-
-            byte pixelColor;
-            int red, blue, green;
-
-            for (Int16 y = 0; y < 240; y++)
-            {
-                for (Int16 x = 0; x < 320; x++)
+                //Grabs whatever is currently in video memory. Not sync'd the vram updates in any way. Tearing will be visible.
+                int newFrame;
+                if (ActiveFrame == 1)
                 {
-                    pixelColor = video.MemoryBytes[512 * y + x];
-
-                    red = (pixelColor & 224);
-                    green = (pixelColor & 28) << 3;
-                    blue = (pixelColor & 3) << 6;
-
-                    frameBuffer[newFrame].SetPixel(x, y, Color.FromArgb(red, green, blue));
+                    newFrame = 0;
                 }
+                else
+                {
+                    newFrame = 1;
+                }
+
+                byte pixelColor;
+                int red, blue, green;
+
+                for (Int16 y = 0; y < 240; y++)
+                {
+                    for (Int16 x = 0; x < 320; x++)
+                    {
+                        pixelColor = video.MemoryBytes[512 * y + x];
+
+                        red = (pixelColor & 224);
+                        green = (pixelColor & 28) << 3;
+                        blue = (pixelColor & 3) << 6;
+
+                        frameBuffer[newFrame].SetPixel(x, y, Color.FromArgb(red, green, blue));
+                    }
+                }
+                videoOutPictureBox.Image = frameBuffer[newFrame];
+                ActiveFrame = newFrame;
+                videoFPSLabel.Text = (1000 / videoOutRefreshTimer.Interval).ToString();
             }
-            videoOutPictureBox.Image = frameBuffer[newFrame];
-            ActiveFrame = newFrame;
-            videoFPSLabel.Text = (1000 / videoOutRefreshTimer.Interval).ToString();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)

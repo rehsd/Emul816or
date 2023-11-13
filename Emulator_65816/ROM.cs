@@ -55,7 +55,7 @@ namespace Emul816or
                     data[i] = (byte)fs.ReadByte();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Unable to load specified ROM file. Continuing...");
             }
