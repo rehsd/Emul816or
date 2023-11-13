@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Emul816or
 {
@@ -45,11 +46,18 @@ namespace Emul816or
         }
         public ROM(string romFile)
         {
-            data = new byte[size];
-            FileStream fs = File.OpenRead(romFile);
-            for (int i = 0; i < size; i++)
+            try
             {
-                data[i] = (byte)fs.ReadByte();
+                data = new byte[size];
+                FileStream fs = File.OpenRead(romFile);
+                for (int i = 0; i < size; i++)
+                {
+                    data[i] = (byte)fs.ReadByte();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to load specified ROM file. Continuing...");
             }
         }
     }
