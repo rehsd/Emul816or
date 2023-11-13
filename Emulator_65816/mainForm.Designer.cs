@@ -1115,7 +1115,7 @@
             MainMenuStrip = menuStrip1;
             Margin = new System.Windows.Forms.Padding(1);
             Name = "mainForm";
-            Text = "Emul816or    v0.13";
+            Text = "Emul816or    v0.14";
             FormClosing += mainForm_FormClosing;
             Load += mainForm_Load;
             KeyDown += mainForm_KeyDown;
