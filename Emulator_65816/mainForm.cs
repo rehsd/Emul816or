@@ -171,7 +171,7 @@ namespace Emul816or
                 {
                     string[] s = labelsFile.ReadLine().Split(" ");
                     string theAddr = s[1];
-                    if(theAddr.Length == 5)
+                    if (theAddr.Length == 5)
                     {
                         theAddr = theAddr.Insert(1, "00");
                     }
@@ -184,7 +184,7 @@ namespace Emul816or
                     if (s[0].Trim().Length > 0)
                     {
                         string theKey = s[0];
-                        if(theKey.Length==5)
+                        if (theKey.Length == 5)
                         {
                             theKey = theKey.Insert(1, "00");
                         }
@@ -266,12 +266,12 @@ namespace Emul816or
             //Check direction of ports, and read/write accordingly
             //Assuming that all bits in a port are of the same direction -- not mixing input/output in the same port
             VIA v = (VIA)sender;
-            if(v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 255 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 00)      //Port A is output
+            if (v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 255 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 00)      //Port A is output
             {
                 //copy output of port A to input of port B
                 v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA];
             }
-            else if(v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 0 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 255)   //Port A is input
+            else if (v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRA] == 0 && v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_DDRB] == 255)   //Port A is input
             {
                 //copy output of port B to input of port A
                 v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTA] = v[v.BaseAddress + (uint)VIA.REGISTERS.VIA_PORTB];
@@ -861,7 +861,7 @@ namespace Emul816or
 
         }
 
-        void InterruptAndWait(bool keyboardAsSource=false)
+        void InterruptAndWait(bool keyboardAsSource = false)
         {
             processingPictureBox.BackColor = Color.Red;
             processingPictureBox.Refresh();
@@ -1225,7 +1225,7 @@ namespace Emul816or
 
         private void videoOutPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-           if(!captureMouse)
+            if (!captureMouse)
             {
                 return;
             }
@@ -1253,18 +1253,18 @@ namespace Emul816or
             InterruptAndWait();
             via3.ResetInterrupt();
         }
-            
+
         private void centerMouseForCaptureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (!captureMouse)
             //{
-                this.Cursor = new Cursor(Cursor.Current.Handle);
-                Cursor.Position = new Point(videoOutPictureBox.Left + (videoOutPictureBox.Width / 2),
-                    videoOutPictureBox.Top + (videoOutPictureBox.Height / 2));
-                keyboardInputRichTextBox.Focus();
-                //Cursor.Clip = new Rectangle(this.Location, this.Size);
-                captureMouse = true;
-                centerMouseForCaptureToolStripMenuItem.Checked = true;
+            this.Cursor = new Cursor(Cursor.Current.Handle);
+            Cursor.Position = new Point(videoOutPictureBox.Left + (videoOutPictureBox.Width / 2),
+                videoOutPictureBox.Top + (videoOutPictureBox.Height / 2));
+            keyboardInputRichTextBox.Focus();
+            //Cursor.Clip = new Rectangle(this.Location, this.Size);
+            captureMouse = true;
+            centerMouseForCaptureToolStripMenuItem.Checked = true;
             //}
             //else
             //{
@@ -1289,7 +1289,7 @@ namespace Emul816or
 
             //Trigger interrupt on CPU         --normally done with signal from VIA to CPU
             //cpu.SetIRQB(CPU.PinState.Low, true);
-            
+
             //InterruptAndWait();
             //via3.ResetInterrupt();
         }
@@ -1311,7 +1311,7 @@ namespace Emul816or
             //setreg        = NACT -> writeValue -> INTAK -> NACT
             //readdata      = NACT -> changeDDRtoRead(00) -> writeZero -> DTB -> changeDDRtoWrite(FF) -> NACT
             //writedata     = NACT -> writeValue -> DWS -> NACT
-            
+
             //bdir = 0, bc1 = 0     inactive (NACT)
             //bdir = 0, bc1 = 1     read (DTB)
             //bdir = 1, bc1 = 0     write (DWS)
@@ -1320,104 +1320,104 @@ namespace Emul816or
             PSG p = new PSG();
 
             //start a tone on channel A
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg1_ChA_TonePeriod_Course;   //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg1_ChA_TonePeriod_Course;   //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 7;                    //writeValue                 Course (0-15)
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 7;                    //writeValue                 Course (0-15)
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg0_ChA_TonePeriod_Fine;     //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg0_ChA_TonePeriod_Fine;     //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 127;                  //writeValue                Fine (0-255)
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 127;                  //writeValue                Fine (0-255)
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg7_EnableB;                 //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg7_EnableB;                 //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 0b11111110;           //writeValue                //IO_B (1=write,0=read PSG IO Port), IO_A, Noise_C, Noise_B, Noise_A, Tone_C, Tone_B, Tone_A
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 0b11111110;           //writeValue                //IO_B (1=write,0=read PSG IO Port), IO_A, Noise_C, Noise_B, Noise_A, Tone_C, Tone_B, Tone_A
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
             System.Threading.Thread.Sleep(1000);    //hold the tone
 
             //start a tone on channel B
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg3_ChB_TonePeriod_Course;   //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg3_ChB_TonePeriod_Course;   //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 7;                    //writeValue                 Course (0-15)
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 7;                    //writeValue                 Course (0-15)
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg2_ChB_TonePeriod_Fine;     //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg2_ChB_TonePeriod_Fine;     //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 127;                  //writeValue                Fine (0-255)
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 127;                  //writeValue                Fine (0-255)
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg7_EnableB;                 //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg7_EnableB;                 //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 0b11111100;           //writeValue                //IO_B (1=write,0=read PSG IO Port), IO_A, Noise_C, Noise_B, Noise_A, Tone_C, Tone_B, Tone_A
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 0b11111100;           //writeValue                //IO_B (1=write,0=read PSG IO Port), IO_A, Noise_C, Noise_B, Noise_A, Tone_C, Tone_B, Tone_A
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
 
             System.Threading.Thread.Sleep(1000);    //hold the tone
 
             //start a tone on channel C
             p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg5_ChC_TonePeriod_Course;   //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg5_ChC_TonePeriod_Course;   //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 7;                    //writeValue                 Course (0-15)
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 7;                    //writeValue                 Course (0-15)
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg4_ChC_TonePeriod_Fine;     //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg4_ChC_TonePeriod_Fine;     //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 127;                  //writeValue                Fine (0-255)
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 127;                  //writeValue                Fine (0-255)
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = (byte)PSG.REGISTERS.Reg7_EnableB;                 //writeValue
-                p.SetBusControl(true, true);    //INTAK
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = (byte)PSG.REGISTERS.Reg7_EnableB;                 //writeValue
+            p.SetBusControl(true, true);    //INTAK
+            p.SetBusControl(false, false);  //NACT
 
-                p.SetBusControl(false, false);  //NACT
-                p.Value = 0b11111000;           //writeValue                //IO_B (1=write,0=read PSG IO Port), IO_A, Noise_C, Noise_B, Noise_A, Tone_C, Tone_B, Tone_A
-                p.SetBusControl(true, false);   //DWS
-                p.SetBusControl(false, false);  //NACT
+            p.SetBusControl(false, false);  //NACT
+            p.Value = 0b11111000;           //writeValue                //IO_B (1=write,0=read PSG IO Port), IO_A, Noise_C, Noise_B, Noise_A, Tone_C, Tone_B, Tone_A
+            p.SetBusControl(true, false);   //DWS
+            p.SetBusControl(false, false);  //NACT
 
-            
+
             System.Threading.Thread.Sleep(2000);    //hold the tone
 
             //turn off channels
